@@ -1,5 +1,6 @@
 package internet.com.services.customer;
 
+import internet.com.dto.customer_dto.CustomerDTO;
 import internet.com.entity.customer.Customer;
 
 import java.util.Optional;
@@ -13,4 +14,9 @@ public interface ICustomerService {
      */
     Optional<Customer> findCustomerById(Integer id);
 
+    Boolean existsEmail(String email);
+
+    Boolean existsPhoneNumber(String phone);
+
+    void saveCustomer(CustomerDTO customerDTO);
 }

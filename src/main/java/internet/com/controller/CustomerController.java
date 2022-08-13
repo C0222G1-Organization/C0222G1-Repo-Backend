@@ -1,13 +1,17 @@
 package internet.com.controller;
 
+import internet.com.dto.customer_dto.CustomerDTO;
 import internet.com.entity.customer.Customer;
 import internet.com.services.customer.ICustomerService;
+import internet.com.services.user.IUserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -17,9 +21,29 @@ public class CustomerController {
 
     @Autowired
     private ICustomerService customerService;
-
+    @Autowired
+    private IUserService iUserService;
     @Autowired
     private ModelMapper modelMapper;
+
+    /**
+     * Created by: HaoNH
+     * Date Created: 09/06/2022
+     * method save customer
+     *
+     * @param customerDTO
+     * @param bindingResult
+     * @return
+     */
+    @PostMapping("")
+    public ResponseEntity<?> saveCustomer(@Valid @RequestBody CustomerDTO customerDTO,
+                                          BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        customerService.saveCustomer(customerDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
     /**
      * Created by: DuyNT
@@ -28,7 +52,6 @@ public class CustomerController {
      * @param id
      * @return
      */
-
     @GetMapping("/{id}")
     public ResponseEntity<Customer> findById(@PathVariable("id") Integer id){
         Optional<Customer> customer = this.customerService.findCustomerById(id);
