@@ -1,5 +1,9 @@
 package internet.com.services.computer;
 
-public interface IComputerTypeService {
+import internet.com.entity.computer.ComputerType;
 
+import java.util.List;
+
+public interface IComputerTypeService {
+    List<ComputerType> findAll();
 }
