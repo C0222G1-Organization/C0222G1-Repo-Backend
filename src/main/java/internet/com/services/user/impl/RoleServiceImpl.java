@@ -38,4 +38,14 @@ public class RoleServiceImpl implements IRoleService {
     public void addNewCustomerUserRole(String username) {
         roleRepository.addNewUserRole(username,3);
     }
+
+    /**
+     * create by TrungND
+     * date create: 11/08/22
+     * function: update User
+     */
+    @Override
+    public void addNewEmployeeUserRole(String username) {
+        roleRepository.addNewUserRole(username,2);
+    }
 }
