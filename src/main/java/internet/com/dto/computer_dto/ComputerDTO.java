@@ -1,71 +1,53 @@
-package internet.com.entity.computer;
+package internet.com.dto.computer_dto;
 
-import javax.persistence.*;
+import internet.com.entity.computer.ComputerType;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
-/**
- * Created by: PhucNQ
- * Date created: 09/08/2022
- * Entity: Computer
- */
-
-@Entity(name = "computer")
-public class Computer {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ComputerDTO{
     private Integer id;
 
-    @Column(name = "computer_code")
+    @NotBlank
+    @Pattern(regexp = "^(CP)[0-9]{2,4}$", message = "Code phải có dạng CPXXX")
     private String code;
 
-    @Column(name = "active_status")
     private Integer status;
 
-    @Column
+    @NotBlank(message = "Không được để trống.")
+    @Pattern(regexp = "^(A)[0-9]{3}$", message = "Vị trí phải có định dạng AXXX")
     private String location;
 
-    @Column(name = "start_used_date", columnDefinition = "DATE")
+    @NotNull(message = " không được bỏ trống,phải trước ngày hiện tại")
     private String startUsedDate;
 
-    @Column(name = "configuration")
+    @NotBlank(message = "Không được để trống")
+    @Length(min = 3, max = 20, message = "Tối thiểu 3 ký tự và lớn nhất 20 ký tự.")
     private String configuration;
 
-    @Column
+    @Length(min = 1, max = 20, message = "Tối thiểu 3 ký tự và lớn nhất 20 ký tự.")
+    @NotBlank(message = "Không được để trống")
     private String manufacturer;
 
-    @Column(name = "delete_status")
     private Integer deleteStatus;
 
-    @Column
+    @NotBlank(message = "Không được để trống")
     private String warranty;
 
-    @ManyToOne
-    @JoinColumn(name = "typeId", referencedColumnName = "id")
     private ComputerType computerType;
 
-
-//    @OneToMany(mappedBy = "computer")
-//    @JsonBackReference
-//    private Set<Record> records;
-//
-//    public Set<Record> getRecords() {
-//        return records;
-//    }
-//
-//    public void setRecords(Set<Record> records) {
-//        this.records = records;
-//    }
-
-    public Computer(Integer id,
-                    String code,
-                    Integer status,
-                    String location,
-                    String startUsedDate,
-                    String configuration,
-                    String manufacturer,
-                    Integer deleteStatus,
-                    String warranty,
-                    ComputerType computerType) {
+    public ComputerDTO(Integer id,
+                       String code,
+                       Integer status,
+                       String location,
+                       String startUsedDate,
+                       String configuration,
+                       String manufacturer,
+                       Integer deleteStatus,
+                       String warranty,
+                       ComputerType computerType) {
         this.id = id;
         this.code = code;
         this.status = status;
@@ -78,10 +60,14 @@ public class Computer {
         this.computerType = computerType;
     }
 
-
-    public Integer getDeleteStatus() {
-        return deleteStatus;
+    public String getLocation() {
+        return location;
     }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
 
     public String getStartUsedDate() {
         return startUsedDate;
@@ -91,11 +77,19 @@ public class Computer {
         this.startUsedDate = startUsedDate;
     }
 
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Integer getDeleteStatus() {
+        return deleteStatus;
+    }
+
     public void setDeleteStatus(Integer deleteStatus) {
         this.deleteStatus = deleteStatus;
     }
 
-    public Computer() {
+    public ComputerDTO() {
     }
 
     public Integer getId() {
@@ -116,18 +110,6 @@ public class Computer {
 
     public Integer getStatus() {
         return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public String getConfiguration() {
@@ -161,4 +143,6 @@ public class Computer {
     public void setComputerType(ComputerType computerType) {
         this.computerType = computerType;
     }
+
+
 }
