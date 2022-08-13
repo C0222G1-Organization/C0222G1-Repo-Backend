@@ -1,22 +1,13 @@
-package internet.com.entity.product;
+package internet.com.entity.product.product_dto;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import internet.com.entity.payment.PaymentDetail;
+import javax.validation.constraints.Pattern;
 
-import javax.persistence.*;
-import java.util.Set;
-
-@Entity
-@Table(name = "product")
-public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ProductDTO {
     private int id;
 
-    @Column(name = "product_code")
+    @Pattern(regexp = "")
     private String code;
 
-    @Column(name = "product_name")
     private String nameProduct;
 
     private Integer quantity;
@@ -27,30 +18,14 @@ public class Product {
 
     private String imageUrl;
 
-    //    @ColumnDefault("0")
     private int deleteStatus = 0;
 
-    @ManyToOne
-    @JoinColumn(name = "id_product_category", referencedColumnName = "id")
-    private ProductCategory productCategory;
+    private Integer idProductCategory;
 
-    @JsonBackReference
-    @OneToMany(mappedBy = "product")
-    private Set<PaymentDetail> paymentDetailSet;
-
-    public Product() {
+    public ProductDTO() {
     }
 
-    public Product(int id,
-                   String code,
-                   String nameProduct,
-                   Integer quantity,
-                   String unit,
-                   Integer prices,
-                   String imageUrl,
-                   int deleteStatus,
-                   ProductCategory productCategory,
-                   Set<PaymentDetail> paymentDetailSet) {
+    public ProductDTO(int id, String code, String nameProduct, Integer quantity, String unit, Integer prices, String imageUrl, int deleteStatus, Integer idProductCategory) {
         this.id = id;
         this.code = code;
         this.nameProduct = nameProduct;
@@ -59,8 +34,7 @@ public class Product {
         this.prices = prices;
         this.imageUrl = imageUrl;
         this.deleteStatus = deleteStatus;
-        this.productCategory = productCategory;
-        this.paymentDetailSet = paymentDetailSet;
+        this.idProductCategory = idProductCategory;
     }
 
     public int getId() {
@@ -127,19 +101,11 @@ public class Product {
         this.deleteStatus = deleteStatus;
     }
 
-    public ProductCategory getProductCategory() {
-        return productCategory;
+    public Integer getIdProductCategory() {
+        return idProductCategory;
     }
 
-    public void setProductCategory(ProductCategory productCategory) {
-        this.productCategory = productCategory;
-    }
-
-    public Set<PaymentDetail> getPaymentDetailSet() {
-        return paymentDetailSet;
-    }
-
-    public void setPaymentDetailSet(Set<PaymentDetail> paymentDetailSet) {
-        this.paymentDetailSet = paymentDetailSet;
+    public void setIdProductCategory(Integer idProductCategory) {
+        this.idProductCategory = idProductCategory;
     }
 }
