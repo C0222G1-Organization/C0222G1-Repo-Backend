@@ -1,36 +1,43 @@
-package internet.com.entity.game;
+package internet.com.dto.game_dto;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import internet.com.entity.game.GameCategory;
+import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 /*
  * Created by: KhanhTV,
  * Date created: 09/08/2022
- * Function: to create game entity
+ * Function: to create game dto class for transfer data and validation
  */
-@Entity(name = "game")
-public class Game {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+public class GameDTO {
     private Integer id;
-    @Column(name = "game_name")
+    @NotEmpty(message = "name is not empty")
+    @NotBlank
+    @Pattern(regexp = "^[\\w\\s]+$", message = "Invalid game name")
     private String name;
-    @Column(columnDefinition = "DATE", name = "create_date")
+
+    @NotEmpty(message = "create date is not empty")
+    @Pattern(regexp = "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$", message = "Invalid date")
     private String createDate;
-    @Column(name = "played_times")
-    private Integer playedTimes;
-    @Column(name = "trailer_url")
+
+    @Pattern(regexp = "^[0-9]+$", message = "Invalid played times")
+    private String playedTimes;
+
+    @NotEmpty(message = "trailer url is not empty")
+    @Pattern(regexp = "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&\\/\\/=]*)",
+            message = "Invalid url")
     private String trailerUrl;
-    @Column(name = "image_url")
+
+    @NotEmpty(message = "image url is not empty")
+    @Pattern(regexp = "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&\\/\\/=]*)",
+            message = "Invalid url")
     private String imageUrl;
-    @Column(name = "content")
+
+    @NotEmpty(message = "content is not empty")
     private String content;
-    @ManyToOne()
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name="game_category_id", nullable=false)
     private GameCategory gameCategory;
 
     public Integer getId() {
@@ -57,11 +64,11 @@ public class Game {
         this.createDate = createDate;
     }
 
-    public Integer getPlayedTimes() {
+    public String getPlayedTimes() {
         return playedTimes;
     }
 
-    public void setPlayedTimes(Integer playedTimes) {
+    public void setPlayedTimes(String playedTimes) {
         this.playedTimes = playedTimes;
     }
 
