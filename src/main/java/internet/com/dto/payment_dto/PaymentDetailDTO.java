@@ -1,29 +1,20 @@
-package internet.com.entity.payment;
+package internet.com.dto.payment_dto;
 
+import internet.com.entity.payment.Payment;
 import internet.com.entity.product.Product;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "payment_detail")
-public class PaymentDetail {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class PaymentDetailDTO {
     private Integer id;
-
     private Integer amount;
-
-    @ManyToOne(targetEntity = Payment.class)
     private Payment payment;
-
-    @ManyToOne(targetEntity = Product.class)
     private Product product;
 
-    public PaymentDetail() {
+    public PaymentDetailDTO() {
     }
 
-    public PaymentDetail(Integer id, Payment payment, Product product) {
+    public PaymentDetailDTO(Integer id, Integer amount, Payment payment, Product product) {
         this.id = id;
+        this.amount = amount;
         this.payment = payment;
         this.product = product;
     }
@@ -34,6 +25,14 @@ public class PaymentDetail {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
     }
 
     public Payment getPayment() {
@@ -50,13 +49,5 @@ public class PaymentDetail {
 
     public void setProduct(Product product) {
         this.product = product;
-    }
-
-    public Integer getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Integer amount) {
-        this.amount = amount;
     }
 }
