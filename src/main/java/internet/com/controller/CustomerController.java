@@ -9,9 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -39,7 +43,14 @@ public class CustomerController {
     public ResponseEntity<?> saveCustomer(@Valid @RequestBody CustomerDTO customerDTO,
                                           BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            Map<String, String> errorList = new LinkedHashMap<>();
+            for (FieldError item : errors) {
+                String field = item.getField();
+                String msg = item.getDefaultMessage();
+                errorList.put(field, msg);
+            }
+            return new ResponseEntity<>(errorList, HttpStatus.BAD_REQUEST);
         }
         customerService.saveCustomer(customerDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);

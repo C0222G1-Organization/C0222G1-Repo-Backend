@@ -1,0 +1,15 @@
+package internet.com.repository.address_repo;
+
+import internet.com.entity.customer.Commune;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+
+import javax.transaction.Transactional;
+import java.util.List;
+
+@Transactional
+public interface ICommuneRepo extends CrudRepository<Commune, Integer> {
+   @Query(value="select id, commune_name, district_id from commune where district_id = :districtId", nativeQuery = true)
+    List<Commune> findAllCommune(@Param("districtId") Integer districtId);
+}
