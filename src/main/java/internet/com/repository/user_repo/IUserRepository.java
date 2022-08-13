@@ -46,4 +46,16 @@ public interface IUserRepository extends JpaRepository<AppUser, Integer> {
             nativeQuery = true)
     void createUser(@Param("username") String username,
                     @Param("password") String password);
+
+    /**
+     * Create by CuongTM
+     * Date create: 11/09/2022
+     * method update user when updateC customer
+     * @param passWord
+     * @param userName
+     */
+    @Modifying
+    @Query(value = "Update user set user_password=:passWord WHERE user_name=:userName", nativeQuery = true)
+    void updateUser(@Param("passWord") String passWord,
+                    @Param("userName") String userName);
 }

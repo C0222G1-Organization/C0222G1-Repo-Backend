@@ -2,6 +2,7 @@ package internet.com.controller;
 
 import internet.com.dto.customer_dto.CustomerDTO;
 import internet.com.entity.customer.Customer;
+import internet.com.entity.user.AppUser;
 import internet.com.services.customer.ICustomerService;
 import internet.com.services.user.IUserService;
 import org.modelmapper.ModelMapper;
@@ -59,5 +60,35 @@ public class CustomerController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(customer.get(), HttpStatus.OK);
+    }
+
+    /**
+     * Created by: CuongTM
+     * Date Created: 11/08/2022
+     * @param id
+     * @param customerDTO
+     * @param bindingResult
+     * @return
+     */
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> updateCustomer(@PathVariable Integer id, @RequestBody @Valid CustomerDTO
+            customerDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        Customer customerEdit = customerService.findCustomerById(id).get();
+        if (customerEdit.getId() == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        customerEdit.getUser().setPassword(customerDTO.getPassword());
+        customerEdit = modelMapper.map(customerDTO, Customer.class);
+        AppUser appUser = new AppUser();
+        appUser.setUsername(customerDTO.getUserName().getUsername());
+        appUser.setPassword(customerDTO.getPassword());
+        customerEdit.setCommune(customerDTO.getCommune());
+        iUserService.updateUser(appUser);
+        customerService.update(customerEdit);
+
+        return new ResponseEntity<>(customerDTO, HttpStatus.OK);
     }
 }
