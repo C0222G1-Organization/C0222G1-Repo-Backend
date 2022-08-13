@@ -9,10 +9,25 @@ import org.springframework.data.domain.Pageable;
 
 public interface IComputerService {
 
+    /**
+     * Created by: TuanHD
+     * Date created: 09/08/2022
+     * Function: findById
+     */
     Computer findById(Integer id);
 
+    /**
+     * Created by: TuanHD
+     * Date created: 09/08/2022
+     * Function: createComputer
+     */
     void createComputer(Computer computer);
 
+    /**
+     * Created by: TuanHD
+     * Date created: 09/08/2022
+     * Function: updateComputer
+     */
     void updateComputer(Integer id,Computer computer);
 
     /**

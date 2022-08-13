@@ -61,8 +61,11 @@ public class ComputerService implements IComputerService {
                                          String end,
                                          String typeId,
                                          String status) {
-        return computerRepository.findAll(pageable, code, location, start, end, typeId, status);
-
+        if (status.equals("")){
+            return computerRepository.findAllEmpty(pageable, code, location, start, end, typeId, status);
+        }else {
+            return computerRepository.findAll(pageable, code, location, start, end, typeId, status);
+        }
     }
 
     /**

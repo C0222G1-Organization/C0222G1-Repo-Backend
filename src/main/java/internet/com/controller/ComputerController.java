@@ -91,12 +91,6 @@ public class ComputerController {
                                      @RequestParam( name = "end") String end,
                                      @RequestParam( name = "typeId") String typeId,
                                      @RequestParam( name = "status") String status) {
-//        if (start.equals("")){
-//            start = "1900-10-10";
-//        }
-//        if (end.equals("")){
-//            end = "2200-10-10";
-//        }
         Sort sort = Sort.by("id").ascending();
         Page<ComputerListDto> computers = computerService.findAll(PageRequest.of(page, 4, sort),code,location,start, end,typeId, status);
         if(computers != null){
