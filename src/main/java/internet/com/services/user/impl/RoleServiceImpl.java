@@ -1,6 +1,5 @@
 package internet.com.services.user.impl;
 
-
 import internet.com.entity.user.AppRole;
 import internet.com.entity.user.UserRole;
 import internet.com.repository.user_repo.IRoleRepository;
@@ -26,6 +25,7 @@ public class RoleServiceImpl implements IRoleService {
     public Optional<AppRole> findByName(UserRole name) {
         return roleRepository.findByName(name);
     }
+
 
     /**
      * Create by HaoNH
