@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Entity(name = "district")
 public class District {
@@ -16,7 +15,7 @@ public class District {
 
     @OneToMany(mappedBy = "district")
     @JsonBackReference( "commune")
-    private Set<Commune> communes;
+    private List<Commune> communes;
 
     @ManyToOne
     @JoinColumn(name = "province_id", referencedColumnName = "id")
@@ -25,7 +24,7 @@ public class District {
     public District() {
     }
 
-    public District(int id, String districtName, Set<Commune> communes, Province province) {
+    public District(int id, String districtName, List<Commune> communes, Province province) {
         this.id = id;
         this.districtName = districtName;
         this.communes = communes;
@@ -48,11 +47,11 @@ public class District {
         this.districtName = districtName;
     }
 
-    public Set<Commune> getCommunes() {
+    public List<Commune> getCommunes() {
         return communes;
     }
 
-    public void setCommunes(Set<Commune> communes) {
+    public void setCommunes(List<Commune> communes) {
         this.communes = communes;
     }
 
