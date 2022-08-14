@@ -26,6 +26,41 @@ public class UserServiceImpl implements IUserService {
         return userRepository.findByUsername(name);
     }
 
+    /**
+     * Create by HaoNH
+     * Date create: 11/09/2022
+     * method check username is exits
+     * @param username
+     * @return
+     */
+    @Override
+    public Boolean existsByUsername(String username) {
+        if (username.equals(userRepository.existsByUsername(username))){
+            return true;
+        }
+        return false;
+    }
 
+    /**
+     * Create by HaoNH
+     * Date create: 11/09/2022
+     * method create user
+     * @param username
+     * @param password
+     */
+    @Override
+    public void createUser(String username, String password) {
+        userRepository.createUser(username, password);
+    }
 
+    /**
+     * Create be CuongTM
+     * Date create: 11/08/2022
+     * @param appUser
+     */
+    @Override
+    public void updateUser(AppUser appUser) {
+        userRepository.updateUser(
+                appUser.getPassword(),appUser.getUsername());
+    }
 }
