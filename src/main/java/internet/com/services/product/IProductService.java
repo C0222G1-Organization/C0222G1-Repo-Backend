@@ -5,6 +5,8 @@ import internet.com.entity.product.product_dto.ProductDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface IProductService {
     Page<IProductDTO> findAll(String name, Pageable pageable);
 
@@ -24,4 +26,8 @@ public interface IProductService {
                         Integer id);
 
     void save(Product product);
+
+    List<Product> getListProductForOrdering();
+
+    List<Product> findProductByCategoryId(Integer id);
 }
