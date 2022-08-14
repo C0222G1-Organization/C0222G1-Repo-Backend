@@ -4,7 +4,6 @@ import internet.com.entity.customer.District;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
-
 import javax.transaction.Transactional;
 import java.util.List;
 
