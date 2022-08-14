@@ -156,4 +156,18 @@ public class ProductController {
         }
         return new ResponseEntity<>(productList, HttpStatus.OK);
     }
+
+    /**
+     * Create by: DuyNT
+     * Date create: 14/08/2022
+     * function: get product from DB by id
+     */
+    @GetMapping("/{id}")
+    private ResponseEntity<Product> loadProductInfoById(@PathVariable Integer id) {
+        Product product = productService.findByIdProduct(id);
+        if (product == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(product, HttpStatus.OK);
+    }
 }
