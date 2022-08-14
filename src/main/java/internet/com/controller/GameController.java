@@ -39,7 +39,7 @@ public class GameController {
      */
     @GetMapping
     public ResponseEntity<?> getAllGames(@RequestParam(name = "page", defaultValue = "0") int page) {
-        Sort sort = Sort.by("id").ascending();
+        Sort sort = Sort.by("game_name").ascending();
         Page<Game> games = gameService.getAll(PageRequest.of(page, 8, sort));
         if (games.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -57,7 +57,7 @@ public class GameController {
      */
     @GetMapping("/popular")
     public ResponseEntity<?> getPopularGames(@RequestParam(name = "page", defaultValue = "0") int page) {
-        Sort sort = Sort.by("id").ascending();
+        Sort sort = Sort.by("played_times").descending();
         Page<Game> games = gameService.getPopularGames(PageRequest.of(page, 8, sort));
         if (games.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -75,7 +75,7 @@ public class GameController {
      */
     @GetMapping("/new")
     public ResponseEntity<?> getNewGames(@RequestParam(name = "page", defaultValue = "0") int page) {
-        Sort sort = Sort.by("id").ascending();
+        Sort sort = Sort.by("create_date").descending();
         Page<Game> games = gameService.getNewGames(PageRequest.of(page, 8, sort));
         if (games.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -93,7 +93,7 @@ public class GameController {
      */
     @GetMapping("/hot")
     public ResponseEntity<?> getHotGames(@RequestParam(name = "page", defaultValue = "0") int page) {
-        Sort sort = Sort.by("id").ascending();
+        Sort sort = Sort.by("played_times").descending();
         Page<Game> games = gameService.getHotGames(PageRequest.of(page, 8, sort));
         if (games.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
