@@ -20,76 +20,19 @@ public class AddressService implements IAddressService {
     private IDistrictRepository districtRepository;
     @Autowired
     private ICommuneRepository communeRepository;
+
     @Override
-    public List<Province> getAllProvinces() {
-        return provinceRepository.getAllProvinces();
-    }
-    /**
-     * Created by: CuongTM
-     * Date Created: 11/08/2022
-     * @return
-     */
-    @Override
-    public Province getProvinceById(Integer id) {
-        return provinceRepository.getProvinceById(id);
-    }
-    /**
-     * Created by: CuongTM
-     * Date Created: 11/08/2022
-     * @return
-     */
-    @Override
-    public List<District> getAllDistricts() {
-        return districtRepository.getAllDistricts();
+    public List<Province> findAllProvince() {
+        return provinceRepository.findAllProvince();
     }
 
-    /**
-     * Created by: CuongTM
-     * Date Created: 11/08/2022
-     * @return
-     */
     @Override
-    public List<District> getDistrictsByProvinceId(Integer id) {
-        return districtRepository.getDistrictByProvinceId(id);
+    public List<District> findAllDistrict(Integer provinceId) {
+        return districtRepository.findAllDistrict(provinceId);
     }
 
-    /**
-     * Created by: CuongTM
-     * Date Created: 11/08/2022
-     * @return
-     */
     @Override
-    public District getDistrictById(Integer id) {
-        return null;
-    }
-
-    /**
-     * Created by: CuongTM
-     * Date Created: 11/08/2022
-     * @return
-     */
-    @Override
-    public List<Commune> getAllCommunes() {
-        return communeRepository.getAllCommune();
-    }
-
-    /**
-     * Created by: CuongTM
-     * Date Created: 11/08/2022
-     * @return
-     */
-    @Override
-    public List<Commune> getAllCommunesByDistrictId(Integer id) {
-        return communeRepository.getCommuneByDistrictId(id);
-    }
-
-    /**
-     * Created by: CuongTM
-     * Date Created: 11/08/2022
-     * @return
-     */
-    @Override
-    public Commune getCommuneById(Integer id) {
-        return null;
+    public List<Commune> findAllCommune(Integer districtId) {
+        return communeRepository.findAllCommune(districtId);
     }
 }

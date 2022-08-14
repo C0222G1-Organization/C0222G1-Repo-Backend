@@ -15,8 +15,8 @@ public interface IDistrictRepository extends PagingAndSortingRepository<District
      * Date Created: 11/08/2022
      * @return
      */
-    @Query(value = "SELECT * FROM district", nativeQuery = true)
-    List<District> getAllDistricts();
+    @Query(value="select id, district_name, province_id from district where province_id = :provinceId", nativeQuery = true)
+    List<District> findAllDistrict(@Param("provinceId") Integer provinceId);
 
     /**
      * Created by: CuongTM

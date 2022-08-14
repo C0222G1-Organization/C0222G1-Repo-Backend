@@ -17,8 +17,8 @@ public interface IProvinceRepository extends PagingAndSortingRepository<Province
      * Date Created: 11/08/2022
      * @return
      */
-    @Query(value = "SELECT id, province_name FROM province", nativeQuery = true)
-    List<Province> getAllProvinces();
+    @Query(value="select id, province_name from province", nativeQuery = true)
+    List<Province> findAllProvince();
 
     /**
      * Created by: CuongTM

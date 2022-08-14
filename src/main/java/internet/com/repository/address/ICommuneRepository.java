@@ -15,8 +15,8 @@ public interface ICommuneRepository extends PagingAndSortingRepository<Commune, 
      * Date Created: 11/08/2022
      * @return
      */
-    @Query(value = "SELECT * FROM commune", nativeQuery = true)
-    List<Commune> getAllCommune();
+    @Query(value="select id, commune_name, district_id from commune where district_id = :districtId", nativeQuery = true)
+    List<Commune> findAllCommune(@Param("districtId") Integer districtId);
 
     /**
      * Created by: CuongTM

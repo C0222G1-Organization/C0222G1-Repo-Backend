@@ -1,6 +1,9 @@
 package internet.com.controller;
 
 import internet.com.dto.customer_dto.CustomerDTO;
+import internet.com.dto.customer_dto.EmailDTO;
+import internet.com.dto.customer_dto.PhoneDTO;
+import internet.com.dto.customer_dto.UserDTO;
 import internet.com.entity.customer.Commune;
 import internet.com.entity.customer.Customer;
 import internet.com.entity.customer.District;
@@ -14,10 +17,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -47,7 +53,14 @@ public class CustomerController {
     public ResponseEntity<?> saveCustomer(@Valid @RequestBody CustomerDTO customerDTO,
                                           BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            List<FieldError> errors = bindingResult.getFieldErrors();
+            Map<String, String> errorList = new LinkedHashMap<>();
+            for (FieldError item : errors) {
+                String field = item.getField();
+                String msg = item.getDefaultMessage();
+                errorList.put(field, msg);
+            }
+            return new ResponseEntity<>(errorList, HttpStatus.BAD_REQUEST);
         }
         customerService.saveCustomer(customerDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -71,6 +84,34 @@ public class CustomerController {
 
     /**
      * Created by: CuongTM
+     * Date Created: 13/08/2022
+     * @param id
+     * @return
+     */
+    @GetMapping("getCustomer/{id}")
+    public ResponseEntity<?> getCustomerById(@PathVariable("id") Integer id){
+        Optional<Customer> customer = this.customerService.findCustomerById(id);
+        if(!customer.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        CustomerDTO customerDTO = new CustomerDTO(
+                customer.get().getId(),
+                customer.get().getName(),
+                customer.get().getDateOfBirth(),
+                new EmailDTO(customer.get().getId(), customer.get().getEmail()),
+                new PhoneDTO(customer.get().getId(), customer.get().getPhoneNumber()),
+                new UserDTO(customer.get().getId(), customer.get().getUser().getUsername()),
+                customer.get().getUser().getPassword(),
+                customer.get().getCommune(),
+                customer.get().getActiveStatus()
+        );
+
+        return new ResponseEntity<>(customerDTO, HttpStatus.OK);
+    }
+
+
+    /**
+     * Created by: CuongTM
      * Date Created: 11/08/2022
      * @param id
      * @param customerDTO
@@ -90,7 +131,7 @@ public class CustomerController {
         customerEdit.getUser().setPassword(customerDTO.getPassword());
         customerEdit = modelMapper.map(customerDTO, Customer.class);
         AppUser appUser = new AppUser();
-        appUser.setUsername(customerDTO.getUserName().getUsername());
+        appUser.setUsername(customerDTO.getUserName().getUserName());
         appUser.setPassword(customerDTO.getPassword());
         customerEdit.setCommune(customerDTO.getCommune());
         iUserService.updateUser(appUser);
@@ -104,9 +145,9 @@ public class CustomerController {
      * Date Created: 11/08/2022
      * @return list provinces
      */
-    @GetMapping("/provinces")
+    @GetMapping("/address/province")
     public ResponseEntity<?> getAllProvinces(){
-        List<Province> provinces = this.addressService.getAllProvinces();
+        List<Province> provinces = this.addressService.findAllProvince();
         if(provinces.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -119,13 +160,13 @@ public class CustomerController {
      * @param id
      * @return an object corresponding to id
      */
-    @GetMapping("/provinces/{id}")
+    @GetMapping("address/district/{id}")
     public ResponseEntity<?> getAllProvinceById(@PathVariable Integer id){
-        Province province = this.addressService.getProvinceById(id);
-        if(province == null) {
+        List<District> districts = this.addressService.findAllDistrict(id);
+        if(districts == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(province, HttpStatus.OK);
+        return new ResponseEntity<>(districts, HttpStatus.OK);
     }
 
     /**
@@ -133,54 +174,13 @@ public class CustomerController {
      * Date Created: 11/08/2022
      * @return list districts
      */
-    @GetMapping("/districts")
-    public ResponseEntity<?> getAllDistricts(){
-        List<District> districts = this.addressService.getAllDistricts();
-        if(districts.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(districts, HttpStatus.OK);
-    }
-
-    /**
-     * Created by: CuongTM
-     * Date Created: 11/08/2022
-     * @param id
-     * @return an objectd district corresponding to id province
-     */
-    @GetMapping("/districts/province/{id}")
-    public ResponseEntity<?> getDistrictsByProvinceId(@PathVariable Integer id){
-        List<District> districts = this.addressService.getDistrictsByProvinceId(id);
-        if(districts.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(districts, HttpStatus.OK);
-    }
-    /**
-     * Created by: CuongTM
-     * Date Created: 11/08/2022
-     * @return list communes
-     */
-    @GetMapping("/communes")
-    public ResponseEntity<?> getAllCommunes(){
-        List<Commune> communes = this.addressService.getAllCommunes();
+    @GetMapping("/address/commune/{id}")
+    public ResponseEntity<?> getAllDistricts(@PathVariable Integer id){
+        List<Commune> communes = this.addressService.findAllCommune(id);
         if(communes.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(communes, HttpStatus.OK);
     }
-    /**
-     * Created by: CuongTM
-     * Date Created: 11/08/2022
-     * @param id
-     * @return an objectd communes corresponding to id district
-     */
-    @GetMapping("/communes/district/{id}")
-    public ResponseEntity<?> getAllCommunesByDistrictId(@PathVariable Integer id){
-        List<Commune> communes = this.addressService.getAllCommunesByDistrictId(id);
-        if(communes.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(communes, HttpStatus.OK);
-    }
+    
 }
