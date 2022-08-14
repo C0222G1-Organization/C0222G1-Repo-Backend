@@ -1,11 +1,14 @@
 package internet.com.services.employee.impl;
 
+import internet.com.dto.employee_dto.IEmployeeDTO;
 import internet.com.entity.employee.Employee;
 import internet.com.repository.employee_repo.IEmployeeRepository;
 import internet.com.services.employee.IEmployeeService;
 import internet.com.services.user.IRoleService;
 import internet.com.services.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -70,4 +73,48 @@ public class EmployeeService implements IEmployeeService {
         return employeeRepository.findByIdEmployee(id);
     }
 
+    /**
+     *Create by LongNB
+     * Date create: 09/08/2022
+     * function: delete employee
+     */
+    @Override
+    public void deleteEmployee(Integer id) {
+        employeeRepository.deleteEmployee(id);
+    }
+    /**
+     *Create by LongNB
+     * Date create: 09/08/2022
+     * function: findAll employee by commune
+     */
+    @Override
+    public Page<IEmployeeDTO> getAll(String code,
+                                     String name,
+                                     String from,
+                                     String end,
+                                     String dobfrom,
+                                     String dobend,
+                                     String pId,
+                                     String address,
+                                     Pageable pageable) {
+        return employeeRepository.findAll(code, name, from, end ,dobfrom, dobend,pId,address, pageable);
+    }
+    /**
+     *Create by LongNB
+     * Date create: 11/08/2022
+     * function: findAll employee by district
+     */
+    @Override
+    public Page<IEmployeeDTO> getAllByDistrict(String code, String name, String from, String end, String dobfrom, String dobend, String pId, String address, Pageable pageable) {
+        return employeeRepository.findAllByDistrict(code, name, from, end, dobfrom, dobend, pId, address, pageable);
+    }
+    /**
+     *Create by LongNB
+     * Date create: 11/08/2022
+     * function: findAll employee by province
+     */
+    @Override
+    public Page<IEmployeeDTO> getAllByProvince(String code, String name, String from, String end, String dobfrom, String dobend, String pId, String address, Pageable pageable) {
+        return employeeRepository.findAllByProvince(code, name, from, end, dobfrom, dobend, pId, address, pageable);
+    }
 }

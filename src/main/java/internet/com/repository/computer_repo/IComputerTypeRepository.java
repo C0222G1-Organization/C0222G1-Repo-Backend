@@ -12,6 +12,11 @@ import java.util.List;
 @Transactional
 public interface IComputerTypeRepository extends JpaRepository<ComputerType, Integer> {
 
+    /**
+     * Created by: TuanHD
+     * Date created: 09/08/2022
+     * Function: findAllComputerType
+     */
     @Query(value = "SELECT id,computer_type_name FROM computer_type", nativeQuery = true)
     List<ComputerType> findAllComputerType();
 }

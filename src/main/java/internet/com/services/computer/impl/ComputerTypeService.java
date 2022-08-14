@@ -11,6 +11,12 @@ import java.util.List;
 public class ComputerTypeService implements IComputerTypeService {
     @Autowired
     private IComputerTypeRepository iComputerTypeRepository;
+
+    /**
+     * Created by: TuanHD
+     * Date created: 09/08/2022
+     * Function: findAll
+     */
     @Override
     public List<ComputerType> findAll() {
         return iComputerTypeRepository.findAllComputerType();
