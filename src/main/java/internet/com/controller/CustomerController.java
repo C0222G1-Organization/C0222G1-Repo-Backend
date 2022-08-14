@@ -40,7 +40,6 @@ public class CustomerController {
      * Created by: HaoNH
      * Date Created: 09/06/2022
      * method save customer
-     *
      * @param customerDTO
      * @param bindingResult
      * @return

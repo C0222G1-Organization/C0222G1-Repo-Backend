@@ -21,16 +21,36 @@ public class AddressService implements IAddressService {
     @Autowired
     private IProvinceRepo provinceRepo;
 
+    /**
+     * Created by: HaoNH
+     * Date Created: 14/06/2022
+     * method find all province
+     * @return
+     */
     @Override
     public List<Province> findAllProvince() {
         return provinceRepo.findAllProvince();
     }
 
+    /**
+     * Created by: HaoNH
+     * Date Created: 14/06/2022
+     * method find district by province_id
+     * @return
+     * @param provinceId
+     */
     @Override
     public List<District> findAllDistrict(Integer provinceId) {
         return districtRepo.findAllDistrict(provinceId);
     }
 
+    /**
+     * Created by: HaoNH
+     * Date Created: 14/06/2022
+     * method find commune by district_id
+     * @return
+     * @param districtId
+     */
     @Override
     public List<Commune> findAllCommune(Integer districtId) {
         return addressRepo.findAllCommune(districtId);

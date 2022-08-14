@@ -10,6 +10,14 @@ import java.util.List;
 
 @Transactional
 public interface ICommuneRepo extends CrudRepository<Commune, Integer> {
+
+    /**
+     * Created by: HaoNH
+     * Date Created: 14/06/2022
+     * method find commune by district_id
+     * @return
+     * @param districtId
+     */
    @Query(value="select id, commune_name, district_id from commune where district_id = :districtId", nativeQuery = true)
     List<Commune> findAllCommune(@Param("districtId") Integer districtId);
 }

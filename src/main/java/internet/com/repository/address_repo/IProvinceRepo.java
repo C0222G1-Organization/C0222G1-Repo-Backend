@@ -7,6 +7,13 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface IProvinceRepo extends CrudRepository<Province, Integer> {
+
+    /**
+     * Created by: HaoNH
+     * Date Created: 14/06/2022
+     * method find all province
+     * @return
+     */
     @Query(value="select id, province_name from province", nativeQuery = true)
     List<Province> findAllProvince();
 }
