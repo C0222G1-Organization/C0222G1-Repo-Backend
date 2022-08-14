@@ -19,4 +19,10 @@ public interface ICustomerService {
     Boolean existsPhoneNumber(String phone);
 
     void saveCustomer(CustomerDTO customerDTO);
-}
+
+    /**
+     * Created by: CuongTM
+     * Date Created: 11/08/2022
+     * @param customer
+     */
+    void update(Customer customer);}

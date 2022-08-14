@@ -53,4 +53,14 @@ public class UserServiceImpl implements IUserService {
         userRepository.createUser(username, password);
     }
 
+    /**
+     * Create be CuongTM
+     * Date create: 11/08/2022
+     * @param appUser
+     */
+    @Override
+    public void updateUser(AppUser appUser) {
+        userRepository.updateUser(
+                appUser.getPassword(),appUser.getUsername());
+    }
 }

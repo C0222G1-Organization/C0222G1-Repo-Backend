@@ -3,14 +3,14 @@ package internet.com.repository.customer_repo;
 import internet.com.entity.customer.Customer;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Transactional
-public interface ICustomerRepository extends CrudRepository<Customer, Integer> {
+public interface ICustomerRepository extends PagingAndSortingRepository<Customer, Integer> {
 
     /**
      * Created by: DuyNT
@@ -65,5 +65,29 @@ public interface ICustomerRepository extends CrudRepository<Customer, Integer> {
      */
     @Query(value = "SELECT phone_number FROM customer where phone_number = :phone", nativeQuery = true)
     String existsPhone(@Param("phone") String phone);
+
+    /**
+     * Create by CuongTM
+     * Date create: 11/08/2022
+     * method update customer
+     * @param name
+     * @param dateOfBirth
+     * @param email
+     * @param phoneNumber
+     * @param activeStatus
+     * @param communeId
+     * @param customerId
+     */
+    @Modifying
+    @Query(value = " UPDATE customer SET customer_name=:name, date_of_birth=:dateOfBirth,phone_number=:phoneNumber, " +
+            "email=:email, " +
+            " active_status=:activeStatus, address_id=:communeId WHERE id=:customerId", nativeQuery = true)
+    void update(@Param("name") String name, @Param("dateOfBirth") String dateOfBirth,
+                @Param("email") String email,
+                @Param("phoneNumber") String phoneNumber,
+                @Param("activeStatus") Integer activeStatus,
+                @Param("communeId") Integer communeId,
+                @Param("customerId") Integer customerId);
+
 }
 

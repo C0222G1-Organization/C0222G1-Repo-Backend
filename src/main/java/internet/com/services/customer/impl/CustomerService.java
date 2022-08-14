@@ -44,6 +44,24 @@ public class CustomerService implements ICustomerService {
     }
 
     /**
+     * Created by: CuongTM
+     * Date Created: 11/08/2022
+     * @param customer
+     */
+    @Override
+    public void update(Customer customer) {
+        customerRepository.update(
+                customer.getName(),
+                customer.getDateOfBirth(),
+                customer.getEmail(),
+                customer.getPhoneNumber(),
+                customer.getActiveStatus(),
+                customer.getCommune().getId(),
+                customer.getId()
+        );
+    }
+
+    /**
      * Created by: HaoNH
      * Date Created: 11/08/2022
      * method check email is exits
