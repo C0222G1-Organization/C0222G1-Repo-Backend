@@ -5,7 +5,7 @@ import javax.validation.constraints.Pattern;
 public class PhoneDTO {
     private Integer id;
 
-    @Pattern(regexp = "^[0-9]{9}$", message = "Số điện thoại bắt đầu từ 0 và có 9 số")
+    @Pattern(regexp = "^[0-9]{10,12}$", message = "Số điện thoại bắt đầu từ 0 và có 9 số")
     private String phone;
 
     public PhoneDTO() {
