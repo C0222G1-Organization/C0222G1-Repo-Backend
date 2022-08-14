@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductService implements IProductService {
 
@@ -79,6 +81,26 @@ public class ProductService implements IProductService {
     @Override
     public void save(Product product) {
          iProductRepository.save(product);
+    }
+
+    /**
+     * Create by: DuyNT
+     * Date create: 14/08/2022
+     * function: get all product for ordering
+     */
+    @Override
+    public List<Product> getListProductForOrdering() {
+        return this.iProductRepository.getAllProductForOrdering();
+    }
+
+    /**
+     * Create by: DuyNT
+     * Date create: 14/08/2022
+     * function: get list product from category option for ordering
+     */
+    @Override
+    public List<Product> findProductByCategoryId(Integer id) {
+        return this.iProductRepository.getListByCategoryId(id);
     }
 
 
