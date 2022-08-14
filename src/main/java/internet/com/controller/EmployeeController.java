@@ -22,7 +22,6 @@ import javax.validation.Valid;
 @RequestMapping("/employee")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class EmployeeController {
-
     @Autowired
     private IEmployeeService employeeService;
 
