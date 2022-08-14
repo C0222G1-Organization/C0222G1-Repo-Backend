@@ -41,7 +41,6 @@ public class ProductController {
         if (productList.isEmpty()) {
             return new ResponseEntity<>(productList, HttpStatus.NO_CONTENT);
         }
-
         return new ResponseEntity<>(productList, HttpStatus.OK);
     }
 
@@ -128,5 +127,33 @@ public class ProductController {
                                     productDTO.getIdProductCategory(),
                                     productDTO.getId());
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * Create by: DuyNT
+     * Date create: 14/08/2022
+     * function: get list product from category option for ordering
+     */
+    @GetMapping("/order")
+    private ResponseEntity<List<Product>> listProductForOrder() {
+        List<Product> productList = productService.getListProductForOrdering();
+        if (productList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(productList, HttpStatus.OK);
+    }
+
+    /**
+     * Create by: DuyNT
+     * Date create: 14/08/2022
+     * function: get list product from category option for ordering
+     */
+    @GetMapping("/order/{id}")
+    private ResponseEntity<List<Product>> showListProductByCategoryId(@PathVariable Integer id) {
+        List<Product> productList = productService.findProductByCategoryId(id);
+        if (productList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(productList, HttpStatus.OK);
     }
 }

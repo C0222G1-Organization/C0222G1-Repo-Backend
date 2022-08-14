@@ -1,6 +1,10 @@
 package internet.com.entity.computer;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import internet.com.entity.record.Record;
+
 import javax.persistence.*;
+import java.util.Set;
 
 
 /**

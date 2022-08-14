@@ -1,8 +1,11 @@
 package internet.com.entity.customer;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import internet.com.entity.record.Record;
 import internet.com.entity.user.AppUser;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity(name = "customer")
 public class Customer {
@@ -25,6 +28,9 @@ public class Customer {
     @ManyToOne(targetEntity = Commune.class)
     private Commune commune;
 
+    @OneToMany(mappedBy = "customer")
+    @JsonBackReference
+    private Set<Record> records;
 
     public Customer() {
     }
@@ -121,5 +127,13 @@ public class Customer {
 
     public void setUser(AppUser user) {
         this.user = user;
+    }
+
+    public Set<Record> getRecords() {
+        return records;
+    }
+
+    public void setRecords(Set<Record> records) {
+        this.records = records;
     }
 }
