@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Repository
 @Transactional
@@ -275,4 +276,25 @@ public interface IEmployeeRepository extends PagingAndSortingRepository<Employee
     Page<IEmployeeDTO> findAllByProvince(@Param("code")String code, @Param("name")String name, @Param("from") String from,
                                          @Param("end")String end, @Param("dobfrom")String dobfrom,
                                          @Param("dobend")String dobend, @Param("pId")String pId, @Param("address")String address, Pageable pageable);
+
+    /**
+     * Create by HoangHN
+     * Date create: 13/08/2022
+     * method find Email get username
+     * @param email
+     * @return
+     */
+    @Query(value = "SELECT user_name FROM employee where email = :email", nativeQuery = true)
+    String findByEmailGetUsername(@Param("email") String email);
+
+    /**
+     * Create by HoangHN
+     * Date create: 13/08/2022
+     * method find Employee By UserName
+     * @param username
+     * @return
+     */
+    @Query(value = "SELECT id, employee_code, date_of_birth,email, image_url, employee_name, phone, " +
+            "salary, start_work, delete_status, user_name,address_id,position_id FROM employee WHERE user_name = :username", nativeQuery = true)
+    Optional<Employee> findEmployeeByUserName(@Param("username") String username);
 }

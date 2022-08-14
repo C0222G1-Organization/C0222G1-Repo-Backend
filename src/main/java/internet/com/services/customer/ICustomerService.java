@@ -45,5 +45,14 @@ public interface ICustomerService {
      * Date Created: 11/08/2022
      * @param customer
      */
-    void update(Customer customer);}
+    void update(Customer customer);
+
+    String findByEmailGetUsername(String email);
+
+    Optional<Customer> findCustomerByUserName(String username);
+
+    Integer getRemainingTime(Integer id);
+
+}
+
 
