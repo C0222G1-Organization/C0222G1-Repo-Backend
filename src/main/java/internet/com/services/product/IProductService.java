@@ -14,7 +14,7 @@ public interface IProductService {
 
     void create(ProductDTO productDTO);
 
-    Product findByIdProduct(int id);
+    Product findByIdProduct(Integer id);
 
     void updateProduct (String code,
                         String name,
