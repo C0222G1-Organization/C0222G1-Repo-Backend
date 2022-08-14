@@ -23,6 +23,15 @@ dependencies {
     // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
     implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.1.0'
 
+    //HOANG UPDATE CONFIG
+    // Security
+    implementation group: 'org.springframework.security', name: 'spring-security-web', version: '5.4.2'
+    implementation group: 'org.springframework.security', name: 'spring-security-config', version: '5.4.2'
+    implementation group: 'org.springframework.security', name: 'spring-security-taglibs', version: '5.4.2'
+    implementation group: 'org.springframework.security', name: 'spring-security-core', version: '5.4.3'
+    //JWT
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.0'
+    implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.1.0'
 }
 
 tasks.named('test') {

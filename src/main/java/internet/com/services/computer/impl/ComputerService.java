@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ComputerService implements IComputerService {
 
@@ -61,8 +63,11 @@ public class ComputerService implements IComputerService {
                                          String end,
                                          String typeId,
                                          String status) {
-        return computerRepository.findAll(pageable, code, location, start, end, typeId, status);
-
+        if (status.equals("")){
+            return computerRepository.findAllEmpty(pageable, code, location, start, end, typeId, status);
+        }else {
+            return computerRepository.findAll(pageable, code, location, start, end, typeId, status);
+        }
     }
 
     /**
@@ -75,5 +80,27 @@ public class ComputerService implements IComputerService {
         computerRepository.delete(id);
     }
 
+    /**
+     * Created by: HoangHN
+     * Date created: 13/08/2022
+     * Function: find Unused Computer
+     * @return
+     */
+    @Override
+    public List<Computer> findUnusedComputer() {
+        return computerRepository.findUnusedComputer();
+    }
+
+    /**
+     * Created by: HoangHN
+     * Date created: 13/08/2022
+     * Function: find Unused Computer by active_status = 1 and delete_status = 0.
+     * @param
+     * @return
+     */
+    @Override
+    public void setActiveStatus(Integer id, Integer status) {
+        computerRepository.setActiveStatus(id,status);
+    }
 }
 

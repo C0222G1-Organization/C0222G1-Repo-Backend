@@ -1,5 +1,9 @@
 package internet.com.controller;
 
+
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import internet.com.dto.employee_dto.EmployeeDTO;
 import internet.com.dto.employee_dto.IEmployeeDTO;
 import internet.com.entity.employee.Employee;
@@ -134,6 +138,5 @@ public class EmployeeController {
     public ResponseEntity<?> getAllPosition() {
         return new ResponseEntity<>(positionService.positionList(), HttpStatus.OK);
     }
-
 
 }

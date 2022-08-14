@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 @Transactional
@@ -47,7 +48,7 @@ public interface IComputerRepository extends JpaRepository<Computer, Integer> {
     /**
      * Created by: PhucNQ
      * Date created: 10/08/2022
-     * Function: findAll
+     * Function: findAllEmpty
      */
     @Query(value = "select id, delete_status as `delete`, computer_code as code, location, configuration, active_status as status, type_id as type, warranty, manufacturer, start_used_date as start " +
             "from computer " +
@@ -66,6 +67,35 @@ public interface IComputerRepository extends JpaRepository<Computer, Integer> {
                     "            and type_id like %:typeId% " +
                     "            and active_status like %:status%" +
                     "            and delete_status = 0")
+    Page<ComputerListDto> findAllEmpty(Pageable pageable, @Param("code") String code,
+                                       @Param("location") String location,
+                                       @Param("start") String start,
+                                       @Param("end") String end,
+                                       @Param("typeId") String typeId,
+                                       @Param("status") String status);
+
+    /**
+     * Created by: PhucNQ
+     * Date created: 10/08/2022
+     * Function: findAll
+     */
+    @Query(value = "select id, delete_status as `delete`, computer_code as code, location, configuration, active_status as status, type_id as type, warranty, manufacturer, start_used_date as start " +
+            "from computer " +
+            "where computer_code like %:code% " +
+            "and location like %:location% " +
+            "and (start_used_date between :start and :end) " +
+            "and type_id like %:typeId% " +
+            "and active_status = :status " +
+            "and delete_status = 0",
+            nativeQuery = true,
+            countQuery = "select count(*) " +
+                    "            from computer " +
+                    "            where computer_code like %:code% " +
+                    "            and location like %:location% " +
+                    "            and (start_used_date between :start and :end) " +
+                    "            and type_id like %:typeId% " +
+                    "            and active_status = :status" +
+                    "            and delete_status = 0")
     Page<ComputerListDto> findAll(Pageable pageable, @Param("code") String code,
                                   @Param("location") String location,
                                   @Param("start") String start,
@@ -82,6 +112,34 @@ public interface IComputerRepository extends JpaRepository<Computer, Integer> {
     @Query(value = "update computer set delete_status = 1 where id = :id", nativeQuery = true)
     void delete(@Param("id") Integer id);
 
+    /**
+     * Created by: TuanHD
+     * Date created: 09/08/2022
+     * Function: findByIdComputer
+     */
     @Query(value="select * from computer where id=:id",nativeQuery = true)
     Computer findByIdComputer(@Param("id") Integer id);
+
+    /**
+     * Created by: HoangHN
+     * Date created: 13/08/2022
+     * Function: set active status computer when customers use
+     * @param id
+     * @param status
+     */
+    @Modifying
+    @Query(value = " UPDATE computer SET active_status=:status WHERE id=:id", nativeQuery = true)
+    void setActiveStatus(@Param("id") Integer id, @Param("status") Integer status);
+
+    /**
+     * Created by: HoangHN
+     * Date created: 13/08/2022
+     * Function: find Unused Computer by active_status = 1 and delete_status = 0.
+     * @param
+     * @return
+     */
+    @Query(value="select * from computer where active_status = 1 and delete_status = 0",nativeQuery = true)
+    List<Computer> findUnusedComputer();
+    //id,computer_code,configuration,delete_status,location,manufacturer,start_used_date, " +
+    //            " active_status,warranty,type_id
 }
