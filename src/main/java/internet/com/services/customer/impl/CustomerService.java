@@ -141,6 +141,7 @@ public class CustomerService implements ICustomerService {
         );
     }
 
+
     /**
      * Created by: HaoNH
      * Date Created: 11/08/2022
@@ -163,5 +164,41 @@ public class CustomerService implements ICustomerService {
     @Override
     public Boolean existsPhoneNumber(String phone) {
         return phone.equals(customerRepository.existsPhone(phone));
+    }
+
+    /**
+     * Create by HoangHN
+     * Date create: 13/08/2022
+     * method find Email get username
+     * @param email
+     * @return
+     */
+    @Override
+    public String findByEmailGetUsername(String email) {
+        return customerRepository.findByEmailGetUsername(email);
+    }
+
+
+    /**
+     * Create by HoangHN
+     * Date create: 13/08/2022
+     * method find Customer By User Name
+     * @param username
+     * @return
+     */
+    @Override
+    public Optional<Customer> findCustomerByUserName(String username) {
+        return customerRepository.findCustomerByUserName(username);
+    }
+
+    /**
+     * Create by HoangHN
+     * Date create: 13/08/2022
+     * method get Remaining Time
+     * @return
+     */
+    @Override
+    public Integer getRemainingTime(Integer id) {
+        return customerRepository.getRemainingTime(id);
     }
 }

@@ -193,5 +193,39 @@ public interface ICustomerRepository extends PagingAndSortingRepository<Customer
                 @Param("activeStatus") Integer activeStatus,
                 @Param("communeId") Integer communeId,
                 @Param("customerId") Integer customerId);
+
+    /**
+     * Create by HoangHN
+     * Date create: 13/08/2022
+     * method find Email get username
+     * @param email
+     * @return
+     */
+    @Query(value = "SELECT user_name FROM customer where email = :email", nativeQuery = true)
+    String findByEmailGetUsername(@Param("email") String email);
+
+    /**
+     * Create by HoangHN
+     * Date create: 13/08/2022
+     * method find Customer By UserName
+     * @param username
+     * @return
+     */
+
+    @Query(value = "SELECT id, customer_name, date_of_birth,phone_number, email, active_status, delete_status, " +
+            "remaining_time, user_name, address_id FROM customer WHERE user_name = :username", nativeQuery = true)
+    Optional<Customer> findCustomerByUserName(@Param("username") String username);
+
+    /**
+     * Create by HoangHN
+     * Date create: 13/08/2022
+     * method get Remaining Time of customer
+     * @param id
+     * @return
+     */
+
+    @Query(value = "SELECT remaining_time FROM customer WHERE id = :id", nativeQuery = true)
+    Integer getRemainingTime(@Param("id") Integer id);
+
 }
 
