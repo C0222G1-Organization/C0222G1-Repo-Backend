@@ -1,28 +1,24 @@
 package internet.com.dto.user_dto.response;
 
+import internet.com.entity.employee.Employee;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
-public class JwtResponse {
+public class JWTResponseEmployee {
     private Boolean errorStatus = true;
     private String message = "";
-    private Object data;
+    private Employee employee;
     private String token;
     private Collection<? extends GrantedAuthority> roles;
 
-    public JwtResponse() {
+    public JWTResponseEmployee() {
     }
 
-    public JwtResponse(Boolean errorStatus, String message) {
+    public JWTResponseEmployee(Boolean errorStatus, String message, Employee employee, String token, Collection<? extends GrantedAuthority> roles) {
         this.errorStatus = errorStatus;
         this.message = message;
-    }
-
-    public JwtResponse(Boolean errorStatus, String message, Object data, String token, Collection<? extends GrantedAuthority> roles) {
-        this.errorStatus = errorStatus;
-        this.message = message;
-        this.data = data;
+        this.employee = employee;
         this.token = token;
         this.roles = roles;
     }
@@ -43,12 +39,12 @@ public class JwtResponse {
         this.message = message;
     }
 
-    public Object getData() {
-        return data;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setData(Object data) {
-        this.data = data;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     public String getToken() {
