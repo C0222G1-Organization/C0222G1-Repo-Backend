@@ -6,7 +6,7 @@ import internet.com.entity.news.News;
 import javax.persistence.*;
 import java.util.Set;
 
-/*
+/**
  * Created by: KienTV,
  * Date created: 09/08/2022
  * Function: to create game category entity

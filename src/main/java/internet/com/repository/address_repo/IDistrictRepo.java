@@ -11,7 +11,7 @@ public interface IDistrictRepo extends CrudRepository<District, Integer> {
 
     /**
      * Created by: HaoNH
-     * Date Created: 14/06/2022
+     * Date Created: 14/08/2022
      * method find district by province_id
      * @return
      * @param provinceId
