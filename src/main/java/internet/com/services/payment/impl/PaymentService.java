@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +34,7 @@ public class PaymentService implements IPaymentService {
 
     @Override
     public void savePayment (Payment payment) {
+        payment.setPaymentCode("ORD" + System.currentTimeMillis());
         paymentRepository.savePayment(payment.getPaymentCode() , payment.getRecord().getId() , payment.getTotalPay() , payment.getPaymentStatus());
     }
 
