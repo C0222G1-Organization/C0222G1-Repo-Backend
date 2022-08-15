@@ -1,13 +1,12 @@
 package internet.com.dto.game_dto;
 
 import internet.com.entity.game.GameCategory;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
-/*
+/**
  * Created by: KhanhTV,
  * Date created: 09/08/2022
  * Function: to create game dto class for transfer data and validation
@@ -27,12 +26,12 @@ public class GameDTO {
     private String playedTimes;
 
     @NotEmpty(message = "trailer url is not empty")
-    @Pattern(regexp = "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&\\/\\/=]*)",
+    @Pattern(regexp = "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&\\/{2}=]*)",
             message = "Invalid url")
     private String trailerUrl;
 
     @NotEmpty(message = "image url is not empty")
-    @Pattern(regexp = "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&\\/\\/=]*)",
+    @Pattern(regexp = "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&\\/{2}=]*)",
             message = "Invalid url")
     private String imageUrl;
 

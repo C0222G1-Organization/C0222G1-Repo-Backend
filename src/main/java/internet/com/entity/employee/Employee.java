@@ -1,9 +1,13 @@
 package internet.com.entity.employee;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import internet.com.entity.customer.Commune;
 import internet.com.entity.user.AppUser;
 
 import javax.persistence.*;
-
 
 @Entity(name = "employee")
 public class Employee {
