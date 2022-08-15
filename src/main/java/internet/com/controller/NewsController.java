@@ -1,6 +1,7 @@
 package internet.com.controller;
 
 
+import internet.com.dto.news_dto.NewsDTO;
 import internet.com.entity.news.News;
 import internet.com.services.news.INewsService;
 import org.modelmapper.ModelMapper;
@@ -52,15 +53,15 @@ public class NewsController {
      * @return news, HttpStatus.CREATED
      */
 
-//    @PostMapping
-//    public ResponseEntity<News> createNew(@Valid @RequestBody NewsDTO newsDTO, BindingResult bindingResult) {
-//        if (bindingResult.hasErrors()) {
-//            return new ResponseEntity(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
-//        }
-//        News news = modelMapper.map(newsDTO, News.class);
-//        iNewsService.save(news);
-//        return new ResponseEntity<>(news, HttpStatus.CREATED);
-//    }
+    @PostMapping
+    public ResponseEntity<News> createNew(@Valid @RequestBody NewsDTO newsDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
+        }
+        News news = modelMapper.map(newsDTO, News.class);
+        iNewsService.save(news);
+        return new ResponseEntity<>(news, HttpStatus.CREATED);
+    }
 
     /**
      * Create by: HieuHk

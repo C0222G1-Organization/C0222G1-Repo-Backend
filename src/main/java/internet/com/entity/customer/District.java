@@ -11,7 +11,7 @@ public class District {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "district_name")
-    private String districtName;
+    private String name;
 
     @OneToMany(mappedBy = "district")
     @JsonBackReference( "commune")
@@ -26,7 +26,7 @@ public class District {
 
     public District(int id, String districtName, List<Commune> communes, Province province) {
         this.id = id;
-        this.districtName = districtName;
+        this.name = districtName;
         this.communes = communes;
         this.province = province;
     }
@@ -39,12 +39,12 @@ public class District {
         this.id = id;
     }
 
-    public String getDistrictName() {
-        return districtName;
+    public String getName() {
+        return name;
     }
 
-    public void setDistrictName(String districtName) {
-        this.districtName = districtName;
+    public void setName(String districtName) {
+        this.name = districtName;
     }
 
     public List<Commune> getCommunes() {
