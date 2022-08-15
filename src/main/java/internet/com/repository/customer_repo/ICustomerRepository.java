@@ -24,7 +24,7 @@ public interface ICustomerRepository extends PagingAndSortingRepository<Customer
 
     /**
      * Created by: HaoNH
-     * Date Created: 09/06/2022
+     * Date Created: 09/08/2022
      * method save customer
      *
      * @param name
@@ -46,7 +46,7 @@ public interface ICustomerRepository extends PagingAndSortingRepository<Customer
 
     /**
      * Create by HaoNH
-     * Date create: 11/09/2022
+     * Date create: 11/08/2022
      * method check email is exits
      *
      * @param email
@@ -57,7 +57,7 @@ public interface ICustomerRepository extends PagingAndSortingRepository<Customer
 
     /**
      * Create by HaoNH
-     * Date create: 11/09/2022
+     * Date create: 11/08/2022
      * method check phone is exits
      *
      * @param phone
