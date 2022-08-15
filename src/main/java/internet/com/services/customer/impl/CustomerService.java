@@ -1,17 +1,17 @@
 package internet.com.services.customer.impl;
 
 
+import internet.com.dto.customer_dto.CustomerDTO;
 import internet.com.dto.customer_dto.ICustomerDTO;
 import internet.com.entity.customer.Customer;
 import internet.com.repository.customer_repo.ICustomerRepository;
 import internet.com.services.customer.ICustomerService;
+import internet.com.services.user.IRoleService;
+import internet.com.services.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import internet.com.dto.customer_dto.CustomerDTO;
-import internet.com.services.user.IRoleService;
-import internet.com.services.user.IUserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -25,6 +25,8 @@ public class CustomerService implements ICustomerService {
     private IUserService userService;
     @Autowired
     private IRoleService roleService;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Override
     public Optional<Customer> findCustomerById(Integer id) {
@@ -115,7 +117,8 @@ public class CustomerService implements ICustomerService {
      */
     @Override
     public void saveCustomer(CustomerDTO customerDTO) {
-        userService.createUser(customerDTO.getUserName().getUserName(), customerDTO.getPassword());
+        String encodedPassword = passwordEncoder.encode(customerDTO.getPassword());
+        userService.createUser(customerDTO.getUserName().getUserName(), encodedPassword);
         roleService.addNewCustomerUserRole(customerDTO.getUserName().getUserName());
         customerRepository.saveCustomer(customerDTO.getName(),
                 customerDTO.getDateOfBirth(),
