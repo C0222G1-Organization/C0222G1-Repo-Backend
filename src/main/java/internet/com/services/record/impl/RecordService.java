@@ -1,5 +1,6 @@
 package internet.com.services.record.impl;
 
+import internet.com.dto.user_dto.response.JWTResponseCustomer;
 import internet.com.entity.computer.Computer;
 import internet.com.entity.record.Record;
 import internet.com.repository.computer_repo.IComputerRepository;
@@ -45,7 +46,7 @@ public class RecordService implements IRecordService {
     }
 
     @Override
-    public void createRecord(Integer customerId) {
+    public JWTResponseCustomer createRecord(Integer customerId) {
         remainingTime = iCustomerService.getRemainingTime(customerId);
 
         Calendar dateTime = Calendar.getInstance();
@@ -59,6 +60,13 @@ public class RecordService implements IRecordService {
 
         iRecordRepository.createRecord(startTime,endTime,
                 computerId, customerId);
+        JWTResponseCustomer jwtResponseCustomer = new JWTResponseCustomer();
+        jwtResponseCustomer.setComputerInUse(computerList.get(0).getId());
+        jwtResponseCustomer.setMessage("Đăng nhập thành công");
+        jwtResponseCustomer.setStartTime(startTime);
+        jwtResponseCustomer.setEndTime(endTime);
+        return jwtResponseCustomer;
+
     }
 
     @Override
