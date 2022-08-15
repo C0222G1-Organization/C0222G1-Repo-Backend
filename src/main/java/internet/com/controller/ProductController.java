@@ -32,12 +32,12 @@ public class ProductController {
      * function: findAll and Search product
      */
     @GetMapping("/list")
-    private ResponseEntity<Page<IProductDTO>> showListProduct(
+    public ResponseEntity<Page<IProductDTO>> showListProduct(
             @RequestParam(name = "name") String name, @RequestParam(defaultValue = "0") int page
     ) {
         Sort sort = Sort.by("quantity").ascending();
 
-        Page<IProductDTO> productList = productService.findAll(name, PageRequest.of(page, 4, sort));
+        Page<IProductDTO> productList = productService.findAll(name, PageRequest.of(page, 8, sort));
         if (productList.isEmpty()) {
             return new ResponseEntity<>(productList, HttpStatus.NO_CONTENT);
         }
@@ -51,7 +51,7 @@ public class ProductController {
      */
 
     @GetMapping("/listCategory")
-    private ResponseEntity<List<ProductCategory>> showListProductCategory() {
+    public ResponseEntity<List<ProductCategory>> showListProductCategory() {
         List<ProductCategory> productCategoryList = productCategoryService.findAll();
         if (productCategoryList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -67,7 +67,7 @@ public class ProductController {
      */
 
     @DeleteMapping("/list/delete/{id}")
-    private ResponseEntity<?> deleteByIdProduct(@PathVariable Integer id) {
+    public ResponseEntity<?> deleteByIdProduct(@PathVariable Integer id) {
 
         if (id == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -82,7 +82,7 @@ public class ProductController {
      * function: create product
      */
     @PostMapping("/list/create")
-    private ResponseEntity<?> createProduct(@RequestBody ProductDTO productDTO){
+    public ResponseEntity<?> createProduct(@RequestBody ProductDTO productDTO){
         productService.create(productDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -103,7 +103,7 @@ public class ProductController {
      * function: update product
      */
     @PatchMapping("/list/update/{id}")
-    private ResponseEntity<?> updateProduct (@PathVariable Integer id,@RequestBody Product product){
+    public ResponseEntity<?> updateProduct (@PathVariable Integer id,@RequestBody Product product){
 //        Product product = productService.findByIdProduct(id);
         if(product == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -135,7 +135,7 @@ public class ProductController {
      * function: get list product from category option for ordering
      */
     @GetMapping("/order")
-    private ResponseEntity<List<Product>> listProductForOrder() {
+    public ResponseEntity<List<Product>> listProductForOrder() {
         List<Product> productList = productService.getListProductForOrdering();
         if (productList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -149,7 +149,7 @@ public class ProductController {
      * function: get list product from category option for ordering
      */
     @GetMapping("/order/{id}")
-    private ResponseEntity<List<Product>> showListProductByCategoryId(@PathVariable Integer id) {
+    public ResponseEntity<List<Product>> showListProductByCategoryId(@PathVariable Integer id) {
         List<Product> productList = productService.findProductByCategoryId(id);
         if (productList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
