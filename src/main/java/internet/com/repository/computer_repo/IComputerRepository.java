@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 @Transactional
@@ -118,4 +119,27 @@ public interface IComputerRepository extends JpaRepository<Computer, Integer> {
      */
     @Query(value="select * from computer where id=:id",nativeQuery = true)
     Computer findByIdComputer(@Param("id") Integer id);
+
+    /**
+     * Created by: HoangHN
+     * Date created: 13/08/2022
+     * Function: set active status computer when customers use
+     * @param id
+     * @param status
+     */
+    @Modifying
+    @Query(value = " UPDATE computer SET active_status=:status WHERE id=:id", nativeQuery = true)
+    void setActiveStatus(@Param("id") Integer id, @Param("status") Integer status);
+
+    /**
+     * Created by: HoangHN
+     * Date created: 13/08/2022
+     * Function: find Unused Computer by active_status = 1 and delete_status = 0.
+     * @param
+     * @return
+     */
+    @Query(value="select * from computer where active_status = 1 and delete_status = 0",nativeQuery = true)
+    List<Computer> findUnusedComputer();
+    //id,computer_code,configuration,delete_status,location,manufacturer,start_used_date, " +
+    //            " active_status,warranty,type_id
 }

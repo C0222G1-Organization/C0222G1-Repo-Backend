@@ -1,7 +1,6 @@
 package internet.com.controller;
 
 import internet.com.dto.computer_dto.ComputerDTO;
-//import internet.com.dto.computer_dto.ComputerSearchDTO;
 import internet.com.dto.computer_dto.ComputerListDto;
 import internet.com.entity.computer.Computer;
 import internet.com.entity.computer.ComputerType;
@@ -15,9 +14,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import java.util.List;
-
 
 @RestController
 @RequestMapping("/computers")
@@ -41,7 +40,7 @@ public class ComputerController {
      * @return
      */
     @PostMapping("/create")
-    public ResponseEntity<?> createComputer(@RequestBody @Valid ComputerDTO computerDTO) {
+    public ResponseEntity<Object> createComputer(@RequestBody @Valid ComputerDTO computerDTO) {
         Computer computer = modelMapper.map(computerDTO, Computer.class);
         computerService.createComputer(computer);
         return new ResponseEntity<>(computer, HttpStatus.CREATED);
@@ -84,7 +83,7 @@ public class ComputerController {
      */
 
     @GetMapping("/{page}")
-    public ResponseEntity<?> findAll(@PathVariable("page") Integer page,
+    public ResponseEntity<Object> findAll(@PathVariable("page") Integer page,
                                      @RequestParam( name = "code") String code,
                                      @RequestParam( name = "location") String location,
                                      @RequestParam( name = "start") String start,
@@ -106,7 +105,7 @@ public class ComputerController {
      * Function: delete
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteTicket(@PathVariable("id") Integer id){
+    public ResponseEntity<Object> deleteTicket(@PathVariable("id") Integer id){
         computerService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
