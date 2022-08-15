@@ -1,5 +1,6 @@
 package internet.com.entity.payment;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import internet.com.entity.product.Product;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ public class PaymentDetail {
     private Integer amount;
 
     @ManyToOne(targetEntity = Payment.class)
+    @JsonBackReference
     private Payment payment;
 
     @ManyToOne(targetEntity = Product.class)
