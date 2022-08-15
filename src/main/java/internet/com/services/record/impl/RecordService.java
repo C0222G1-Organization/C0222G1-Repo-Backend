@@ -32,19 +32,13 @@ public class RecordService implements IRecordService {
     @Autowired
     IComputerRepository iComputerRepository;
 
-    public static void main(String[] args) throws ParseException {
-//        String timeStamp = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy").format(Calendar.getInstance().getTime());
-//        System.out.println(timeStamp);
-//        SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
-//        String dateInString = "7-Jun-2013";
-//        Date date = formatter.parse(dateInString);
-//        System.out.println(date.getMonth());
-        Calendar DateTime = Calendar.getInstance();
-        DateTime.add(Calendar.SECOND, 86400);
-        String endTimeOfCustomer = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy").format(DateTime.getTime());
-        System.out.println(endTimeOfCustomer);
-    }
-
+    /**
+     * Create by: HoangHN
+     * Date Create: 15/08/2022
+     * funtion: create Record
+     * @param customerId
+     * @return
+     */
     @Override
     public JWTResponseCustomer createRecord(Integer customerId) {
         remainingTime = iCustomerService.getRemainingTime(customerId);
@@ -60,17 +54,40 @@ public class RecordService implements IRecordService {
 
         iRecordRepository.createRecord(startTime,endTime,
                 computerId, customerId);
+        List<Record> recordList = getListRecordByCustomerId(customerId);
         JWTResponseCustomer jwtResponseCustomer = new JWTResponseCustomer();
         jwtResponseCustomer.setComputerInUse(computerList.get(0).getId());
         jwtResponseCustomer.setMessage("Đăng nhập thành công");
         jwtResponseCustomer.setStartTime(startTime);
         jwtResponseCustomer.setEndTime(endTime);
+        jwtResponseCustomer.setRecordId(recordList.get(recordList.size() -1 ).getId());
+
         return jwtResponseCustomer;
 
     }
 
+    /**
+     * Create by: HoangHN
+     * Date Create: 15/08/2022
+     * funtion: set EndTime
+     * @param id
+     * @param endTime
+     */
     @Override
     public void setEndTime(Integer id, String endTime) {
         iRecordRepository.setEndTime(id,endTime);
+    }
+
+    /**
+     * Create by: HoangHN
+     * Date Create: 15/08/2022
+     * funtion: get List Record By Customer Id for login
+     * @param id
+     * @return
+     */
+    @Override
+    public List<Record> getListRecordByCustomerId(Integer id) {
+        System.out.println(id);
+        return iRecordRepository.getListRecordByCustomerId(id);
     }
 }
