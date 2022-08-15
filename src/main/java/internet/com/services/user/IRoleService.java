@@ -12,4 +12,5 @@ public interface IRoleService {
     void addNewCustomerUserRole(String username);
 
     void addNewEmployeeUserRole(String username);
+
 }

@@ -1,6 +1,10 @@
 package internet.com.entity.computer;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import internet.com.entity.record.Record;
+
 import javax.persistence.*;
+import java.util.Set;
 
 
 /**
@@ -44,17 +48,17 @@ public class Computer {
     private ComputerType computerType;
 
 
-//    @OneToMany(mappedBy = "computer")
-//    @JsonBackReference
-//    private Set<Record> records;
-//
-//    public Set<Record> getRecords() {
-//        return records;
-//    }
-//
-//    public void setRecords(Set<Record> records) {
-//        this.records = records;
-//    }
+    @OneToMany(mappedBy = "computer")
+    @JsonBackReference
+    private Set<Record> records;
+
+    public Set<Record> getRecords() {
+        return records;
+    }
+
+    public void setRecords(Set<Record> records) {
+        this.records = records;
+    }
 
     public Computer(Integer id,
                     String code,
