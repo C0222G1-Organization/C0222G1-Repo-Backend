@@ -14,7 +14,9 @@ import javax.validation.constraints.Pattern;
 public class CustomerDTO {
 
     private Integer id;
-    @Pattern(regexp = "^[a-zA-Z\\s?]+$", message = "Không được để trống tên hoặc có ký tự đặc biệt")
+    @Pattern(regexp = "^^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂ" +
+            "ẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễ" +
+            "ệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s?]+$", message = "Không được để trống tên hoặc có ký tự đặc biệt")
     private String name;
 
     @NotEmpty(message = "Không được để trống")
@@ -43,8 +45,14 @@ public class CustomerDTO {
     }
 
 
-    public CustomerDTO(Integer id, @Pattern(regexp = "^[a-zA-Z\\s?]+$", message = "Không được để trống tên hoặc có ký tự đặc biệt") String name, @NotEmpty(message = "Không được để trống") String dateOfBirth, @Pattern(regexp = "^[A-Za-z0-9]+@[A-Za-z0-9]+(\\.[A-Za-z0-9]+){1,2}$",
-            message = "Nhập sai định dạng email") EmailDTO email, @Pattern(regexp = "^[0-9]{9}$", message = "Số điện thoại bắt đầu từ 0 và có 9 số") PhoneDTO phoneNumber, @NotEmpty(message = "Không được để trống") UserDTO userName, @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$", message = "Nhập sai định dạng") String password, @NotNull(message = "Không được để trống") Commune commune) {
+    public CustomerDTO(Integer id,
+                       String name,
+                       String dateOfBirth,
+                       EmailDTO email,
+                       PhoneDTO phoneNumber,
+                       UserDTO userName,
+                       String password,
+                       Commune commune) {
         this.id = id;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
