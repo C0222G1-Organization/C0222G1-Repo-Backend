@@ -54,4 +54,14 @@ public interface IRecordRepository extends JpaRepository<Record, Integer> {
     @Query(value="select * from record where customer_id = :id",nativeQuery = true)
     List<Record> getListRecordByCustomerId(@Param("id") Integer id);
 
+    /**
+     * Created by: DuyNT
+     * Date created: 15/08/2022
+     * Function: get record by record id.
+     * @param id
+     * @return record
+     */
+    @Query(value="select * from record where id = :id",nativeQuery = true)
+    Record getRecordByRecordId(@Param("id") Integer id);
+
 }

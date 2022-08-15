@@ -2,12 +2,8 @@ package internet.com.controller;
 
 import internet.com.dto.customer_dto.CustomerDTO;
 import internet.com.dto.customer_dto.ICustomerDTO;
-import internet.com.entity.customer.Commune;
 import internet.com.entity.customer.Customer;
-import internet.com.entity.customer.District;
-import internet.com.entity.customer.Province;
 import internet.com.entity.user.AppUser;
-import internet.com.services.address.IAddressService;
 import internet.com.services.customer.ICustomerService;
 import internet.com.services.user.IUserService;
 import org.modelmapper.ModelMapper;
@@ -35,6 +31,8 @@ public class CustomerController {
     private ICustomerService customerService;
 
     @Autowired
+    private IUserService userService;
+    @Autowired
     private IUserService iUserService;
 
     @Autowired
@@ -43,7 +41,7 @@ public class CustomerController {
 
     /**
      * Created by: HaoNH
-     * Date Created: 09/06/2022
+     * Date Created: 09/08/2022
      * method save customer
      * @param customerDTO
      * @param bindingResult
@@ -152,5 +150,20 @@ public class CustomerController {
 
         return new ResponseEntity<>(customerDTO, HttpStatus.OK);
 
+    }
+
+    @GetMapping("/checkUserName/{userName}")
+    public  ResponseEntity<?> checkUserName(@PathVariable("userName") String userName){
+        return new ResponseEntity<>(userService.existsByUsername(userName), HttpStatus.OK);
+    }
+
+    @GetMapping("/checkEmail/{email}")
+    public  ResponseEntity<?> checkEmail(@PathVariable("email") String email){
+        return new ResponseEntity<>(customerService.existsEmail(email), HttpStatus.OK);
+    }
+
+    @GetMapping("/checkPhone/{phone}")
+    public  ResponseEntity<?> checkPhone(@PathVariable("phone") String phone){
+        return new ResponseEntity<>(customerService.existsPhoneNumber(phone), HttpStatus.OK);
     }
 }
