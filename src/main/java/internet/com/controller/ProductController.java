@@ -88,11 +88,11 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<Product> findId (@PathVariable Integer id){
-        Product product = productService.findByIdProduct(id);
-        return new ResponseEntity<>(product,HttpStatus.OK);
-    }
+//    @GetMapping("{id}")
+//    public ResponseEntity<Product> findId (@PathVariable Integer id){
+//        Product product = productService.findByIdProduct(id);
+//        return new ResponseEntity<>(product,HttpStatus.OK);
+//    }
 
     // Không cần phải chạy phương thức findById
     // Chỉ cần gửi @RequestBody qua cho PostMan là đc
