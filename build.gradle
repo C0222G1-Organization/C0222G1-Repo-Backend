@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.6.9'
+    id 'org.springframework.boot' version '2.7.2'
     id 'io.spring.dependency-management' version '1.0.12.RELEASE'
     id 'java'
 }
@@ -21,7 +21,7 @@ dependencies {
     implementation group: 'org.hibernate', name: 'hibernate-validator', version: '6.0.10.Final'
 
     // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
-    implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.1.0'
+    implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.0.0'
 
     //HOANG UPDATE CONFIG
     // Security

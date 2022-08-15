@@ -43,7 +43,7 @@ public class PaymentDetailController {
      * Function: create payment detail and save into DB when guest order product
      */
     @PostMapping("/create")
-    public ResponseEntity<?> createPaymentDetail(@RequestBody @Valid PaymentDetailDTO paymentDetailDTO) {
+    public ResponseEntity<PaymentDetail> createPaymentDetail(@RequestBody @Valid PaymentDetailDTO paymentDetailDTO) {
         PaymentDetail paymentDetail = modelMapper.map(paymentDetailDTO, PaymentDetail.class);
         paymentDetailService.savePaymentDetail(paymentDetail);
         return new ResponseEntity<>(paymentDetail, HttpStatus.CREATED);

@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public interface IRecordRepository extends JpaRepository<Record, Integer> {
@@ -42,4 +43,25 @@ public interface IRecordRepository extends JpaRepository<Record, Integer> {
     @Modifying
     @Query(value = " UPDATE record SET end_time=:endTime WHERE id=:id", nativeQuery = true)
     void setEndTime(@Param("id") Integer id, @Param("endTime") String endTime);
+
+    /**
+     * Created by: HoangHN
+     * Date created: 15/08/2022
+     * Function: get List record by customer id.
+     * @param
+     * @return
+     */
+    @Query(value="select * from record where customer_id = :id",nativeQuery = true)
+    List<Record> getListRecordByCustomerId(@Param("id") Integer id);
+
+    /**
+     * Created by: DuyNT
+     * Date created: 15/08/2022
+     * Function: get record by record id.
+     * @param id
+     * @return record
+     */
+    @Query(value="select * from record where id = :id",nativeQuery = true)
+    Record getRecordByRecordId(@Param("id") Integer id);
+
 }
