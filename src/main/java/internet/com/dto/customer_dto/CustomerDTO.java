@@ -14,9 +14,9 @@ import javax.validation.constraints.Pattern;
 public class CustomerDTO {
 
     private Integer id;
-    @Pattern(regexp = "^^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂ" +
-            "ẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễ" +
-            "ệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s?]+$", message = "Không được để trống tên hoặc có ký tự đặc biệt")
+    @Pattern(regexp = "^^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũ" +
+            "ơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪ" +
+            "ễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s?]+$", message = "Không được để trống tên hoặc có ký tự đặc biệt")
     private String name;
 
     @NotEmpty(message = "Không được để trống")
@@ -40,19 +40,19 @@ public class CustomerDTO {
 
     @NotNull(message = "Không được để trống")
     private Commune commune;
+    private Integer activeStatus;
 
     public CustomerDTO() {
     }
 
-
-    public CustomerDTO(Integer id,
-                       String name,
-                       String dateOfBirth,
-                       EmailDTO email,
-                       PhoneDTO phoneNumber,
-                       UserDTO userName,
-                       String password,
-                       Commune commune) {
+    public CustomerDTO(Integer id, @Pattern(regexp = "^^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũ" +
+            "ơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪ" +
+            "ễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s?]+$", message = "Không được để trống tên hoặc có ký tự đặc biệt")
+            String name, @NotEmpty(message = "Không được để trống") String dateOfBirth,
+                       @Valid EmailDTO email, @Valid PhoneDTO phoneNumber, @Valid UserDTO userName,
+                       @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$",
+                               message = "Nhập sai định dạng") String password,
+                       @NotNull(message = "Không được để trống") Commune commune, Integer activeStatus) {
         this.id = id;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
@@ -61,16 +61,7 @@ public class CustomerDTO {
         this.userName = userName;
         this.password = password;
         this.commune = commune;
-    }
-
-    public CustomerDTO(@Pattern(regexp = "^[a-zA-Z\\s?]+$", message = "Không được để trống tên hoặc có ký tự đặc biệt") String name, @NotEmpty(message = "Không được để trống") String dateOfBirth, @Valid EmailDTO email, @Valid PhoneDTO phoneNumber, @Valid UserDTO userName, @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$", message = "Nhập sai định dạng") String password, @NotNull(message = "Không được để trống") Commune commune) {
-        this.name = name;
-        this.dateOfBirth = dateOfBirth;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.userName = userName;
-        this.password = password;
-        this.commune = commune;
+        this.activeStatus = activeStatus;
     }
 
     public Integer getId() {
@@ -136,4 +127,13 @@ public class CustomerDTO {
     public void setCommune(Commune commune) {
         this.commune = commune;
     }
+
+    public Integer getActiveStatus() {
+        return activeStatus;
+    }
+
+    public void setActiveStatus(Integer activeStatus) {
+        this.activeStatus = activeStatus;
+    }
 }
+
