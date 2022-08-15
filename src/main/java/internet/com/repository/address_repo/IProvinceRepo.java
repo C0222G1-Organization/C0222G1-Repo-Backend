@@ -10,7 +10,7 @@ public interface IProvinceRepo extends CrudRepository<Province, Integer> {
 
     /**
      * Created by: HaoNH
-     * Date Created: 14/06/2022
+     * Date Created: 14/08/2022
      * method find all province
      * @return
      */
