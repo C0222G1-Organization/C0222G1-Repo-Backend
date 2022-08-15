@@ -78,9 +78,10 @@ public class EmployeeController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             Employee employeeObj = modelMapper.map(employeeDTO, Employee.class);
+            employeeObj.setId(id);
             employeeService.update(employeeObj);
             AppUser appUser = iUserService.findByUsername(employeeDTO.getAppUser().getUsername()).get();
-            appUser.setPassword(employeeDTO.getPassword());
+            appUser.setPassword(employeeDTO.getAppUser().getPassword());
             iUserService.updateUser(appUser);
             return new ResponseEntity<>(HttpStatus.OK);
         }
@@ -138,5 +139,9 @@ public class EmployeeController {
     public ResponseEntity<?> getAllPosition() {
         return new ResponseEntity<>(positionService.positionList(), HttpStatus.OK);
     }
+
+
+
+
 
 }

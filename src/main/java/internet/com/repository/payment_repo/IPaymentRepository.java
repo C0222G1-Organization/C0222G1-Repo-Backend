@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Transactional
 public interface IPaymentRepository extends JpaRepository<Payment, Integer> {
-    @Query(value = "SELECT * FROM payment WHERE payment_status = 0", nativeQuery = true)
+    @Query(value = "SELECT * FROM payment", nativeQuery = true)
     List<Payment> getAllPaymentList ();
 
     @Query(value = "SELECT * FROM payment WHERE id = :id", nativeQuery = true)
