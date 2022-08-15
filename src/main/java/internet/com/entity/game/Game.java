@@ -5,7 +5,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
-/*
+/**
  * Created by: KhanhTV,
  * Date created: 09/08/2022
  * Function: to create game entity
@@ -28,10 +28,20 @@ public class Game {
     private String imageUrl;
     @Column(name = "content")
     private String content;
+    @Column(name = "delete_status")
+    private Boolean delete_status;
     @ManyToOne()
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name="game_category_id", nullable=false)
     private GameCategory gameCategory;
+
+    public Boolean getDelete_status() {
+        return delete_status;
+    }
+
+    public void setDelete_status(Boolean delete_status) {
+        this.delete_status = delete_status;
+    }
 
     public Integer getId() {
         return id;
