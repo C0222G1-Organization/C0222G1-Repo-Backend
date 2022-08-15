@@ -24,9 +24,6 @@ public class ComputerType {
     @JsonBackReference(value = "back_computer")
     private Set<Computer> computer;
 
-    public ComputerType() {
-    }
-
     public Integer getId() {
         return id;
     }
