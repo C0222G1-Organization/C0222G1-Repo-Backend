@@ -1,6 +1,7 @@
 package internet.com.security.jwt;
 
 
+import internet.com.dto.user_dto.response.JWTResponseCustomer;
 import internet.com.security.userprincal.UserPrinciple;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
@@ -17,9 +18,9 @@ public class JwtProvider {
     private String jwtSecret = "c0222g1";
     private int jwtExpiration = 86400;  //1 day
     private String token_temp = "";
-    public String createToken(Authentication authentication){
+    public String createToken(Authentication authentication, JWTResponseCustomer jwtResponseCustomer){
         UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
-        return Jwts.builder().setSubject(userPrinciple.getUsername())
+        return Jwts.builder().setSubject(jwtResponseCustomer.toString())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime()+jwtExpiration*1000))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
