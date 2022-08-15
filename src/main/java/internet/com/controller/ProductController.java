@@ -5,6 +5,7 @@ import internet.com.entity.product.product_dto.IProductDTO;
 import internet.com.entity.product.product_dto.ProductDTO;
 import internet.com.services.product.IProductCategoryService;
 import internet.com.services.product.IProductService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -87,11 +88,11 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-//    @GetMapping("{id}")
-//    private ResponseEntity<?> findId (@PathVariable Integer id){
-//        Product product = productService.findByIdProduct(id);
-//        return new ResponseEntity<>(product,HttpStatus.OK);
-//    }
+    @GetMapping("{id}")
+    public ResponseEntity<Product> findId (@PathVariable Integer id){
+        Product product = productService.findByIdProduct(id);
+        return new ResponseEntity<>(product,HttpStatus.OK);
+    }
 
     // Không cần phải chạy phương thức findById
     // Chỉ cần gửi @RequestBody qua cho PostMan là đc
@@ -104,19 +105,12 @@ public class ProductController {
      */
     @PatchMapping("/list/update/{id}")
     public ResponseEntity<?> updateProduct (@PathVariable Integer id,@RequestBody Product product){
-//        Product product = productService.findByIdProduct(id);
         if(product == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        ProductDTO productDTO = new ProductDTO( product.getId(),
-                                                product.getCode(),
-                                                product.getNameProduct(),
-                                                product.getQuantity(),
-                                                product.getUnit(),
-                                                product.getPrices(),
-                                                product.getImageUrl(),
-                                                product.getDeleteStatus(),
-                                                product.getProductCategory().getId());
+
+        ProductDTO productDTO = new ProductDTO();
+        BeanUtils.copyProperties(product, productDTO);
 
         productService.updateProduct(productDTO.getCode(),
                                     productDTO.getNameProduct(),
@@ -163,7 +157,7 @@ public class ProductController {
      * function: get product from DB by id
      */
     @GetMapping("/{id}")
-    private ResponseEntity<Product> loadProductInfoById(@PathVariable Integer id) {
+    public ResponseEntity<Product> loadProductInfoById(@PathVariable Integer id) {
         Product product = productService.findByIdProduct(id);
         if (product == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
