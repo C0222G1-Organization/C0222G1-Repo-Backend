@@ -14,7 +14,9 @@ import javax.validation.constraints.Pattern;
 public class CustomerDTO {
 
     private Integer id;
-    @Pattern(regexp = "^[a-zA-Z\\s?]+$", message = "Không được để trống tên hoặc có ký tự đặc biệt")
+    @Pattern(regexp = "^^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂ" +
+            "ẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễ" +
+            "ệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s?]+$", message = "Không được để trống tên hoặc có ký tự đặc biệt")
     private String name;
 
     @NotEmpty(message = "Không được để trống")
