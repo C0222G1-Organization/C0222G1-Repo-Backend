@@ -15,6 +15,8 @@ public class JWTResponseCustomer {
     private String computerCode;
     private String startTime;
     private String endTime;
+
+    private Integer recordId;
     private Collection<? extends GrantedAuthority> roles;
 
     public JWTResponseCustomer() {
@@ -36,7 +38,7 @@ public class JWTResponseCustomer {
         this.roles = roles;
     }
 
-    public JWTResponseCustomer(Boolean errorStatus, String message, Customer customer, String token, Integer computerInUse, String computerCode, String startTime, String endTime, Collection<? extends GrantedAuthority> roles) {
+    public JWTResponseCustomer(Boolean errorStatus, String message, Customer customer, String token, Integer computerInUse, String computerCode, String startTime, String endTime, Integer recordId, Collection<? extends GrantedAuthority> roles) {
         this.errorStatus = errorStatus;
         this.message = message;
         this.customer = customer;
@@ -45,7 +47,16 @@ public class JWTResponseCustomer {
         this.computerCode = computerCode;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.recordId = recordId;
         this.roles = roles;
+    }
+
+    public Integer getRecordId() {
+        return recordId;
+    }
+
+    public void setRecordId(Integer recordId) {
+        this.recordId = recordId;
     }
 
     public String getComputerCode() {
@@ -121,7 +132,7 @@ public class JWTResponseCustomer {
     }
 
     @Override
-    public String toString() {
+    public String  toString() {
         return "JWTResponseCustomer{" +
                 "errorStatus=" + errorStatus +
                 ", message='" + message + '\'' +
