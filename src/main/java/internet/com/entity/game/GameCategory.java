@@ -1,6 +1,7 @@
 package internet.com.entity.game;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import internet.com.entity.news.News;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -44,5 +45,17 @@ public class GameCategory {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @OneToMany(mappedBy = "gameCategory")
+    @JsonBackReference("newsSet")
+    private Set<News> newsSet;
+
+    public Set<News> getNewsSet() {
+        return newsSet;
+    }
+
+    public void setNewsSet(Set<News> newsSet) {
+        this.newsSet = newsSet;
     }
 }
