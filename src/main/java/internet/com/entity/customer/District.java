@@ -24,9 +24,9 @@ public class District {
     public District() {
     }
 
-    public District(int id, String districtName, List<Commune> communes, Province province) {
+    public District(int id, String name, List<Commune> communes, Province province) {
         this.id = id;
-        this.name = districtName;
+        this.name = name;
         this.communes = communes;
         this.province = province;
     }
@@ -43,8 +43,8 @@ public class District {
         return name;
     }
 
-    public void setName(String districtName) {
-        this.name = districtName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Commune> getCommunes() {
