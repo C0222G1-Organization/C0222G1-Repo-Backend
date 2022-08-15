@@ -113,13 +113,13 @@ public class CustomerService implements ICustomerService {
      */
     @Override
     public void saveCustomer(CustomerDTO customerDTO) {
-        userService.createUser(customerDTO.getUserName().getUsername(), customerDTO.getPassword());
-        roleService.addNewCustomerUserRole(customerDTO.getUserName().getUsername());
+        userService.createUser(customerDTO.getUserName().getUserName(), customerDTO.getPassword());
+        roleService.addNewCustomerUserRole(customerDTO.getUserName().getUserName());
         customerRepository.saveCustomer(customerDTO.getName(),
                 customerDTO.getDateOfBirth(),
                 customerDTO.getEmail().getEmail(),
                 customerDTO.getPhoneNumber().getPhone(),
-                customerDTO.getUserName().getUsername(),
+                customerDTO.getUserName().getUserName(),
                 customerDTO.getCommune().getId());
     }
 
@@ -140,6 +140,7 @@ public class CustomerService implements ICustomerService {
                 customer.getId()
         );
     }
+
 
     /**
      * Created by: HaoNH
@@ -163,5 +164,41 @@ public class CustomerService implements ICustomerService {
     @Override
     public Boolean existsPhoneNumber(String phone) {
         return phone.equals(customerRepository.existsPhone(phone));
+    }
+
+    /**
+     * Create by HoangHN
+     * Date create: 13/08/2022
+     * method find Email get username
+     * @param email
+     * @return
+     */
+    @Override
+    public String findByEmailGetUsername(String email) {
+        return customerRepository.findByEmailGetUsername(email);
+    }
+
+
+    /**
+     * Create by HoangHN
+     * Date create: 13/08/2022
+     * method find Customer By User Name
+     * @param username
+     * @return
+     */
+    @Override
+    public Optional<Customer> findCustomerByUserName(String username) {
+        return customerRepository.findCustomerByUserName(username);
+    }
+
+    /**
+     * Create by HoangHN
+     * Date create: 13/08/2022
+     * method get Remaining Time
+     * @return
+     */
+    @Override
+    public Integer getRemainingTime(Integer id) {
+        return customerRepository.getRemainingTime(id);
     }
 }

@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class EmployeeService implements IEmployeeService {
 
@@ -115,5 +117,30 @@ public class EmployeeService implements IEmployeeService {
     @Override
     public Page<IEmployeeDTO> getAllByProvince(String code, String name, String from, String end, String dobfrom, String dobend, String pId, String address, Pageable pageable) {
         return employeeRepository.findAllByProvince(code, name, from, end, dobfrom, dobend, pId, address, pageable);
+    }
+
+    /**
+     * Create by HoangHN
+     * Date create: 13/08/2022
+     * method find Email get username
+     * @param email
+     * @return
+     */
+    @Override
+    public String findByEmailGetUsername(String email) {
+        return employeeRepository.findByEmailGetUsername(email);
+    }
+
+    /**
+     * Create by HoangHN
+     * Date create: 13/08/2022
+     * method find Employee By UserName
+     * @param username
+     * @return
+     */
+    @Override
+    public Optional<Employee> findEmployeeByUserName(String username) {
+        System.out.println(username);
+        return employeeRepository.findEmployeeByUserName(username);
     }
 }

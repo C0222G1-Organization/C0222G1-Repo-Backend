@@ -30,11 +30,11 @@ public class UserNameValidator implements ConstraintValidator<CheckUserNameConst
     @Override
     public boolean isValid(UserDTO value, ConstraintValidatorContext context) {
         if (value.getId() == null){
-            return !userService.existsByUsername(value.getUsername());
+            return !userService.existsByUsername(value.getUserName());
         }
         Customer customer = customerService.findCustomerById(value.getId()).get();
-        if (!customer.getUser().getUsername().equals(value.getUsername())){
-            return !userService.existsByUsername(value.getUsername());
+        if (!customer.getUser().getUsername().equals(value.getUserName())){
+            return !userService.existsByUsername(value.getUserName());
         }
         return true;
     }
