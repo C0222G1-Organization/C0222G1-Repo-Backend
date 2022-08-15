@@ -6,7 +6,7 @@ public class EmailDTO {
     private Integer id;
 
     @Pattern(regexp = "^[A-Za-z0-9]+@[A-Za-z0-9]+(\\.[A-Za-z0-9]+){1,2}$",
-            message = "Nhập sai định dạng email")
+             message = "Nhập sai định dạng email")
     private String email;
 
     public EmailDTO(Integer id, String email) {
