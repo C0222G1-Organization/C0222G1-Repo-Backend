@@ -113,13 +113,13 @@ public class CustomerService implements ICustomerService {
      */
     @Override
     public void saveCustomer(CustomerDTO customerDTO) {
-        userService.createUser(customerDTO.getUserName().getUsername(), customerDTO.getPassword());
-        roleService.addNewCustomerUserRole(customerDTO.getUserName().getUsername());
+        userService.createUser(customerDTO.getUserName().getUserName(), customerDTO.getPassword());
+        roleService.addNewCustomerUserRole(customerDTO.getUserName().getUserName());
         customerRepository.saveCustomer(customerDTO.getName(),
                 customerDTO.getDateOfBirth(),
                 customerDTO.getEmail().getEmail(),
                 customerDTO.getPhoneNumber().getPhone(),
-                customerDTO.getUserName().getUsername(),
+                customerDTO.getUserName().getUserName(),
                 customerDTO.getCommune().getId());
     }
 
