@@ -20,7 +20,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -239,5 +241,23 @@ public class CustomerController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(communes, HttpStatus.OK);
+    }
+
+
+    /**
+     * Create by HoangHN
+     * Date create: 16/08/2022
+     * method set Remaining Time of customer
+     * @param id
+     * @return
+     */
+
+    @GetMapping("setOutOfTime/{id}")
+    public ResponseEntity<?> setOutOfTime(@PathVariable Integer id) {
+        customerService.setOutOfTime(id);
+        Map<String,String> map = new HashMap<>();
+        map.put("status","Thành công");
+        return new ResponseEntity<>(map,HttpStatus.OK);
+
     }
 }
