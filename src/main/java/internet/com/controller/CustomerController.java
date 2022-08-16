@@ -20,6 +20,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -195,5 +196,21 @@ public class CustomerController {
     public  ResponseEntity<?> checkPhone(@PathVariable("phone") String phone){
         return new ResponseEntity<>(customerService.existsPhoneNumber(phone), HttpStatus.OK);
     }
-    
+
+    /**
+     * Create by HoangHN
+     * Date create: 16/08/2022
+     * method set Remaining Time of customer
+     * @param id
+     * @return
+     */
+
+    @GetMapping("setOutOfTime/{id}")
+    public ResponseEntity<?> setOutOfTime(@PathVariable Integer id) {
+        customerService.setOutOfTime(id);
+        Map<String,String> map = new HashMap<>();
+        map.put("status","Thành công");
+        return new ResponseEntity<>(map,HttpStatus.OK);
+
+    }
 }
