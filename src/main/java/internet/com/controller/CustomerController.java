@@ -161,6 +161,7 @@ public class CustomerController {
     @PatchMapping("/{id}")
     public ResponseEntity<?> updateCustomer(@PathVariable Integer id, @RequestBody @Valid CustomerDTO
             customerDTO, BindingResult bindingResult) {
+        System.out.println(customerDTO.toString());
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
