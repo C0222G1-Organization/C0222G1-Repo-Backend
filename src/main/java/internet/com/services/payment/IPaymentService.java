@@ -17,4 +17,6 @@ public interface IPaymentService {
     void savePayment (Payment payment);
 
     void editPayment (Payment payment);
+
+    Payment findByCode(String code);
 }

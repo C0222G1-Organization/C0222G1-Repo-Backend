@@ -7,13 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 @Transactional
 public interface IPaymentDetailRepository extends JpaRepository<PaymentDetail, Integer> {
-
-//    @Query(nativeQuery = true, value = "SELECT (id, amount, payment_id, product_id) FROM payment_detail WHERE id = :id")
-//    Optional<PaymentDetail> getById(@Param("id") Integer id);
 
     /**
      * Create by DuyNT
