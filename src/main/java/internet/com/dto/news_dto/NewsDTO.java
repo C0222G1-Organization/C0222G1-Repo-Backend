@@ -1,29 +1,35 @@
-package internet.com.entity.news;
+package internet.com.dto.news_dto;
 
 import internet.com.entity.game.GameCategory;
+import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
-@Entity
-public class News {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+public class NewsDTO {
     private Integer id;
+    @NotBlank(message = "tiêu đề không được rỗng")
+    @Length(max =150 ,min = 20, message = "tiêu đề dài hoặc quá ngắn")
+    @Pattern(regexp = "^[A-Za-z0-9ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ-:., ]+$", message = "tiêu đề sai định dạng")
     private String title;
-    @Column(name = "image_url")
+    @NotBlank
     private String imageUrl;
+    @NotBlank
     private String content;
-    @Column(name = "create_date")
     private String createDate;
-    private Integer views;
+    private String views;
+    @NotBlank
+    @Length(max = 50, message = "tên quá dài")
+    @Pattern(regexp = "^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ ]+$", message = "tên sai định dạng")
     private String author;
-
-    @ManyToOne(targetEntity = GameCategory.class)
-    @JoinColumn(name = "category_id")
     private GameCategory gameCategory;
 
-    public News() {
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -58,11 +64,11 @@ public class News {
         this.createDate = createDate;
     }
 
-    public Integer getViews() {
+    public String getViews() {
         return views;
     }
 
-    public void setViews(Integer views) {
+    public void setViews(String views) {
         this.views = views;
     }
 
@@ -80,13 +86,5 @@ public class News {
 
     public void setGameCategory(GameCategory gameCategory) {
         this.gameCategory = gameCategory;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 }

@@ -12,4 +12,6 @@ public interface IRecordService {
     void setEndTime(Integer id, String endTime);
 
     List<Record> getListRecordByCustomerId(Integer id);
+
+    Record findById(Integer id);
 }
