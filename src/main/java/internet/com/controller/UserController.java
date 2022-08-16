@@ -25,8 +25,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 
@@ -101,12 +99,5 @@ public class UserController {
         }
     }
 
-    @GetMapping(value = "/data/data1")
-    public ResponseEntity<?> findAllTicket() {
-        List<String> list = new ArrayList<>();
-        list.add("data1");
-        list.add("data2");
-        return new ResponseEntity<>(list, HttpStatus.OK);
-    }
 
 }
