@@ -53,6 +53,8 @@ public interface ICustomerService {
 
     Integer getRemainingTime(Integer id);
 
+    void setOutOfTime(Integer id, Integer remaining);
+
 }
 
 
