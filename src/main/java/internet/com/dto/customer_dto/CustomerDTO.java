@@ -41,19 +41,21 @@ public class CustomerDTO {
     @NotNull(message = "Không được để trống")
     private Commune commune;
     private Integer activeStatus;
-
     private Integer remainingTime;
+    private Integer deleteStatus;
 
     public CustomerDTO() {
     }
 
     public CustomerDTO(Integer id, @Pattern(regexp = "^^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũ" +
             "ơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪ" +
-            "ễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s?]+$", message = "Không được để trống tên hoặc có ký tự đặc biệt") String name,
-                       @NotEmpty(message = "Không được để trống") String dateOfBirth,
-                       @Valid EmailDTO email, @Valid PhoneDTO phoneNumber, @Valid UserDTO userName,
-                       @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$", message = "Nhập sai định dạng") String password,
-                       @NotNull(message = "Không được để trống") Commune commune, Integer activeStatus, Integer remainingTime) {
+            "ễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s?]+$", message = "Không được để trống tên hoặc có ký tự đặc biệt")
+            String name, @NotEmpty(message = "Không được để trống")
+            String dateOfBirth, @Valid EmailDTO email, @Valid PhoneDTO phoneNumber,
+                       @Valid UserDTO userName, @Pattern(regexp = "^(?=.*[A-Za-z])" +
+            "(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$", message = "Nhập sai định dạng") String password,
+                       @NotNull(message = "Không được để trống") Commune commune, Integer activeStatus,
+                       Integer remainingTime, Integer deleteStatus) {
         this.id = id;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
@@ -64,6 +66,7 @@ public class CustomerDTO {
         this.commune = commune;
         this.activeStatus = activeStatus;
         this.remainingTime = remainingTime;
+        this.deleteStatus = deleteStatus;
     }
 
     public Integer getId() {
@@ -144,6 +147,14 @@ public class CustomerDTO {
 
     public void setRemainingTime(Integer remainingTime) {
         this.remainingTime = remainingTime;
+    }
+
+    public Integer getDeleteStatus() {
+        return deleteStatus;
+    }
+
+    public void setDeleteStatus(Integer deleteStatus) {
+        this.deleteStatus = deleteStatus;
     }
 }
 

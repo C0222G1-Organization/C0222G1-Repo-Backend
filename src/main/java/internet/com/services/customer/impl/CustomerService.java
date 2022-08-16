@@ -143,6 +143,8 @@ public class CustomerService implements ICustomerService {
                 customer.getEmail(),
                 customer.getPhoneNumber(),
                 customer.getActiveStatus(),
+                customer.getRemainingTime(),
+                customer.getDeleteStatus(),
                 customer.getCommune().getId(),
                 customer.getId()
         );

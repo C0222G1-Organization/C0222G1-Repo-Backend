@@ -4,7 +4,6 @@ import internet.com.dto.customer_dto.CustomerDTO;
 import internet.com.dto.customer_dto.EmailDTO;
 import internet.com.dto.customer_dto.PhoneDTO;
 import internet.com.dto.customer_dto.UserDTO;
-import internet.com.entity.customer.Commune;
 import internet.com.dto.customer_dto.ICustomerDTO;
 import internet.com.entity.customer.Customer;
 import internet.com.entity.user.AppUser;
@@ -142,7 +141,8 @@ public class CustomerController {
                 customer.get().getUser().getPassword(),
                 customer.get().getCommune(),
                 customer.get().getActiveStatus(),
-                customer.get().getRemainingTime()
+                customer.get().getRemainingTime(),
+                customer.get().getDeleteStatus()
         );
 
         return new ResponseEntity<>(customerDTO, HttpStatus.OK);
