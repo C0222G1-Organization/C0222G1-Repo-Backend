@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class RecordService implements IRecordService {
 
-    private String startTime = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy").format(Calendar.getInstance().getTime());
+    private String startTime;
     Integer remainingTime = 0;
     @Autowired
     IRecordRepository iRecordRepository;
@@ -40,7 +40,7 @@ public class RecordService implements IRecordService {
     @Override
     public JWTResponseCustomer createRecord(Integer customerId) {
         remainingTime = iCustomerService.getRemainingTime(customerId);
-
+        startTime = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy").format(Calendar.getInstance().getTime());
         Calendar dateTime = Calendar.getInstance();
         dateTime.add(Calendar.SECOND, remainingTime);
         String endTime = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy").format(dateTime.getTime());
