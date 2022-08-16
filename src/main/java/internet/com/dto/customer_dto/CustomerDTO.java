@@ -42,17 +42,18 @@ public class CustomerDTO {
     private Commune commune;
     private Integer activeStatus;
 
+    private Integer remainingTime;
+
     public CustomerDTO() {
     }
 
     public CustomerDTO(Integer id, @Pattern(regexp = "^^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũ" +
             "ơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪ" +
-            "ễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s?]+$", message = "Không được để trống tên hoặc có ký tự đặc biệt")
-            String name, @NotEmpty(message = "Không được để trống") String dateOfBirth,
+            "ễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s?]+$", message = "Không được để trống tên hoặc có ký tự đặc biệt") String name,
+                       @NotEmpty(message = "Không được để trống") String dateOfBirth,
                        @Valid EmailDTO email, @Valid PhoneDTO phoneNumber, @Valid UserDTO userName,
-                       @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$",
-                               message = "Nhập sai định dạng") String password,
-                       @NotNull(message = "Không được để trống") Commune commune, Integer activeStatus) {
+                       @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$", message = "Nhập sai định dạng") String password,
+                       @NotNull(message = "Không được để trống") Commune commune, Integer activeStatus, Integer remainingTime) {
         this.id = id;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
@@ -62,6 +63,7 @@ public class CustomerDTO {
         this.password = password;
         this.commune = commune;
         this.activeStatus = activeStatus;
+        this.remainingTime = remainingTime;
     }
 
     public Integer getId() {
@@ -134,6 +136,14 @@ public class CustomerDTO {
 
     public void setActiveStatus(Integer activeStatus) {
         this.activeStatus = activeStatus;
+    }
+
+    public Integer getRemainingTime() {
+        return remainingTime;
+    }
+
+    public void setRemainingTime(Integer remainingTime) {
+        this.remainingTime = remainingTime;
     }
 }
 

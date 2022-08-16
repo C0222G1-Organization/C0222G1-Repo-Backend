@@ -141,7 +141,8 @@ public class CustomerController {
                 new UserDTO(customer.get().getId(), customer.get().getUser().getUsername()),
                 customer.get().getUser().getPassword(),
                 customer.get().getCommune(),
-                customer.get().getActiveStatus()
+                customer.get().getActiveStatus(),
+                customer.get().getRemainingTime()
         );
 
         return new ResponseEntity<>(customerDTO, HttpStatus.OK);
