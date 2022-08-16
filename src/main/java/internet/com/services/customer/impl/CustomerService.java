@@ -117,6 +117,7 @@ public class CustomerService implements ICustomerService {
      */
     @Override
     public void saveCustomer(CustomerDTO customerDTO) {
+
         String encodedPassword = passwordEncoder.encode(customerDTO.getPassword());
         userService.createUser(customerDTO.getUserName().getUserName(), encodedPassword);
         roleService.addNewCustomerUserRole(customerDTO.getUserName().getUserName());
