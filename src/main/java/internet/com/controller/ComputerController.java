@@ -124,4 +124,17 @@ public class ComputerController {
         }
         return new ResponseEntity<>(computerType, HttpStatus.OK);
     }
+
+    /**
+     * Create by: HoangHN
+     * Date Create: 17/08/2022
+     * funtion: return Computer
+     * @return
+     */
+    @GetMapping(value = "/returnComputer/{id}")
+    public ResponseEntity<?> returnComputer(@PathVariable("id") Integer id) {
+        computerService.setActiveStatus(id,1);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }
