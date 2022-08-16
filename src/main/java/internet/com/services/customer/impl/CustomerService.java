@@ -213,4 +213,16 @@ public class CustomerService implements ICustomerService {
     public Integer getRemainingTime(Integer id) {
         return customerRepository.getRemainingTime(id);
     }
+
+    /**
+     * Create by HoangHN
+     * Date create: 16/08/2022
+     * method set Remaining Time of customer
+     * @param id
+     * @return
+     */
+    @Override
+    public void setOutOfTime(Integer id) {
+        customerRepository.setOutOfTime(id);
+    }
 }
