@@ -1,3 +1,4 @@
+
 package internet.com.config.user_config;
 
 import internet.com.security.jwt.JwtEntryPoint;
@@ -64,3 +65,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }
+=======

@@ -1,3 +1,4 @@
+
 package internet.com.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -55,3 +56,4 @@ public class JwtEntryPoint implements AuthenticationEntryPoint {
 
     }
 }
+
