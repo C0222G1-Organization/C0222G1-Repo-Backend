@@ -17,7 +17,7 @@ public class ComputerDTO{
     private Integer status;
 
     @NotBlank(message = "Không được để trống.")
-    @Pattern(regexp = "^(A)[0-9]{3}$", message = "Vị trí phải có định dạng AXXX")
+    @Pattern(regexp = "^[A-Z][0-9]{4}$", message = "Vị trí phải có định dạng AXXX")
     private String location;
 
     @NotNull(message = " không được bỏ trống,phải trước ngày hiện tại")
@@ -25,6 +25,7 @@ public class ComputerDTO{
 
     @NotBlank(message = "Không được để trống")
     @Length(min = 3, max = 20, message = "Tối thiểu 3 ký tự và lớn nhất 20 ký tự.")
+    @Pattern(regexp = "^\\w+( \\w+)*$",message = "Vui lòng nhập đúng định dạng.")
     private String configuration;
 
     @Length(min = 1, max = 20, message = "Tối thiểu 3 ký tự và lớn nhất 20 ký tự.")

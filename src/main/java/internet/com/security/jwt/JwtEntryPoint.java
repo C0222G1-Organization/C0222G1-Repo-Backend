@@ -38,7 +38,7 @@ public class JwtEntryPoint implements AuthenticationEntryPoint {
         logger.error("Unauthorized error Message {}", authException.getMessage());
 
         if (authException.getMessage().equals("Bad credentials")){
-            message = "Thông tin sai, vui lòng thử lại";
+            message = "không chính xác";
             code = 400;
         }else{
             message = jwtProvider.getMessValidateToken();

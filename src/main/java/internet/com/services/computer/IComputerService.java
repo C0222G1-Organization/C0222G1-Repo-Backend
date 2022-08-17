@@ -63,6 +63,19 @@ public interface IComputerService {
      */
     void setActiveStatus(Integer id, Integer status);
 
+    /**
+     * Created by: TuanHD
+     * Date created: 16/08/2022
+     * Function: existsCode
+     */
+    Boolean existsCode(String code);
+
+    /**
+     * Created by: TuanHD
+     * Date created: 16/08/2022
+     * Function: existsLocation
+     */
+    Boolean existsLocation(String location);
 
 }
 

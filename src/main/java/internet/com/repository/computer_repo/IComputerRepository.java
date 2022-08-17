@@ -142,4 +142,20 @@ public interface IComputerRepository extends JpaRepository<Computer, Integer> {
     List<Computer> findUnusedComputer();
     //id,computer_code,configuration,delete_status,location,manufacturer,start_used_date, " +
     //            " active_status,warranty,type_id
+
+    /**
+     * Created by: TuanHD
+     * Date created: 09/08/2022
+     * Function: exitCode
+     */
+    @Query(value="SELECT computer_code FROM computer where computer_code=:codeComputer",nativeQuery=true)
+    String exitCode(@Param("codeComputer") String code);
+
+    /**
+     * Created by: TuanHD
+     * Date created: 09/08/2022
+     * Function: exitLocation
+     */
+    @Query(value="SELECT location FROM computer where location=:location",nativeQuery=true)
+    String exitLocation(@Param("location") String location);
 }
