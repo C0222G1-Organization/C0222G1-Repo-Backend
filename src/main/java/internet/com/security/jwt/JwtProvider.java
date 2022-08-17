@@ -1,3 +1,4 @@
+
 package internet.com.security.jwt;
 
 
@@ -18,9 +19,9 @@ public class JwtProvider {
     private String jwtSecret = "c0222g1";
     private int jwtExpiration = 86400;  //1 day
     private String token_temp = "";
-    public String createToken(Authentication authentication, JWTResponseCustomer jwtResponseCustomer){
+    public String createToken(Authentication authentication){
         UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
-        return Jwts.builder().setSubject(jwtResponseCustomer.toString())
+        return Jwts.builder().setSubject(userPrinciple.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime()+jwtExpiration*1000))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
@@ -88,8 +89,7 @@ public class JwtProvider {
 
     public String getUerNameFromToken(String token){
         String userName = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
-        userName = "useradmin";
-        System.out.println("securitt.jwt.JwtProvider.getUerNameFromToken");
         return userName;
     }
 }
+
