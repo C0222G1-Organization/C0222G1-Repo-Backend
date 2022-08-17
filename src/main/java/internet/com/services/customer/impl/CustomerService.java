@@ -143,6 +143,8 @@ public class CustomerService implements ICustomerService {
                 customer.getEmail(),
                 customer.getPhoneNumber(),
                 customer.getActiveStatus(),
+                customer.getRemainingTime(),
+                customer.getDeleteStatus(),
                 customer.getCommune().getId(),
                 customer.getId()
         );
@@ -212,5 +214,17 @@ public class CustomerService implements ICustomerService {
     @Override
     public Integer getRemainingTime(Integer id) {
         return customerRepository.getRemainingTime(id);
+    }
+
+    /**
+     * Create by HoangHN
+     * Date create: 16/08/2022
+     * method set Remaining Time of customer
+     * @param id
+     * @return
+     */
+    @Override
+    public void setOutOfTime(Integer id) {
+        customerRepository.setOutOfTime(id);
     }
 }

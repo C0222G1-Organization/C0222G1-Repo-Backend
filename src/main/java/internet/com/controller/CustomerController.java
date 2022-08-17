@@ -4,7 +4,6 @@ import internet.com.dto.customer_dto.CustomerDTO;
 import internet.com.dto.customer_dto.EmailDTO;
 import internet.com.dto.customer_dto.PhoneDTO;
 import internet.com.dto.customer_dto.UserDTO;
-import internet.com.entity.customer.Commune;
 import internet.com.dto.customer_dto.ICustomerDTO;
 import internet.com.entity.customer.Customer;
 import internet.com.entity.user.AppUser;
@@ -21,6 +20,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -142,7 +142,8 @@ public class CustomerController {
                 customer.get().getUser().getPassword(),
                 customer.get().getCommune(),
                 customer.get().getActiveStatus(),
-                customer.get().getRemainingTime()
+                customer.get().getRemainingTime(),
+                customer.get().getDeleteStatus()
         );
 
         return new ResponseEntity<>(customerDTO, HttpStatus.OK);
@@ -168,13 +169,13 @@ public class CustomerController {
         if (customerEdit.getId() == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        customerEdit.getUser().setPassword(customerDTO.getPassword());
+//        customerEdit.getUser().setPassword(customerDTO.getPassword());
         customerEdit = modelMapper.map(customerDTO, Customer.class);
-        AppUser appUser = new AppUser();
-        appUser.setUsername(customerDTO.getUserName().getUserName());
-        appUser.setPassword(customerDTO.getPassword());
+//        AppUser appUser = new AppUser();
+//        appUser.setUsername(customerDTO.getUserName().getUserName());
+//        appUser.setPassword(customerDTO.getPassword());
         customerEdit.setCommune(customerDTO.getCommune());
-        iUserService.updateUser(appUser);
+//        iUserService.updateUser(appUser);
         customerService.update(customerEdit);
 
         return new ResponseEntity<>(customerDTO, HttpStatus.OK);
@@ -186,6 +187,11 @@ public class CustomerController {
         return new ResponseEntity<>(userService.existsByUsername(userName), HttpStatus.OK);
     }
 
+    @GetMapping("/checkUserNameInEdit/{userName}")
+    public  ResponseEntity<?> checkUserNameInEdit(@PathVariable("userName") String userName, @PathVariable("id") Integer id){
+        return new ResponseEntity<>(userService.existsByUsernameInEdit(userName, id), HttpStatus.OK);
+    }
+
     @GetMapping("/checkEmail/{email}")
     public  ResponseEntity<?> checkEmail(@PathVariable("email") String email){
         return new ResponseEntity<>(customerService.existsEmail(email), HttpStatus.OK);
@@ -195,5 +201,21 @@ public class CustomerController {
     public  ResponseEntity<?> checkPhone(@PathVariable("phone") String phone){
         return new ResponseEntity<>(customerService.existsPhoneNumber(phone), HttpStatus.OK);
     }
-    
+
+    /**
+     * Create by HoangHN
+     * Date create: 16/08/2022
+     * method set Remaining Time of customer
+     * @param id
+     * @return
+     */
+
+    @GetMapping("setOutOfTime/{id}")
+    public ResponseEntity<?> setOutOfTime(@PathVariable Integer id) {
+        customerService.setOutOfTime(id);
+        Map<String,String> map = new HashMap<>();
+        map.put("status","Thành công");
+        return new ResponseEntity<>(map,HttpStatus.OK);
+
+    }
 }
