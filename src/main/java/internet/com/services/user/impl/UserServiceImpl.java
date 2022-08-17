@@ -40,7 +40,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public Boolean existsByUsernameInEdit(String username, Integer id) {
-        return username.equals(userRepository.existsByUsernameInEdit(username, id));
+        return username.equals(userRepository.existsByUsernameInEdit(username, id)) ;
     }
 
     /**

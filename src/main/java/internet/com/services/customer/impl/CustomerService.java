@@ -224,7 +224,7 @@ public class CustomerService implements ICustomerService {
      * @return
      */
     @Override
-    public void setOutOfTime(Integer id) {
-        customerRepository.setOutOfTime(id);
+    public void setOutOfTime(Integer id, Integer remaining) {
+        customerRepository.setOutOfTime(id, remaining);
     }
 }
