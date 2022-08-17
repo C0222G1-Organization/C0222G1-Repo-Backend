@@ -21,6 +21,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.lang.reflect.Array;
 
 @RestController
 @RequestMapping("/employee")
@@ -104,14 +105,12 @@ public class EmployeeController {
                                     @RequestParam(name = "dobend") String dobend, @RequestParam(name = "pid") String pid,
                                     @RequestParam(name = "address") String address
     ) {
-        Page<IEmployeeDTO> findAllByCommune = employeeService.getAll(code, name, workf, workt, dobfrom, dobend, pid, address, PageRequest.of(page, 2));
-        Page<IEmployeeDTO> findAllByDistrict = employeeService.getAllByDistrict(code, name, workf, workt, dobfrom, dobend, pid, address, PageRequest.of(page, 2));
-        Page<IEmployeeDTO> findAllByProvince = employeeService.getAllByProvince(code, name, workf, workt, dobfrom, dobend, pid, address, PageRequest.of(page, 2));
-
+        Page<IEmployeeDTO> findAllByCommune = employeeService.getAll(code, name, workf, workt, dobfrom, dobend, pid, address, PageRequest.of(page, 5));
+        Page<IEmployeeDTO> findAllByDistrict = employeeService.getAllByDistrict(code, name, workf, workt, dobfrom, dobend, pid, address, PageRequest.of(page, 5));
+        Page<IEmployeeDTO> findAllByProvince = employeeService.getAllByProvince(code, name, workf, workt, dobfrom, dobend, pid, address, PageRequest.of(page, 5));
         if (findAllByCommune.getTotalElements() != 0) {
             return new ResponseEntity<>(findAllByCommune, HttpStatus.OK);
         }
-
         if (findAllByDistrict.getTotalElements() != 0) {
             return new ResponseEntity<>(findAllByDistrict, HttpStatus.OK);
         }
