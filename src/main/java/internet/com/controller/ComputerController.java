@@ -124,4 +124,38 @@ public class ComputerController {
         }
         return new ResponseEntity<>(computerType, HttpStatus.OK);
     }
+
+    /**
+     * Create by: HoangHN
+     * Date Create: 17/08/2022
+     * funtion: return Computer
+     * @return
+     */
+    @GetMapping(value = "/returnComputer/{id}")
+    public ResponseEntity<?> returnComputer(@PathVariable("id") Integer id) {
+        computerService.setActiveStatus(id,1);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * Create by: TuanHD
+     * Date Create: 11/08/2022
+     * funtion: checkCode
+     * @return
+     */
+    @GetMapping("/check/{code}")
+    public  ResponseEntity<?> checkCode(@PathVariable("code") String code){
+        return new ResponseEntity<>(computerService.existsCode(code), HttpStatus.OK);
+    }
+
+    /**
+     * Create by: TuanHD
+     * Date Create: 11/08/2022
+     * funtion: checkLocation
+     * @return
+     */
+    @GetMapping("/checkLocation/{location}")
+    public  ResponseEntity<?> checkLocation(@PathVariable("location") String location){
+        return new ResponseEntity<>(computerService.existsLocation(location), HttpStatus.OK);
+    }
 }

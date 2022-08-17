@@ -210,11 +210,30 @@ public class CustomerController {
      * @return
      */
 
-    @GetMapping("setOutOfTime/{id}")
-    public ResponseEntity<?> setOutOfTime(@PathVariable Integer id) {
-        customerService.setOutOfTime(id);
+    @GetMapping("/setOutOfTime")
+    public ResponseEntity<?> setOutOfTime(@RequestParam Integer id, @RequestParam Integer remaining) {
+        System.out.println(id);
+        System.out.println(remaining);
+        customerService.setOutOfTime(id,remaining);
         Map<String,String> map = new HashMap<>();
         map.put("status","Thành công");
+        return new ResponseEntity<>(map,HttpStatus.OK);
+
+    }
+
+    /**
+     * Create by HoangHN
+     * Date create: 16/08/2022
+     * method set Remaining Time of customer
+     * @param id
+     * @return
+     */
+
+    @GetMapping("getRemainingTime/{id}")
+    public ResponseEntity<?> getRemainingTime(@PathVariable("id") Integer id) {
+        Integer remaining = customerService.getRemainingTime(id);
+        Map<String,Integer> map = new HashMap<>();
+        map.put("remaining_time",remaining);
         return new ResponseEntity<>(map,HttpStatus.OK);
 
     }
