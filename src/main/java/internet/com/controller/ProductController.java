@@ -164,4 +164,15 @@ public class ProductController {
         }
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
+
+    @GetMapping("/list-product")
+    public ResponseEntity<List<IProductDTO>> findAllList() {
+        List<IProductDTO> productList = productService.findAllList();
+
+        if (productList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+
+        return new ResponseEntity<>(productList, HttpStatus.OK);
+    }
 }
