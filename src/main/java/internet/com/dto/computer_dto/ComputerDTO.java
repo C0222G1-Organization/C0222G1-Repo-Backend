@@ -17,7 +17,7 @@ public class ComputerDTO{
     private Integer status;
 
     @NotBlank(message = "Không được để trống.")
-    @Pattern(regexp = "^(A)[0-9]{3}$", message = "Vị trí phải có định dạng AXXX")
+    @Pattern(regexp = "^[A-Z][0-9]{4}$", message = "Vị trí phải có định dạng AXXX")
     private String location;
 
     @NotNull(message = " không được bỏ trống,phải trước ngày hiện tại")
@@ -25,6 +25,7 @@ public class ComputerDTO{
 
     @NotBlank(message = "Không được để trống")
     @Length(min = 3, max = 20, message = "Tối thiểu 3 ký tự và lớn nhất 20 ký tự.")
+    @Pattern(regexp = "^\\w+( \\w+)*$",message = "Vui lòng nhập đúng định dạng.")
     private String configuration;
 
     @Length(min = 1, max = 20, message = "Tối thiểu 3 ký tự và lớn nhất 20 ký tự.")
@@ -38,28 +39,6 @@ public class ComputerDTO{
 
     private ComputerType computerType;
 
-    public ComputerDTO(Integer id,
-                       String code,
-                       Integer status,
-                       String location,
-                       String startUsedDate,
-                       String configuration,
-                       String manufacturer,
-                       Integer deleteStatus,
-                       String warranty,
-                       ComputerType computerType) {
-        this.id = id;
-        this.code = code;
-        this.status = status;
-        this.location = location;
-        this.startUsedDate = startUsedDate;
-        this.configuration = configuration;
-        this.manufacturer = manufacturer;
-        this.deleteStatus = deleteStatus;
-        this.warranty = warranty;
-        this.computerType = computerType;
-    }
-
     public String getLocation() {
         return location;
     }
@@ -67,7 +46,6 @@ public class ComputerDTO{
     public void setLocation(String location) {
         this.location = location;
     }
-
 
     public String getStartUsedDate() {
         return startUsedDate;
@@ -87,9 +65,6 @@ public class ComputerDTO{
 
     public void setDeleteStatus(Integer deleteStatus) {
         this.deleteStatus = deleteStatus;
-    }
-
-    public ComputerDTO() {
     }
 
     public Integer getId() {
