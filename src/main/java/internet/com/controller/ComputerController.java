@@ -137,4 +137,25 @@ public class ComputerController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * Create by: TuanHD
+     * Date Create: 11/08/2022
+     * funtion: checkCode
+     * @return
+     */
+    @GetMapping("/check/{code}")
+    public  ResponseEntity<?> checkCode(@PathVariable("code") String code){
+        return new ResponseEntity<>(computerService.existsCode(code), HttpStatus.OK);
+    }
+
+    /**
+     * Create by: TuanHD
+     * Date Create: 11/08/2022
+     * funtion: checkLocation
+     * @return
+     */
+    @GetMapping("/checkLocation/{location}")
+    public  ResponseEntity<?> checkLocation(@PathVariable("location") String location){
+        return new ResponseEntity<>(computerService.existsLocation(location), HttpStatus.OK);
+    }
 }

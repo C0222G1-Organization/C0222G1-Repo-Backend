@@ -102,5 +102,25 @@ public class ComputerService implements IComputerService {
     public void setActiveStatus(Integer id, Integer status) {
         computerRepository.setActiveStatus(id,status);
     }
+
+    /**
+     * Created by: TuanHD
+     * Date created: 09/08/2022
+     * Function: existsCode
+     */
+    @Override
+    public Boolean existsCode(String code) {
+        return code.equals(computerRepository.exitCode(code));
+    }
+
+    /**
+     * Created by: TuanHD
+     * Date created: 09/08/2022
+     * Function: existsLocation
+     */
+    @Override
+    public Boolean existsLocation(String location) {
+        return location.equals(computerRepository.exitLocation(location));
+    }
 }
 
