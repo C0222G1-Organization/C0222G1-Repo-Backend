@@ -13,8 +13,9 @@ public class News {
     private String title;
     @Column(name = "image_url")
     private String imageUrl;
+    @Column(columnDefinition = "longtext")
     private String content;
-    @Column(name = "create_date")
+    @Column(name = "create_date",columnDefinition = "datetime")
     private String createDate;
     private Integer views;
     private String author;
