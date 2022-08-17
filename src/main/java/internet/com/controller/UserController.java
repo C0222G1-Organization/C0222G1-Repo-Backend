@@ -62,7 +62,7 @@ public class UserController {
      * @param signInForm
      * @return
      */
-    @PostMapping("/login")
+    @PostMapping(value = "/login" , produces = "text/plain;charset=UTF-8")
     public ResponseEntity<?> login(@Valid @RequestBody SignInForm signInForm){
         SignInForm account = userOrEmail.checkUsernameOrEmail(signInForm);
         Authentication authentication = authenticationManager.authenticate(
