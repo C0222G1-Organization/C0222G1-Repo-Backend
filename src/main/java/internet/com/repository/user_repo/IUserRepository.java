@@ -36,6 +36,16 @@ public interface IUserRepository extends JpaRepository<AppUser, Integer> {
     String existsByUsername(String username);
 
     /**
+     * Create by CuongTM
+     * Date create: 17/08/2022
+     * method check username is exits
+     * @param username
+     * @return
+     */
+    @Query(value = "SELECT user_name FROM user WHERE user_name = :username AND user_name <> (SELECT user_name FROM customer WHERE id = :id);", nativeQuery = true)
+    String existsByUsernameInEdit(@Param("username") String username, @Param("id") Integer id);
+
+    /**
      * Create by HaoNH
      * Date create: 11/09/2022
      * method create user
