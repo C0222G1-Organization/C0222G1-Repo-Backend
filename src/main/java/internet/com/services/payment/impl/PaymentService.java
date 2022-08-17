@@ -18,8 +18,8 @@ public class PaymentService implements IPaymentService {
     private IPaymentRepository paymentRepository;
 
     @Override
-    public Page<Payment> getAllPayment(Pageable pageable) {
-        return paymentRepository.findAll(pageable);
+    public Page<Payment> getAllPayment (Pageable pageable) {
+        return paymentRepository.getAllPagePayment(pageable);
     }
 
     @Override
