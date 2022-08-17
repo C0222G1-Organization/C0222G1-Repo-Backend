@@ -1,6 +1,9 @@
 package internet.com.repository.payment_repo;
 
+import internet.com.entity.game.Game;
 import internet.com.entity.payment.Payment;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -12,6 +15,9 @@ import java.util.Optional;
 
 @Transactional
 public interface IPaymentRepository extends JpaRepository<Payment, Integer> {
+    @Query(value = "select * from payment", nativeQuery = true)
+    Page<Payment> getAllPagePayment(Pageable pageable);
+
     @Query(value = "SELECT * FROM payment", nativeQuery = true)
     List<Payment> getAllPaymentList ();
 

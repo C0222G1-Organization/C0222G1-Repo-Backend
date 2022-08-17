@@ -33,9 +33,9 @@ public class PaymentController {
      * @param page: page set for pagination
      */
     @GetMapping("/display")
-    public ResponseEntity<Page<Payment>> getAllPayment (@RequestParam(value = "page", defaultValue = "0") Integer page) {
-        Page<Payment> listPayment = paymentService.getAllPayment(PageRequest.of(page , 3));
-        if (listPayment.isEmpty()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Page<Payment>> getAllPayment (@RequestParam(name = "page", defaultValue = "0") int page) {
+        Page<Payment> listPayment = paymentService.getAllPayment(PageRequest.of(page , 5));
+        if (listPayment.isEmpty()) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(listPayment , HttpStatus.OK);
     }
 
