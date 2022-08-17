@@ -5,6 +5,8 @@ import internet.com.entity.employee.Employee;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Optional;
+
 public interface IEmployeeService {
     /**
      *Create by TrungND
@@ -69,4 +71,7 @@ public interface IEmployeeService {
                                         String address,
                                         Pageable pageable);
 
+    String findByEmailGetUsername(String email);
+
+    Optional<Employee> findEmployeeByUserName(String username);
 }

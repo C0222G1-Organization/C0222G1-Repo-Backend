@@ -18,8 +18,7 @@ import java.util.List;
 @RequestMapping("statistic")
 @CrossOrigin(origins = "http://localhost:4200")
 public class StatisticController {
-    @Autowired
-    private ModelMapper modelMapper;
+
     @Autowired
     StatisticService statisticService;
 

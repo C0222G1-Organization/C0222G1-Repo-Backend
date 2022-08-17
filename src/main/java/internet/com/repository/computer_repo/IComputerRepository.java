@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 @Transactional
@@ -26,7 +27,7 @@ public interface IComputerRepository extends JpaRepository<Computer, Integer> {
             ",warranty,type_id,delete_status) values (:code,:configuration,:location,:manufacturer,:start_used_date," +
             ":active_status,:warranty,:type_id,:delete_status)", nativeQuery = true)
     void createComputer(@Param("code") String code, @Param("configuration") String configuration, @Param("location") String location,
-                        @Param("manufacturer") String manufacturer, @Param("start_used_date") String start_used_date,
+                        @Param("manufacturer") String manufacturer, @Param("start_used_date") String startUsedDate,
                         @Param("active_status") Integer activeStatus, @Param("warranty") String warranty,
                         @Param("type_id") Integer typeId, @Param("delete_status") Integer deleteStatus);
 
@@ -40,7 +41,7 @@ public interface IComputerRepository extends JpaRepository<Computer, Integer> {
             "manufacturer=:manufacturer,start_used_date=:start_used_date,active_status =:active_status," +
             " warranty=:warranty,type_id=:type_id,delete_status=:delete_status where id=:id", nativeQuery = true)
     void updateComputer(@Param("code") String code, @Param("configuration") String configuration, @Param("location") String location,
-                        @Param("manufacturer") String manufacturer, @Param("start_used_date") String start_used_date,
+                        @Param("manufacturer") String manufacturer, @Param("start_used_date") String startUsedDate,
                         @Param("active_status") Integer activeStatus, @Param("warranty") String warranty,
                         @Param("type_id") Integer typeId, @Param("delete_status") Integer deleteStatus, @Param("id") Integer id);
 
@@ -116,6 +117,45 @@ public interface IComputerRepository extends JpaRepository<Computer, Integer> {
      * Date created: 09/08/2022
      * Function: findByIdComputer
      */
-    @Query(value="select * from computer where id=:id",nativeQuery = true)
+    @Query(value = "select * from computer where id=:id", nativeQuery = true)
     Computer findByIdComputer(@Param("id") Integer id);
+
+    /**
+     * Created by: HoangHN
+     * Date created: 13/08/2022
+     * Function: set active status computer when customers use
+     * @param id
+     * @param status
+     */
+    @Modifying
+    @Query(value = " UPDATE computer SET active_status=:status WHERE id=:id", nativeQuery = true)
+    void setActiveStatus(@Param("id") Integer id, @Param("status") Integer status);
+
+    /**
+     * Created by: HoangHN
+     * Date created: 13/08/2022
+     * Function: find Unused Computer by active_status = 1 and delete_status = 0.
+     * @param
+     * @return
+     */
+    @Query(value="select * from computer where active_status = 1 and delete_status = 0",nativeQuery = true)
+    List<Computer> findUnusedComputer();
+    //id,computer_code,configuration,delete_status,location,manufacturer,start_used_date, " +
+    //            " active_status,warranty,type_id
+
+    /**
+     * Created by: TuanHD
+     * Date created: 09/08/2022
+     * Function: exitCode
+     */
+    @Query(value="SELECT computer_code FROM computer where computer_code=:codeComputer",nativeQuery=true)
+    String exitCode(@Param("codeComputer") String code);
+
+    /**
+     * Created by: TuanHD
+     * Date created: 09/08/2022
+     * Function: exitLocation
+     */
+    @Query(value="SELECT location FROM computer where location=:location",nativeQuery=true)
+    String exitLocation(@Param("location") String location);
 }

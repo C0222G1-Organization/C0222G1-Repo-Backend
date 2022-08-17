@@ -6,14 +6,14 @@ public class UserDTO {
     private Integer id;
 
     @NotEmpty(message = "Không được để trống")
-    private String username;
+    private String userName;
 
     public UserDTO() {
     }
 
-    public UserDTO(Integer id, @NotEmpty(message = "Không được để trống") String username) {
+    public UserDTO(Integer id, @NotEmpty(message = "Không được để trống") String userName) {
         this.id = id;
-        this.username = username;
+        this.userName = userName;
     }
 
     public Integer getId() {
@@ -24,11 +24,11 @@ public class UserDTO {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

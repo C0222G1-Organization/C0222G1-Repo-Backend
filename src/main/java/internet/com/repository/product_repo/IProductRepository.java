@@ -1,4 +1,5 @@
 package internet.com.repository.product_repo;
+
 import internet.com.entity.product.Product;
 import internet.com.entity.product.product_dto.IProductDTO;
 import org.springframework.data.domain.Page;
@@ -6,12 +7,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-
 import org.springframework.data.repository.query.Param;
-
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
+
 
 @Transactional
 public interface IProductRepository extends JpaRepository<Product, Integer> {
@@ -23,7 +22,7 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
     @Query(value = "select p.id as id, product_code as code, product_name as nameProduct, quantity as quantity, " +
             "unit as unit, prices as prices, image_url as imageUrl, delete_status as deleteStatus, p.id_product_category as idProductCategory, pc.product_category_name as productCategoryName" +
             " from product p right join product_category as pc on pc.id = p.id_product_category  where delete_status = 0 and product_name like %:name%"
-            , nativeQuery = true,countQuery = "select count(*) from product p  join product_category pc on pc.id = p.id_product_category where delete_status = 0 and product_name like %:name%")
+            , nativeQuery = true, countQuery = "select count(*) from product p  join product_category pc on pc.id = p.id_product_category where delete_status = 0 and product_name like %:name%")
     Page<IProductDTO> findAll(@Param("name") String name, Pageable pageable);
 
 //    @Query(value = "select id, product_code, product_name, quantity as quantity, " +
@@ -31,7 +30,8 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
 //            "from product where delete_status = 0 and product_name like %:name%"
 //            , nativeQuery = true,countQuery = "select count(*) from product where delete_status = 0 and product_name like %:name%")
 //
-//    Page<Product> findAll(@Param("name") String name, Pageable pageable);
+
+
     /**
      * Create by: TruongTX
      * Date create: 10/08/2022
@@ -48,7 +48,6 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
      * Create by: TruongTX
      * Date create: 11/08/2022
      * Query: create product
-     *
      */
     @Modifying
     @Query(value = "insert into product (product_code,product_name,quantity, unit, prices, image_url, id_product_category, delete_status)" +
@@ -90,4 +89,19 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
                        @Param("idProductCategory") Integer idProductCategory,
                        @Param("id") Integer id);
 
+    /**
+     * Create by: DuyNT
+     * Date create: 14/08/2022
+     * Query: get list product from DB by product category id
+     */
+    @Query(value = "SELECT * FROM product", nativeQuery = true)
+    List<Product> getAllProductForOrdering();
+
+    /**
+     * Create by: DuyNT
+     * Date create: 14/08/2022
+     * Query: get list product from DB by product category id
+     */
+    @Query(value = "SELECT * FROM product WHERE id_product_category = :id", nativeQuery = true)
+    List<Product> getListByCategoryId(@Param("id") Integer id);
 }

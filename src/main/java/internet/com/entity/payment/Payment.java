@@ -1,6 +1,7 @@
 package internet.com.entity.payment;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import internet.com.entity.record.Record;
 
 import javax.persistence.*;
@@ -21,9 +22,7 @@ public class Payment {
 
     private Integer totalPay = 0;
 
-
     @OneToMany(mappedBy = "payment")
-    @JsonIgnore
     private List<PaymentDetail> paymentDetailList;
 
     public Payment() {

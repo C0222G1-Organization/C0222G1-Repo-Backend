@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ComputerService implements IComputerService {
 
@@ -78,5 +80,47 @@ public class ComputerService implements IComputerService {
         computerRepository.delete(id);
     }
 
+    /**
+     * Created by: HoangHN
+     * Date created: 13/08/2022
+     * Function: find Unused Computer
+     * @return
+     */
+    @Override
+    public List<Computer> findUnusedComputer() {
+        return computerRepository.findUnusedComputer();
+    }
+
+    /**
+     * Created by: HoangHN
+     * Date created: 13/08/2022
+     * Function: find Unused Computer by active_status = 1 and delete_status = 0.
+     * @param
+     * @return
+     */
+    @Override
+    public void setActiveStatus(Integer id, Integer status) {
+        computerRepository.setActiveStatus(id,status);
+    }
+
+    /**
+     * Created by: TuanHD
+     * Date created: 09/08/2022
+     * Function: existsCode
+     */
+    @Override
+    public Boolean existsCode(String code) {
+        return code.equals(computerRepository.exitCode(code));
+    }
+
+    /**
+     * Created by: TuanHD
+     * Date created: 09/08/2022
+     * Function: existsLocation
+     */
+    @Override
+    public Boolean existsLocation(String location) {
+        return location.equals(computerRepository.exitLocation(location));
+    }
 }
 
