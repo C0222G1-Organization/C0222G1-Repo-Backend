@@ -11,12 +11,13 @@ public class JWTResponseCustomer {
     private Customer customer;
     private String token;
     private Integer computerInUse;
-
     private String computerCode;
     private String startTime;
     private String endTime;
 
     private Integer recordId;
+
+    private Integer computerId;
     private Collection<? extends GrantedAuthority> roles;
 
     public JWTResponseCustomer() {
@@ -27,18 +28,7 @@ public class JWTResponseCustomer {
         this.message = message;
     }
 
-    public JWTResponseCustomer(Boolean errorStatus, String message, Customer customer, String token, Integer computerInUse, String startTime, String endTime, Collection<? extends GrantedAuthority> roles) {
-        this.errorStatus = errorStatus;
-        this.message = message;
-        this.customer = customer;
-        this.token = token;
-        this.computerInUse = computerInUse;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.roles = roles;
-    }
-
-    public JWTResponseCustomer(Boolean errorStatus, String message, Customer customer, String token, Integer computerInUse, String computerCode, String startTime, String endTime, Integer recordId, Collection<? extends GrantedAuthority> roles) {
+    public JWTResponseCustomer(Boolean errorStatus, String message, Customer customer, String token, Integer computerInUse, String computerCode, String startTime, String endTime, Integer recordId, Integer computerId, Collection<? extends GrantedAuthority> roles) {
         this.errorStatus = errorStatus;
         this.message = message;
         this.customer = customer;
@@ -48,7 +38,16 @@ public class JWTResponseCustomer {
         this.startTime = startTime;
         this.endTime = endTime;
         this.recordId = recordId;
+        this.computerId = computerId;
         this.roles = roles;
+    }
+
+    public Integer getComputerId() {
+        return computerId;
+    }
+
+    public void setComputerId(Integer computerId) {
+        this.computerId = computerId;
     }
 
     public Integer getRecordId() {
