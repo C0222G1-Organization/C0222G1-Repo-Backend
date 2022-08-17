@@ -117,6 +117,7 @@ public class CustomerService implements ICustomerService {
      */
     @Override
     public void saveCustomer(CustomerDTO customerDTO) {
+
         String encodedPassword = passwordEncoder.encode(customerDTO.getPassword());
         userService.createUser(customerDTO.getUserName().getUserName(), encodedPassword);
         roleService.addNewCustomerUserRole(customerDTO.getUserName().getUserName());
@@ -211,5 +212,17 @@ public class CustomerService implements ICustomerService {
     @Override
     public Integer getRemainingTime(Integer id) {
         return customerRepository.getRemainingTime(id);
+    }
+
+    /**
+     * Create by HoangHN
+     * Date create: 16/08/2022
+     * method set Remaining Time of customer
+     * @param id
+     * @return
+     */
+    @Override
+    public void setOutOfTime(Integer id, Integer remaining) {
+        customerRepository.setOutOfTime(id, remaining);
     }
 }

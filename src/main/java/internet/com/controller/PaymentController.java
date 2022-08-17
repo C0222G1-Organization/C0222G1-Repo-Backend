@@ -1,8 +1,10 @@
 package internet.com.controller;
 
-import internet.com.dto.payment_dto.PaymentDTO;
+import internet.com.dto.record_dto.RecordDTO;
 import internet.com.entity.payment.Payment;
+import internet.com.entity.record.Record;
 import internet.com.services.payment.IPaymentService;
+import internet.com.services.record.IRecordService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,6 +27,9 @@ public class PaymentController {
     @Autowired
     private IPaymentService paymentService;
 
+    @Autowired
+    private IRecordService recordService;
+
     /**
      * Create: LuanND
      * Date: 09/08/2022
@@ -45,10 +50,10 @@ public class PaymentController {
      * function getAllPaymentList select item on database return List
      */
     @GetMapping("/list")
-    public ResponseEntity<List<Payment>> getAllPaymentList () {
+    public ResponseEntity<List<Payment>> getAllPaymentList() {
         List<Payment> listPayment = paymentService.getAllPaymentList();
         if (listPayment.isEmpty()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(listPayment , HttpStatus.OK);
+        return new ResponseEntity<>(listPayment, HttpStatus.OK);
     }
 
     /**
@@ -58,10 +63,10 @@ public class PaymentController {
      * param: id filter item same with id
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Payment> getPaymentById (@PathVariable("id") Integer id) {
+    public ResponseEntity<Payment> getPaymentById(@PathVariable("id") Integer id) {
         Optional<Payment> payment = paymentService.getPaymentById(id);
-        if (! payment.isPresent()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(payment.get() , HttpStatus.OK);
+        if (!payment.isPresent()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(payment.get(), HttpStatus.OK);
     }
 
 
@@ -70,13 +75,17 @@ public class PaymentController {
      * Date: 09/08/2022
      * function: savePayment create new record on database
      *
-     * @param paymentDTO is data to save on database
+     * @param recordDTO is data to save on database
      */
     @PostMapping("/create")
-    public ResponseEntity<Payment> savePayment (@RequestBody @Valid PaymentDTO paymentDTO) {
-        Payment payment = modelMapper.map(paymentDTO, Payment.class);
+    public ResponseEntity<Payment> savePayment(@RequestBody @Valid RecordDTO recordDTO) {
+        Record record = this.recordService.findById(recordDTO.getId());
+        Payment payment = new Payment();
+        payment.setRecord(record);
+        payment.setPaymentCode("ORD" + System.currentTimeMillis());
         paymentService.savePayment(payment);
-        return new ResponseEntity<>(payment , HttpStatus.CREATED);
+        Payment newPayment = this.paymentService.findByCode(payment.getPaymentCode());
+        return new ResponseEntity<>(newPayment, HttpStatus.CREATED);
     }
 
     /**
@@ -87,7 +96,7 @@ public class PaymentController {
      * @param id is data to set state payment on database
      */
     @GetMapping("/changes/{id}")
-    public ResponseEntity<?> setStatePayment (@PathVariable("id") Integer id) {
+    public ResponseEntity<?> setStatePayment(@PathVariable("id") Integer id) {
         paymentService.editPayment(paymentService.getPaymentById(id).get());
         return new ResponseEntity<>(HttpStatus.OK);
     }
