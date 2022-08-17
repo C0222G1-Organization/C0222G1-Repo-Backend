@@ -25,12 +25,8 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
             , nativeQuery = true, countQuery = "select count(*) from product p  join product_category pc on pc.id = p.id_product_category where delete_status = 0 and product_name like %:name%")
     Page<IProductDTO> findAll(@Param("name") String name, Pageable pageable);
 
-//    @Query(value = "select id, product_code, product_name, quantity as quantity, " +
-//            "unit as unit, prices as prices, image_url, delete_status ,id_product_category  " +
-//            "from product where delete_status = 0 and product_name like %:name%"
-//            , nativeQuery = true,countQuery = "select count(*) from product where delete_status = 0 and product_name like %:name%")
-//
-
+   @Query(value = "select * from product where delete_status = 0", nativeQuery = true)
+    List<IProductDTO> findAllList();
 
     /**
      * Create by: TruongTX
