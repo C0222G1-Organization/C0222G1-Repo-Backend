@@ -103,5 +103,10 @@ public class ProductService implements IProductService {
         return this.iProductRepository.getListByCategoryId(id);
     }
 
+    @Override
+    public List<IProductDTO> findAllList() {
+        return iProductRepository.findAllList();
+    }
+
 
 }

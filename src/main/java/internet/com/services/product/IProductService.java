@@ -30,4 +30,6 @@ public interface IProductService {
     List<Product> getListProductForOrdering();
 
     List<Product> findProductByCategoryId(Integer id);
+
+    List<IProductDTO> findAllList();
 }
