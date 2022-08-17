@@ -10,6 +10,8 @@ public interface IUserService {
 
     Boolean existsByUsername(String username);
 
+    Boolean existsByUsernameInEdit(String username, Integer id);
+
     void createUser(String username, String password);
 
     /**

@@ -4,7 +4,6 @@ import internet.com.dto.customer_dto.CustomerDTO;
 import internet.com.dto.customer_dto.EmailDTO;
 import internet.com.dto.customer_dto.PhoneDTO;
 import internet.com.dto.customer_dto.UserDTO;
-import internet.com.entity.customer.Commune;
 import internet.com.dto.customer_dto.ICustomerDTO;
 import internet.com.entity.customer.Customer;
 import internet.com.entity.user.AppUser;
@@ -143,7 +142,8 @@ public class CustomerController {
                 customer.get().getUser().getPassword(),
                 customer.get().getCommune(),
                 customer.get().getActiveStatus(),
-                customer.get().getRemainingTime()
+                customer.get().getRemainingTime(),
+                customer.get().getDeleteStatus()
         );
 
         return new ResponseEntity<>(customerDTO, HttpStatus.OK);
@@ -169,13 +169,13 @@ public class CustomerController {
         if (customerEdit.getId() == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        customerEdit.getUser().setPassword(customerDTO.getPassword());
+//        customerEdit.getUser().setPassword(customerDTO.getPassword());
         customerEdit = modelMapper.map(customerDTO, Customer.class);
-        AppUser appUser = new AppUser();
-        appUser.setUsername(customerDTO.getUserName().getUserName());
-        appUser.setPassword(customerDTO.getPassword());
+//        AppUser appUser = new AppUser();
+//        appUser.setUsername(customerDTO.getUserName().getUserName());
+//        appUser.setPassword(customerDTO.getPassword());
         customerEdit.setCommune(customerDTO.getCommune());
-        iUserService.updateUser(appUser);
+//        iUserService.updateUser(appUser);
         customerService.update(customerEdit);
 
         return new ResponseEntity<>(customerDTO, HttpStatus.OK);
@@ -185,6 +185,11 @@ public class CustomerController {
     @GetMapping("/checkUserName/{userName}")
     public  ResponseEntity<?> checkUserName(@PathVariable("userName") String userName){
         return new ResponseEntity<>(userService.existsByUsername(userName), HttpStatus.OK);
+    }
+
+    @GetMapping("/checkUserNameInEdit/{userName}")
+    public  ResponseEntity<?> checkUserNameInEdit(@PathVariable("userName") String userName, @PathVariable("id") Integer id){
+        return new ResponseEntity<>(userService.existsByUsernameInEdit(userName, id), HttpStatus.OK);
     }
 
     @GetMapping("/checkEmail/{email}")

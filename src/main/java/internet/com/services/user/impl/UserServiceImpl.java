@@ -38,6 +38,11 @@ public class UserServiceImpl implements IUserService {
         return username.equals(userRepository.existsByUsername(username));
     }
 
+    @Override
+    public Boolean existsByUsernameInEdit(String username, Integer id) {
+        return username.equals(userRepository.existsByUsernameInEdit(username, id));
+    }
+
     /**
      * Create by HaoNH
      * Date create: 11/09/2022
