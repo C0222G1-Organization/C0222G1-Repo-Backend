@@ -182,7 +182,8 @@ public interface ICustomerRepository extends PagingAndSortingRepository<Customer
     @Query(value = " UPDATE customer SET customer_name=:name, date_of_birth=:dateOfBirth,phone_number=:phoneNumber, " +
             "email=:email, " +
             " active_status=:activeStatus, remaining_time=:remainingTime, delete_status=:deleteStatus, address_id=:communeId WHERE id=:customerId", nativeQuery = true)
-    void update(@Param("name") String name, @Param("dateOfBirth") String dateOfBirth,
+    void update(@Param("name") String name,
+                @Param("dateOfBirth") String dateOfBirth,
                 @Param("email") String email,
                 @Param("phoneNumber") String phoneNumber,
                 @Param("activeStatus") Integer activeStatus,

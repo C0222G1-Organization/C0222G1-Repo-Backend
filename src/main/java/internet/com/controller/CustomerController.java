@@ -169,13 +169,13 @@ public class CustomerController {
         if (customerEdit.getId() == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        customerEdit.getUser().setPassword(customerDTO.getPassword());
+//        customerEdit.getUser().setPassword(customerDTO.getPassword());
         customerEdit = modelMapper.map(customerDTO, Customer.class);
-        AppUser appUser = new AppUser();
-        appUser.setUsername(customerDTO.getUserName().getUserName());
-        appUser.setPassword(customerDTO.getPassword());
+//        AppUser appUser = new AppUser();
+//        appUser.setUsername(customerDTO.getUserName().getUserName());
+//        appUser.setPassword(customerDTO.getPassword());
         customerEdit.setCommune(customerDTO.getCommune());
-        iUserService.updateUser(appUser);
+//        iUserService.updateUser(appUser);
         customerService.update(customerEdit);
 
         return new ResponseEntity<>(customerDTO, HttpStatus.OK);
@@ -185,6 +185,11 @@ public class CustomerController {
     @GetMapping("/checkUserName/{userName}")
     public  ResponseEntity<?> checkUserName(@PathVariable("userName") String userName){
         return new ResponseEntity<>(userService.existsByUsername(userName), HttpStatus.OK);
+    }
+
+    @GetMapping("/checkUserNameInEdit/{userName}")
+    public  ResponseEntity<?> checkUserNameInEdit(@PathVariable("userName") String userName, @PathVariable("id") Integer id){
+        return new ResponseEntity<>(userService.existsByUsernameInEdit(userName, id), HttpStatus.OK);
     }
 
     @GetMapping("/checkEmail/{email}")
