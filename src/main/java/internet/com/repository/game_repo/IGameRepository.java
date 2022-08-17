@@ -127,6 +127,6 @@ public interface IGameRepository extends PagingAndSortingRepository<Game, Intege
      * @param pageable
      * @return
      */
-    @Query(value = "SELECT * FROM game WHERE game_name LIKE :game_name", nativeQuery = true)
+    @Query(value = "SELECT * FROM game WHERE game_name LIKE :game_name AND delete_status = 0", nativeQuery = true)
     Page<Game> searchByName(@Param("game_name") String name, Pageable pageable);
 }
