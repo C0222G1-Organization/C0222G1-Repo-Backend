@@ -75,7 +75,7 @@ public class GameController {
     @GetMapping("/top-3")
     public ResponseEntity<Page<Game>> getTop3Games(@RequestParam(name = "page", defaultValue = "0") int page) {
         Sort sort = Sort.by("played_times").descending();
-        Page<Game> games = gameService.getPopularGames(PageRequest.of(page, 3, sort));
+        Page<Game> games = gameService.getPopularGames(PageRequest.of(page, 4, sort));
         if (games.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
