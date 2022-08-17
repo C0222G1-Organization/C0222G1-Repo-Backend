@@ -1,6 +1,10 @@
 package internet.com.controller;
 
 import internet.com.dto.customer_dto.CustomerDTO;
+import internet.com.dto.customer_dto.EmailDTO;
+import internet.com.dto.customer_dto.PhoneDTO;
+import internet.com.dto.customer_dto.UserDTO;
+import internet.com.entity.customer.Commune;
 import internet.com.dto.customer_dto.ICustomerDTO;
 import internet.com.entity.customer.Customer;
 import internet.com.entity.user.AppUser;
@@ -17,6 +21,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,7 +88,6 @@ public class CustomerController {
 
     /**
      * Created by: TrungTHQ
-     * <p>
      * Date Created: 10/08/2022
      * load customers from database by id parameter
      */
@@ -117,12 +121,38 @@ public class CustomerController {
         customerService.deleteCustomerById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    /**
+     * Created by: CuongTM
+     * Date Created: 13/08/2022
+     * @param id
+     * @return
+     */
+    @GetMapping("getCustomer/{id}")
+    public ResponseEntity<Object> getCustomerById(@PathVariable("id") Integer id){
+        Optional<Customer> customer = this.customerService.findCustomerById(id);
+        if(!customer.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        CustomerDTO customerDTO = new CustomerDTO(
+                customer.get().getId(),
+                customer.get().getName(),
+                customer.get().getDateOfBirth(),
+                new EmailDTO(customer.get().getId(), customer.get().getEmail()),
+                new PhoneDTO(customer.get().getId(), customer.get().getPhoneNumber()),
+                new UserDTO(customer.get().getId(), customer.get().getUser().getUsername()),
+                customer.get().getUser().getPassword(),
+                customer.get().getCommune(),
+                customer.get().getActiveStatus(),
+                customer.get().getRemainingTime()
+        );
+
+        return new ResponseEntity<>(customerDTO, HttpStatus.OK);
+    }
 
     /**
      * Created by:CuongTM
      * Date Created:
      * 11 / 08 / 2022
-     *
      * @param id
      * @param customerDTO
      * @param bindingResult
@@ -165,5 +195,41 @@ public class CustomerController {
     @GetMapping("/checkPhone/{phone}")
     public  ResponseEntity<?> checkPhone(@PathVariable("phone") String phone){
         return new ResponseEntity<>(customerService.existsPhoneNumber(phone), HttpStatus.OK);
+    }
+
+    /**
+     * Create by HoangHN
+     * Date create: 16/08/2022
+     * method set Remaining Time of customer
+     * @param id
+     * @return
+     */
+
+    @GetMapping("/setOutOfTime")
+    public ResponseEntity<?> setOutOfTime(@RequestParam Integer id, @RequestParam Integer remaining) {
+        System.out.println(id);
+        System.out.println(remaining);
+        customerService.setOutOfTime(id,remaining);
+        Map<String,String> map = new HashMap<>();
+        map.put("status","Thành công");
+        return new ResponseEntity<>(map,HttpStatus.OK);
+
+    }
+
+    /**
+     * Create by HoangHN
+     * Date create: 16/08/2022
+     * method set Remaining Time of customer
+     * @param id
+     * @return
+     */
+
+    @GetMapping("getRemainingTime/{id}")
+    public ResponseEntity<?> getRemainingTime(@PathVariable("id") Integer id) {
+        Integer remaining = customerService.getRemainingTime(id);
+        Map<String,Integer> map = new HashMap<>();
+        map.put("remaining_time",remaining);
+        return new ResponseEntity<>(map,HttpStatus.OK);
+
     }
 }

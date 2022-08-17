@@ -19,28 +19,34 @@ public class PaymentService implements IPaymentService {
 
     @Override
     public Page<Payment> getAllPayment (Pageable pageable) {
-        return paymentRepository.findAll(pageable);
+        return paymentRepository.getAllPagePayment(pageable);
     }
 
     @Override
-    public List<Payment> getAllPaymentList () {
+    public List<Payment> getAllPaymentList() {
         return paymentRepository.getAllPaymentList();
     }
 
     @Override
-    public Optional<Payment> getPaymentById (Integer id) {
+    public Optional<Payment> getPaymentById(Integer id) {
         return paymentRepository.getPaymentById(id);
     }
 
     @Override
-    public void savePayment (Payment payment) {
-        payment.setPaymentCode("ORD" + System.currentTimeMillis());
-        paymentRepository.savePayment(payment.getPaymentCode() , payment.getRecord().getId() , payment.getTotalPay() , payment.getPaymentStatus());
+    public void savePayment(Payment payment) {
+        paymentRepository.savePayment(payment.getPaymentCode(), payment.getRecord().getId(), payment.getTotalPay(), payment.getPaymentStatus());
     }
 
     @Override
-    public void editPayment (Payment payment) {
+    public void editPayment(Payment payment) {
         payment.setPaymentStatus(1);
-        paymentRepository.editPayment(payment.getId() , payment.getPaymentCode() , payment.getRecord().getId() , payment.getTotalPay() , payment.getPaymentStatus());
+        paymentRepository.editPayment(payment.getId(), payment.getPaymentCode(), payment.getRecord().getId(), payment.getTotalPay(), payment.getPaymentStatus());
     }
+
+    @Override
+    public Payment findByCode(String code) {
+        return this.paymentRepository.getByPaymentCode(code).get();
+    }
+
+
 }

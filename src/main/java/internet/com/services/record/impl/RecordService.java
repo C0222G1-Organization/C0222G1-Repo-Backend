@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class RecordService implements IRecordService {
 
-    private String startTime = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy").format(Calendar.getInstance().getTime());
+    private String startTime;
     Integer remainingTime = 0;
     @Autowired
     IRecordRepository iRecordRepository;
@@ -39,11 +39,11 @@ public class RecordService implements IRecordService {
      */
     @Override
     public JWTResponseCustomer createRecord(Integer customerId) {
-        remainingTime = iCustomerService.getRemainingTime(customerId);
-
+        remainingTime = iCustomerService.getRemainingTime(customerId); //2022-04-01 20:15:15
+        startTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
         Calendar dateTime = Calendar.getInstance();
         dateTime.add(Calendar.SECOND, remainingTime);
-        String endTime = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy").format(dateTime.getTime());
+        String endTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(dateTime.getTime());
 
         List<Computer> computerList = iComputerService.findUnusedComputer();
         Integer computerId = computerList.get(0).getId();
@@ -57,6 +57,7 @@ public class RecordService implements IRecordService {
         jwtResponseCustomer.setMessage("Đăng nhập thành công");
         jwtResponseCustomer.setStartTime(startTime);
         jwtResponseCustomer.setEndTime(endTime);
+        jwtResponseCustomer.setComputerId(computerList.get(0).getId());
         jwtResponseCustomer.setRecordId(recordList.get(recordList.size() - 1).getId());
 
         return jwtResponseCustomer;
