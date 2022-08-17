@@ -69,7 +69,7 @@ public class UserController {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(account.getUsername(), account.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtProvider.createToken(authentication,new JWTResponseCustomer());
+        String token = jwtProvider.createToken(authentication);
         UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
 
         if (userPrinciple.getAuthorities().toString().contains("CUSTOMER")){
@@ -83,7 +83,7 @@ public class UserController {
                 jwtResponseCustomer.setCustomer(customer.get());
                 jwtResponseCustomer.setErrorStatus(false);
                 jwtResponseCustomer.setComputerCode(iComputerService.findById(jwtResponseCustomer.getComputerInUse()).getCode());
-                jwtResponseCustomer.setToken(jwtProvider.createToken(authentication,jwtResponseCustomer));
+                jwtResponseCustomer.setToken(jwtProvider.createToken(authentication));
                 return ResponseEntity.ok(jwtResponseCustomer);
             }else{
                 return new ResponseEntity<>(new JWTResponseCustomer(true,"Hiện không còn máy trống"), HttpStatus.BAD_REQUEST);
