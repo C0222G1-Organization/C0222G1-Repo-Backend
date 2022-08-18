@@ -43,7 +43,7 @@ public class EmployeeController {
      * Date created: 09/08/2022
      * function: Add employee
      */
-    @PostMapping("/add")
+    @PostMapping("/create")
     public ResponseEntity<?> createEmployee(@Valid @RequestBody EmployeeDTO employeeDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
@@ -108,6 +108,7 @@ public class EmployeeController {
         Page<IEmployeeDTO> findAllByCommune = employeeService.getAll(code, name, workf, workt, dobfrom, dobend, pid, address, PageRequest.of(page, 5));
         Page<IEmployeeDTO> findAllByDistrict = employeeService.getAllByDistrict(code, name, workf, workt, dobfrom, dobend, pid, address, PageRequest.of(page, 5));
         Page<IEmployeeDTO> findAllByProvince = employeeService.getAllByProvince(code, name, workf, workt, dobfrom, dobend, pid, address, PageRequest.of(page, 5));
+
         if (findAllByCommune.getTotalElements() != 0) {
             return new ResponseEntity<>(findAllByCommune, HttpStatus.OK);
         }
