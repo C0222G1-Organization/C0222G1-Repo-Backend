@@ -7,12 +7,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-
 import org.springframework.data.repository.query.Param;
-
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
+
 
 @Transactional
 public interface IProductRepository extends JpaRepository<Product, Integer> {
@@ -32,7 +30,7 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
 //            "from product where delete_status = 0 and product_name like %:name%"
 //            , nativeQuery = true,countQuery = "select count(*) from product where delete_status = 0 and product_name like %:name%")
 //
-//    Page<Product> findAll(@Param("name") String name, Pageable pageable);
+
 
     /**
      * Create by: TruongTX

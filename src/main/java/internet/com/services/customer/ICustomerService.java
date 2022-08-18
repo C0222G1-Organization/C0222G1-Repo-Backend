@@ -2,6 +2,7 @@ package internet.com.services.customer;
 
 import internet.com.dto.customer_dto.ICustomerDTO;
 import internet.com.entity.customer.Customer;
+import internet.com.entity.user.AppUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import internet.com.dto.customer_dto.CustomerDTO;
@@ -38,6 +39,8 @@ public interface ICustomerService {
 
     Boolean existsPhoneNumber(String phone);
 
+    Boolean matchesPassword(String password, Integer id);
+
     void saveCustomer(CustomerDTO customerDTO);
 
     /**
@@ -53,6 +56,7 @@ public interface ICustomerService {
 
     Integer getRemainingTime(Integer id);
 
+    void setOutOfTime(Integer id, Integer remaining);
 }
 
 

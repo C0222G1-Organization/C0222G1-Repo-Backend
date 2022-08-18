@@ -14,6 +14,8 @@ public interface IGameService {
      */
     Page<Game> getAll(Pageable pageble);
 
+    Boolean existsGameName(String name);
+
     /*
      * Created by: KhanhTV,
      * Date created: 09/08/2022

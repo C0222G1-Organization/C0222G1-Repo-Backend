@@ -6,7 +6,7 @@ public class UserDTO {
     private Integer id;
 
     @NotEmpty(message = "Không được để trống")
-    private String userName ;
+    private String userName;
 
     public UserDTO() {
     }

@@ -1,3 +1,4 @@
+
 package internet.com.services.record;
 
 import internet.com.dto.user_dto.response.JWTResponseCustomer;
@@ -12,4 +13,7 @@ public interface IRecordService {
     void setEndTime(Integer id, String endTime);
 
     List<Record> getListRecordByCustomerId(Integer id);
+
+    Record findById(Integer id);
 }
+

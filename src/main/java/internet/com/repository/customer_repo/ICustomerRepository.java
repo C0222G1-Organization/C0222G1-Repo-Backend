@@ -18,7 +18,6 @@ public interface ICustomerRepository extends PagingAndSortingRepository<Customer
     /**
      * Created by: DuyNT
      * Date Created: 10/08/2022
-     *
      * @param customerId
      * @return
      */
@@ -31,7 +30,6 @@ public interface ICustomerRepository extends PagingAndSortingRepository<Customer
      * Date Created: 10/08/2022
      *
      */
-
     @Query(value = "select dt.id as idDistric,p.id as idProvince, c.id as id,user_name as userName,phone_number as phoneNumber, customer_name as name," +
             "date_of_birth as dateOfBirth, email as email,active_status as activeStatus, remaining_time as remainingTime," +
             "cm.commune_name as nameCommune ,cm.district_id as idDistrict ,dt.district_name as nameDistrict," +
@@ -116,20 +114,19 @@ public interface ICustomerRepository extends PagingAndSortingRepository<Customer
                                                @Param("starDate") String starDate,
                                                @Param("endDate") String endDate,
                                                Pageable pageable);
+
     /**
      * Created by: TrungTHQ
      * Date Created: 10/08/2022
      */
     @Modifying
-    @Query(value="update customer set delete_status = 1 where id = :id ",nativeQuery = true)
+    @Query(value = "update customer set delete_status = 1 where id = :id ", nativeQuery = true)
     void deleteCustomerById(@Param("id") Integer id);
 
     /**
      * Created by:HaoNH
      * Date Created:09/06/2022
-     * method save
-     * customer
-     *
+     * method save customer
      * @param name
      * @param dateOfBirth
      * @param email
@@ -137,10 +134,10 @@ public interface ICustomerRepository extends PagingAndSortingRepository<Customer
      * @param userName
      * @param address
      */
-
     @Modifying
-    @Query(value = "INSERT INTO customer(customer_name, date_of_birth, email, phone_number, remaining_time, user_name, address_id) VALUE " +
-            "( :name, :dateOfBirth, :email, :phone, 0, :userName, :address)", nativeQuery = true)
+
+    @Query(value = "INSERT INTO customer(customer_name, active_status, date_of_birth, delete_status, email, phone_number, remaining_time, user_name, address_id) VALUE \n" +
+            "            (:name,1,:dateOfBirth,0,:email, :phone, 300, :userName, :address );", nativeQuery = true)
     void saveCustomer(@Param("name") String name,
                       @Param("dateOfBirth") String dateOfBirth,
                       @Param("email") String email,
@@ -150,7 +147,7 @@ public interface ICustomerRepository extends PagingAndSortingRepository<Customer
 
     /**
      * Create by HaoNH
-     * Date create: 11/09/2022
+     * Date create: 11/08/2022
      * method check email is exits
      *
      * @param email
@@ -161,7 +158,7 @@ public interface ICustomerRepository extends PagingAndSortingRepository<Customer
 
     /**
      * Create by HaoNH
-     * Date create: 11/09/2022
+     * Date create: 11/08/2022
      * method check phone is exits
      *
      * @param phone
@@ -174,7 +171,6 @@ public interface ICustomerRepository extends PagingAndSortingRepository<Customer
      * Create by CuongTM
      * Date create: 11/08/2022
      * method update customer
-     *
      * @param name
      * @param dateOfBirth
      * @param email
@@ -186,11 +182,14 @@ public interface ICustomerRepository extends PagingAndSortingRepository<Customer
     @Modifying
     @Query(value = " UPDATE customer SET customer_name=:name, date_of_birth=:dateOfBirth,phone_number=:phoneNumber, " +
             "email=:email, " +
-            " active_status=:activeStatus, address_id=:communeId WHERE id=:customerId", nativeQuery = true)
-    void update(@Param("name") String name, @Param("dateOfBirth") String dateOfBirth,
+            " active_status=:activeStatus, remaining_time=:remainingTime, delete_status=:deleteStatus, address_id=:communeId WHERE id=:customerId", nativeQuery = true)
+    void update(@Param("name") String name,
+                @Param("dateOfBirth") String dateOfBirth,
                 @Param("email") String email,
                 @Param("phoneNumber") String phoneNumber,
                 @Param("activeStatus") Integer activeStatus,
+                @Param("remainingTime") Integer remainingTime,
+                @Param("deleteStatus") Integer deleteStatus,
                 @Param("communeId") Integer communeId,
                 @Param("customerId") Integer customerId);
 
@@ -223,9 +222,18 @@ public interface ICustomerRepository extends PagingAndSortingRepository<Customer
      * @param id
      * @return
      */
-
     @Query(value = "SELECT remaining_time FROM customer WHERE id = :id", nativeQuery = true)
     Integer getRemainingTime(@Param("id") Integer id);
 
+    /**
+     * Create by HoangHN
+     * Date create: 16/08/2022
+     * method set Remaining Time of customer
+     * @param id
+     * @return
+     */
+    @Modifying
+    @Query(value = "UPDATE customer SET remaining_time = :remaining WHERE id=:id", nativeQuery = true)
+    void setOutOfTime(@Param("id") Integer id, @Param("remaining") Integer remaining);
 }
 
