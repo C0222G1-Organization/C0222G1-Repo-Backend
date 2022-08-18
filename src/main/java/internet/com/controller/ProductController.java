@@ -1,8 +1,10 @@
 package internet.com.controller;
+import internet.com.entity.payment.Payment;
 import internet.com.entity.product.Product;
 import internet.com.entity.product.ProductCategory;
 import internet.com.entity.product.product_dto.IProductDTO;
 import internet.com.entity.product.product_dto.ProductDTO;
+import internet.com.services.payment.IPaymentService;
 import internet.com.services.product.IProductCategoryService;
 import internet.com.services.product.IProductService;
 import org.springframework.beans.BeanUtils;
@@ -15,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/product")
@@ -26,6 +29,9 @@ public class ProductController {
 
     @Autowired
     private IProductCategoryService productCategoryService;
+
+    @Autowired
+    private IPaymentService paymentService;
 
     /**
      * Create by: TruongTX
@@ -163,5 +169,19 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(product, HttpStatus.OK);
+    }
+
+    /**
+     * Created: LuanND
+     * Date: 17/08/2022
+     * @param id is ID of payment Object
+     * @return response about execute set data from list service of customer
+     */
+    @GetMapping("/data/{id}")
+    public ResponseEntity<String> setDataProductOrder(@PathVariable Integer id) {
+        Optional<Payment> payment = this.paymentService.getPaymentById(id);
+        if (!payment.isPresent()) return new ResponseEntity<>("Không thành công" ,HttpStatus.NOT_FOUND);
+        this.productService.setDataProductOrder(payment.get());
+        return new ResponseEntity<>("Thành công" ,HttpStatus.NOT_FOUND);
     }
 }

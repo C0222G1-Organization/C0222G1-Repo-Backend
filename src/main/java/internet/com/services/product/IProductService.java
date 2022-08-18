@@ -1,4 +1,5 @@
 package internet.com.services.product;
+import internet.com.entity.payment.Payment;
 import internet.com.entity.product.Product;
 import internet.com.entity.product.product_dto.IProductDTO;
 import internet.com.entity.product.product_dto.ProductDTO;
@@ -30,4 +31,6 @@ public interface IProductService {
     List<Product> getListProductForOrdering();
 
     List<Product> findProductByCategoryId(Integer id);
+
+    void setDataProductOrder(Payment payment);
 }

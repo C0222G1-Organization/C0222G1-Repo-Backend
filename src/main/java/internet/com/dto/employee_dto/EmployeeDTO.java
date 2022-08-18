@@ -14,7 +14,7 @@ public class EmployeeDTO {
     @Pattern(regexp = "^EMP[0-9]{4}$", message = "Nhập sai định dạng")
     private String code;
 
-    @Pattern(regexp = "^[a-zA-Z\\s?]+$", message = "Không được để trống")
+    @Pattern(regexp = "^[A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*(?:[ ][A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*)*$", message = "Không được để trống")
     private String name;
 
     @Pattern(regexp = "^[A-Za-z0-9]+@[A-Za-z0-9]+(\\.[A-Za-z0-9]+){1,2}$",
@@ -46,12 +46,12 @@ public class EmployeeDTO {
 //    private String username;
 //
 //    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{6,}$", message = "Nhập sai định dạng")
-    private String password;
+
 
     public EmployeeDTO() {
     }
 
-    public EmployeeDTO(Integer id, String code, String name, String email, String phone, String dob, String salary, String startWork, String image, Position position, Commune commune, AppUser appUser, String username, String password) {
+    public EmployeeDTO(Integer id, String code, String name, String email, String phone, String dob, String salary, String startWork, String image, Position position, Commune commune, AppUser appUser) {
         this.id = id;
         this.code = code;
         this.name = name;
@@ -64,7 +64,7 @@ public class EmployeeDTO {
         this.position = position;
         this.commune = commune;
         this.appUser = appUser;
-        this.password = password;
+
 
     }
 
@@ -166,14 +166,6 @@ public class EmployeeDTO {
 
     public void setAppUser(AppUser appUser) {
         this.appUser = appUser;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
 

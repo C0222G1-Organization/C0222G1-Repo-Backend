@@ -4,7 +4,6 @@ import internet.com.dto.customer_dto.CustomerDTO;
 import internet.com.dto.customer_dto.EmailDTO;
 import internet.com.dto.customer_dto.PhoneDTO;
 import internet.com.dto.customer_dto.UserDTO;
-import internet.com.entity.customer.Commune;
 import internet.com.dto.customer_dto.ICustomerDTO;
 import internet.com.entity.customer.Customer;
 import internet.com.entity.user.AppUser;
@@ -48,6 +47,7 @@ public class CustomerController {
      * Created by: HaoNH
      * Date Created: 09/08/2022
      * method save customer
+     *
      * @param customerDTO
      * @param bindingResult
      * @return
@@ -121,16 +121,18 @@ public class CustomerController {
         customerService.deleteCustomerById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
     /**
      * Created by: CuongTM
      * Date Created: 13/08/2022
+     *
      * @param id
      * @return
      */
     @GetMapping("getCustomer/{id}")
-    public ResponseEntity<Object> getCustomerById(@PathVariable("id") Integer id){
+    public ResponseEntity<Object> getCustomerById(@PathVariable("id") Integer id) {
         Optional<Customer> customer = this.customerService.findCustomerById(id);
-        if(!customer.isPresent()) {
+        if (!customer.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         CustomerDTO customerDTO = new CustomerDTO(
@@ -143,7 +145,8 @@ public class CustomerController {
                 customer.get().getUser().getPassword(),
                 customer.get().getCommune(),
                 customer.get().getActiveStatus(),
-                customer.get().getRemainingTime()
+                customer.get().getRemainingTime(),
+                customer.get().getDeleteStatus()
         );
 
         return new ResponseEntity<>(customerDTO, HttpStatus.OK);
@@ -153,6 +156,7 @@ public class CustomerController {
      * Created by:CuongTM
      * Date Created:
      * 11 / 08 / 2022
+     *
      * @param id
      * @param customerDTO
      * @param bindingResult
@@ -162,6 +166,7 @@ public class CustomerController {
     @PatchMapping("/{id}")
     public ResponseEntity<?> updateCustomer(@PathVariable Integer id, @RequestBody @Valid CustomerDTO
             customerDTO, BindingResult bindingResult) {
+        System.out.println(customerDTO.toString());
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -169,13 +174,8 @@ public class CustomerController {
         if (customerEdit.getId() == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        customerEdit.getUser().setPassword(customerDTO.getPassword());
         customerEdit = modelMapper.map(customerDTO, Customer.class);
-        AppUser appUser = new AppUser();
-        appUser.setUsername(customerDTO.getUserName().getUserName());
-        appUser.setPassword(customerDTO.getPassword());
-        customerEdit.setCommune(customerDTO.getCommune());
-        iUserService.updateUser(appUser);
+        customerEdit.getUser().setPassword(customerDTO.getPassword());
         customerService.update(customerEdit);
 
         return new ResponseEntity<>(customerDTO, HttpStatus.OK);
@@ -183,17 +183,22 @@ public class CustomerController {
     }
 
     @GetMapping("/checkUserName/{userName}")
-    public  ResponseEntity<?> checkUserName(@PathVariable("userName") String userName){
+    public ResponseEntity<?> checkUserName(@PathVariable("userName") String userName) {
         return new ResponseEntity<>(userService.existsByUsername(userName), HttpStatus.OK);
     }
 
+    @GetMapping("/checkUserNameInEdit/{userName}")
+    public ResponseEntity<?> checkUserNameInEdit(@PathVariable("userName") String userName, @PathVariable("id") Integer id) {
+        return new ResponseEntity<>(userService.existsByUsernameInEdit(userName, id), HttpStatus.OK);
+    }
+
     @GetMapping("/checkEmail/{email}")
-    public  ResponseEntity<?> checkEmail(@PathVariable("email") String email){
+    public ResponseEntity<?> checkEmail(@PathVariable("email") String email) {
         return new ResponseEntity<>(customerService.existsEmail(email), HttpStatus.OK);
     }
 
     @GetMapping("/checkPhone/{phone}")
-    public  ResponseEntity<?> checkPhone(@PathVariable("phone") String phone){
+    public ResponseEntity<?> checkPhone(@PathVariable("phone") String phone) {
         return new ResponseEntity<>(customerService.existsPhoneNumber(phone), HttpStatus.OK);
     }
 
@@ -201,6 +206,7 @@ public class CustomerController {
      * Create by HoangHN
      * Date create: 16/08/2022
      * method set Remaining Time of customer
+     *
      * @param id
      * @return
      */
@@ -213,23 +219,43 @@ public class CustomerController {
         Map<String,String> map = new HashMap<>();
         map.put("status","Thành công");
         return new ResponseEntity<>(map,HttpStatus.OK);
-
     }
 
     /**
      * Create by HoangHN
      * Date create: 16/08/2022
      * method set Remaining Time of customer
+     *
      * @param id
      * @return
      */
-
     @GetMapping("getRemainingTime/{id}")
     public ResponseEntity<?> getRemainingTime(@PathVariable("id") Integer id) {
         Integer remaining = customerService.getRemainingTime(id);
         Map<String,Integer> map = new HashMap<>();
         map.put("remaining_time",remaining);
         return new ResponseEntity<>(map,HttpStatus.OK);
+    }
 
+    @PatchMapping("update/{id}")
+    public ResponseEntity<?> updateCustomerInfo(@PathVariable Integer id, @RequestBody @Valid CustomerDTO
+            customerDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>("Once time again and winning", HttpStatus.BAD_REQUEST);
+        }
+        Customer customerEdit = customerService.findCustomerById(id).get();
+        if (customerEdit == null) {
+            return new ResponseEntity<>("Khách hàng không tồn tại.", HttpStatus.NOT_FOUND);
+        }
+        customerEdit = modelMapper.map(customerDTO, Customer.class);
+        customerEdit.getUser().setPassword(customerDTO.getPassword());
+        customerEdit.setCommune(customerDTO.getCommune());
+        customerService.update(customerEdit);
+        return new ResponseEntity<>(customerDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("matchesPassword/{password}/{id}")
+    public ResponseEntity<?> matchesPassword(@PathVariable("password") String password, @PathVariable("id") Integer id){
+        return new ResponseEntity<>(customerService.matchesPassword(password, id), HttpStatus.OK);
     }
 }

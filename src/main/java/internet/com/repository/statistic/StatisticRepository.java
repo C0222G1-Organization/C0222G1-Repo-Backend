@@ -102,7 +102,7 @@ public interface StatisticRepository extends JpaRepository<Record, Integer> {
      * @return
      */
     @Query(nativeQuery = true,
-            value = " select `user`.user_name as account, sum(prices) as revenue," +
+            value = " select `user`.user_name as account, sum(prices*amount) as revenue," +
                     " sum(hour((timediff(start_time, end_time)))) as hour from payment_detail\n" +
                     " join product on payment_detail.product_id = product.id\n" +
                     " join payment on payment.id = payment_detail.payment_id\n" +
