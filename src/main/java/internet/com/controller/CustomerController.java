@@ -220,11 +220,10 @@ public class CustomerController {
     public ResponseEntity<?> setOutOfTime(@RequestParam Integer id, @RequestParam Integer remaining) {
         System.out.println(id);
         System.out.println(remaining);
-        customerService.setOutOfTime(id, remaining);
-        Map<String, String> map = new HashMap<>();
-        map.put("status", "Thành công");
-        return new ResponseEntity<>(map, HttpStatus.OK);
-
+        customerService.setOutOfTime(id,remaining);
+        Map<String,String> map = new HashMap<>();
+        map.put("status","Thành công");
+        return new ResponseEntity<>(map,HttpStatus.OK);
     }
 
     /**
@@ -235,14 +234,12 @@ public class CustomerController {
      * @param id
      * @return
      */
-
     @GetMapping("getRemainingTime/{id}")
     public ResponseEntity<?> getRemainingTime(@PathVariable("id") Integer id) {
         Integer remaining = customerService.getRemainingTime(id);
-        Map<String, Integer> map = new HashMap<>();
-        map.put("remaining_time", remaining);
-        return new ResponseEntity<>(map, HttpStatus.OK);
-
+        Map<String,Integer> map = new HashMap<>();
+        map.put("remaining_time",remaining);
+        return new ResponseEntity<>(map,HttpStatus.OK);
     }
 
     @PatchMapping("update/{id}")
