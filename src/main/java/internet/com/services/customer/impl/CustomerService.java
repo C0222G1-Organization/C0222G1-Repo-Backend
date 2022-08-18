@@ -6,6 +6,7 @@ import internet.com.dto.customer_dto.ICustomerDTO;
 import internet.com.entity.customer.Customer;
 import internet.com.entity.user.AppUser;
 import internet.com.repository.customer_repo.ICustomerRepository;
+import internet.com.repository.user_repo.IUserRepository;
 import internet.com.services.customer.ICustomerService;
 import internet.com.services.user.IRoleService;
 import internet.com.services.user.IUserService;
@@ -28,6 +29,9 @@ public class CustomerService implements ICustomerService {
     private IRoleService roleService;
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private IUserRepository userRepository;
 
     @Override
     public Optional<Customer> findCustomerById(Integer id) {
@@ -238,5 +242,11 @@ public class CustomerService implements ICustomerService {
     @Override
     public void setOutOfTime(Integer id, Integer remaining) {
         customerRepository.setOutOfTime(id, remaining);
+    }
+
+    @Override
+    public void updateUserPassword(AppUser appUser) {
+        String newPasswordEncoder = passwordEncoder.encode(appUser.getPassword());
+        this.userRepository.updateUser(newPasswordEncoder, appUser.getUsername());
     }
 }

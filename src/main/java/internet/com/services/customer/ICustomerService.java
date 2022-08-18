@@ -2,6 +2,7 @@ package internet.com.services.customer;
 
 import internet.com.dto.customer_dto.ICustomerDTO;
 import internet.com.entity.customer.Customer;
+import internet.com.entity.user.AppUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import internet.com.dto.customer_dto.CustomerDTO;
@@ -57,6 +58,13 @@ public interface ICustomerService {
 
     void setOutOfTime(Integer id, Integer remaining);
 
+    /**
+     * Create by DuyNT
+     * Date create: 16/08/2022
+     * Method update password when update customer information
+     * @param appUser
+     */
+    void updateUserPassword(AppUser appUser);
 }
 
 
