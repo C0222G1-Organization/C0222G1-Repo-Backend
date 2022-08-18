@@ -250,4 +250,9 @@ public class GameController {
 
         return new ResponseEntity<>(game, HttpStatus.OK);
     }
+
+    @GetMapping("/checkGameName/{gameName}")
+    public  ResponseEntity<?> checkUserName(@PathVariable("gameName") String gameName){
+        return new ResponseEntity<>(gameService.existsGameName(gameName), HttpStatus.OK);
+    }
 }

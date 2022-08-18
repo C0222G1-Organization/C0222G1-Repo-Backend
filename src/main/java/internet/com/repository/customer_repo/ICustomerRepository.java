@@ -136,7 +136,7 @@ public interface ICustomerRepository extends PagingAndSortingRepository<Customer
      */
     @Modifying
     @Query(value = "INSERT INTO customer(customer_name, date_of_birth, email, phone_number, remaining_time, user_name, address_id) VALUE " +
-            "( :name, :dateOfBirth, :email, :phone, 0, :userName, :address)", nativeQuery = true)
+            "( :name, :dateOfBirth, :email, :phone, 300, :userName, :address)", nativeQuery = true)
     void saveCustomer(@Param("name") String name,
                       @Param("dateOfBirth") String dateOfBirth,
                       @Param("email") String email,

@@ -98,9 +98,9 @@ public class CustomerController {
                                              @RequestParam("starDay") String starDay,
                                              @RequestParam("endDay") String endDay,
                                              @RequestParam(value = "page") int p) {
-        Page<ICustomerDTO> list = customerService.searchCustomerByProvince(address, name, activeStatus, starDay, endDay, PageRequest.of(p, 2));
-        Page<ICustomerDTO> list1 = customerService.searchCustomerByDistrict(address, name, activeStatus, starDay, endDay, PageRequest.of(p, 2));
-        Page<ICustomerDTO> list2 = customerService.searchCustomerByCommune(address, name, activeStatus, starDay, endDay, PageRequest.of(p, 2));
+        Page<ICustomerDTO> list = customerService.searchCustomerByProvince(address, name, activeStatus, starDay, endDay, PageRequest.of(p, 5));
+        Page<ICustomerDTO> list1 = customerService.searchCustomerByDistrict(address, name, activeStatus, starDay, endDay, PageRequest.of(p, 5));
+        Page<ICustomerDTO> list2 = customerService.searchCustomerByCommune(address, name, activeStatus, starDay, endDay, PageRequest.of(p, 5));
         if (list.getTotalElements() != 0) {
             return new ResponseEntity<>(list, HttpStatus.OK);
         }

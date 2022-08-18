@@ -13,6 +13,7 @@ public class News {
     private String title;
     @Column(name = "image_url")
     private String imageUrl;
+    @Column(columnDefinition = "longtext")
     private String content;
     @Column(name = "create_date")
     private String createDate;
