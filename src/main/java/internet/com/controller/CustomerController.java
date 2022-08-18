@@ -169,13 +169,8 @@ public class CustomerController {
         if (customerEdit.getId() == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-//        customerEdit.getUser().setPassword(customerDTO.getPassword());
         customerEdit = modelMapper.map(customerDTO, Customer.class);
-//        AppUser appUser = new AppUser();
-//        appUser.setUsername(customerDTO.getUserName().getUserName());
-//        appUser.setPassword(customerDTO.getPassword());
-        customerEdit.setCommune(customerDTO.getCommune());
-//        iUserService.updateUser(appUser);
+        customerEdit.getUser().setPassword(customerDTO.getPassword());
         customerService.update(customerEdit);
 
         return new ResponseEntity<>(customerDTO, HttpStatus.OK);
@@ -236,5 +231,10 @@ public class CustomerController {
         map.put("remaining_time",remaining);
         return new ResponseEntity<>(map,HttpStatus.OK);
 
+    }
+
+    @GetMapping("matchesPassword/{password}/{id}")
+    public ResponseEntity<?> matchesPassword(@PathVariable("password") String password, @PathVariable("id") Integer id){
+        return new ResponseEntity<>(customerService.matchesPassword(password, id), HttpStatus.OK);
     }
 }

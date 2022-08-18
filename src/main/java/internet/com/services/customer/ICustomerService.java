@@ -38,6 +38,8 @@ public interface ICustomerService {
 
     Boolean existsPhoneNumber(String phone);
 
+    Boolean matchesPassword(String password, Integer id);
+
     void saveCustomer(CustomerDTO customerDTO);
 
     /**
