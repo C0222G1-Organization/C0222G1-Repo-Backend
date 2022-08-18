@@ -234,6 +234,5 @@ public interface ICustomerRepository extends PagingAndSortingRepository<Customer
     @Modifying
     @Query(value = "UPDATE customer SET remaining_time = :remaining WHERE id=:id", nativeQuery = true)
     void setOutOfTime(@Param("id") Integer id, @Param("remaining") Integer remaining);
-
 }
 
