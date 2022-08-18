@@ -69,4 +69,5 @@ public interface IUserRepository extends JpaRepository<AppUser, Integer> {
     @Query(value = "Update user set user_password=:passWord WHERE user_name=:userName", nativeQuery = true)
     void updateUser(@Param("passWord") String passWord,
                     @Param("userName") String userName);
+
 }
