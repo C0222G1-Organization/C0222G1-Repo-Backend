@@ -27,18 +27,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     UserDetailService userDetailService;
     @Autowired
     private JwtEntryPoint jwtEntryPoint;
+
     @Bean
-    public JwtTokenFilter jwtTokenFilter(){
+    public JwtTokenFilter jwtTokenFilter() {
         return new JwtTokenFilter();
     }
+
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder.userDetailsService(userDetailService).passwordEncoder(passwordEncoder());
     }
+
     @Bean
-    PasswordEncoder passwordEncoder(){
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     @Override
     public AuthenticationManager authenticationManager() throws Exception {
@@ -49,6 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      * Create by HoangHN
      * Date create: 09/08/2022
      * function: configure
+     *
      * @param httpSecurity the {@link HttpSecurity} to modify
      * @throws Exception
      */
@@ -57,7 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.cors().and().csrf().disable().
                 authorizeRequests().antMatchers(
                 "/**"
-                ).permitAll()
+        ).permitAll()
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
                 .authenticationEntryPoint(jwtEntryPoint)
@@ -65,3 +70,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }
+
