@@ -13,13 +13,10 @@ import javax.validation.constraints.Pattern;
  */
 public class GameDTO {
     private Integer id;
-    @NotEmpty(message = "name is not empty")
     @NotBlank
-    @Pattern(regexp = "^[\\w\\s]+$", message = "Invalid game name")
     private String name;
 
     @NotEmpty(message = "create date is not empty")
-    @Pattern(regexp = "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$", message = "Invalid date")
     private String createDate;
 
     @Pattern(regexp = "^[0-9]+$", message = "Invalid played times")

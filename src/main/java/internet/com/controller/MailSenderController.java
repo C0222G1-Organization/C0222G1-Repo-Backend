@@ -60,7 +60,7 @@ public class MailSenderController {
                 "  </tr>\n" +
                 "  </thead>\n" +
                 "  <tbody>\n" +
-                "  <tr>\n" +
+                "  <tr style=\"background-color: aliceblue;\n\">\n" +
                 "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + reponseBodyNew.getId() + "</td>\n" +
                 "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">Hoàn thành</td>\n" +
                 "    <td style=\"text-align: center !important; border: 1px solid; padding: 5px 5px;\">" + reponseBodyNew.getValue() + "</td>\n" +
@@ -74,11 +74,11 @@ public class MailSenderController {
                 "  </tr>\n" +
                 "  </tbody>\n" +
                 "</table>" +
-                "<p style=\"font-size: 11px; color: aqua;\"><i>Thanks and best regards</i></p>\n" +
-                "<p style=\"font-size: 11px; color: aqua;\">_____________________________</p>\n" +
-                "<p style=\"font-size: 11px; color: aqua;\"><i>Nguyen Dinh Luan ( Mr.) - Accounting.</i></p>\n" +
-                "<p style=\"font-size: 11px; color: aqua;\"><i>Phone: 0969.307.886.</i></p>\n" +
-                "<p style=\"font-size: 11px; color: aqua;\"><i>Email: luanqn20@gmail.com.</i></p>\n" +
+                "<p style=\"font-size: 11px; color: blue;\"><i>Thanks and best regards</i><br>\n" +
+                "_____________________________<br>\n" +
+                "<i>Nguyen Dinh Luan ( Mr.) - Accounting.</i><br>\n" +
+                "<i>Phone: 0969.307.886.</i><br>\n" +
+                "<i>Email: luanqn20@gmail.com.</i></p>\n" +
                 "</div>";
         message.setContent(htmlMsg , "text/html; charset=UTF-8");
         helper.setTo("luanqn20@gmail.com");

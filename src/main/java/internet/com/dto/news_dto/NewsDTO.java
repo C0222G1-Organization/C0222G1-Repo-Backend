@@ -8,11 +8,9 @@ import javax.validation.constraints.Pattern;
 public class NewsDTO {
     private Integer id;
     @NotBlank(message = "tiêu đề không được rỗng")
-    @Pattern(regexp = "^[^ ][\\w\\W ]+[^ ]$", message = "tiêu đề sai định dạng")
     private String title;
     @NotBlank
     private String imageUrl;
-    @Pattern(regexp = "^[^ ][\\w\\W ]+[^ ]$")
     @NotBlank
     private String content;
     private String createDate;

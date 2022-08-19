@@ -98,9 +98,9 @@ public class CustomerController {
                                              @RequestParam("starDay") String starDay,
                                              @RequestParam("endDay") String endDay,
                                              @RequestParam(value = "page") int p) {
-        Page<ICustomerDTO> list = customerService.searchCustomerByProvince(address, name, activeStatus, starDay, endDay, PageRequest.of(p, 2));
-        Page<ICustomerDTO> list1 = customerService.searchCustomerByDistrict(address, name, activeStatus, starDay, endDay, PageRequest.of(p, 2));
-        Page<ICustomerDTO> list2 = customerService.searchCustomerByCommune(address, name, activeStatus, starDay, endDay, PageRequest.of(p, 2));
+        Page<ICustomerDTO> list = customerService.searchCustomerByProvince(address, name, activeStatus, starDay, endDay, PageRequest.of(p, 5));
+        Page<ICustomerDTO> list1 = customerService.searchCustomerByDistrict(address, name, activeStatus, starDay, endDay, PageRequest.of(p, 5));
+        Page<ICustomerDTO> list2 = customerService.searchCustomerByCommune(address, name, activeStatus, starDay, endDay, PageRequest.of(p, 5));
         if (list.getTotalElements() != 0) {
             return new ResponseEntity<>(list, HttpStatus.OK);
         }
@@ -247,15 +247,8 @@ public class CustomerController {
         if (customerEdit == null) {
             return new ResponseEntity<>("Khách hàng không tồn tại.", HttpStatus.NOT_FOUND);
         }
-        if (customerDTO.getPassword().equals("FakePassword@7979")){
-            System.out.println(customerDTO.getPassword());
-        }else {
-            AppUser appUser = new AppUser();
-            appUser.setUsername(customerDTO.getUserName().getUserName());
-            appUser.setPassword(customerDTO.getPassword());
-            customerService.updateUserPassword(appUser);
-        }
         customerEdit = modelMapper.map(customerDTO, Customer.class);
+        customerEdit.getUser().setPassword(customerDTO.getPassword());
         customerEdit.setCommune(customerDTO.getCommune());
         customerService.update(customerEdit);
         return new ResponseEntity<>(customerDTO, HttpStatus.OK);
