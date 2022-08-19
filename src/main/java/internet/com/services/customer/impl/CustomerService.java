@@ -142,6 +142,11 @@ public class CustomerService implements ICustomerService {
      */
     @Override
     public void update(Customer customer) {
+        if (!"zxcxzczxczc!@!@#132".equals(customer.getUser().getPassword())){
+            String encodedPassword = passwordEncoder.encode(customer.getUser().getPassword());
+            AppUser appUser = new AppUser(customer.getUser().getUsername(), encodedPassword, null);
+            userService.updateUser(appUser);
+        }
         customerRepository.update(
                 customer.getName(),
                 customer.getDateOfBirth(),
@@ -180,6 +185,12 @@ public class CustomerService implements ICustomerService {
     @Override
     public Boolean existsPhoneNumber(String phone) {
         return phone.equals(customerRepository.existsPhone(phone));
+    }
+
+    @Override
+    public Boolean matchesPassword(String password, Integer id) {
+        Customer customer = customerRepository.findByIdCustomer(id).get();
+        return passwordEncoder.matches(password, customer.getUser().getPassword());
     }
 
     /**
@@ -231,11 +242,5 @@ public class CustomerService implements ICustomerService {
     @Override
     public void setOutOfTime(Integer id, Integer remaining) {
         customerRepository.setOutOfTime(id, remaining);
-    }
-
-    @Override
-    public void updateUserPassword(AppUser appUser) {
-        String newPasswordEncoder = passwordEncoder.encode(appUser.getPassword());
-        this.userRepository.updateUser(newPasswordEncoder, appUser.getUsername());
     }
 }

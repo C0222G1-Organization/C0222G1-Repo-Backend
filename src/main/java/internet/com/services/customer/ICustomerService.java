@@ -39,6 +39,8 @@ public interface ICustomerService {
 
     Boolean existsPhoneNumber(String phone);
 
+    Boolean matchesPassword(String password, Integer id);
+
     void saveCustomer(CustomerDTO customerDTO);
 
     /**
@@ -55,14 +57,6 @@ public interface ICustomerService {
     Integer getRemainingTime(Integer id);
 
     void setOutOfTime(Integer id, Integer remaining);
-
-    /**
-     * Create by DuyNT
-     * Date create: 16/08/2022
-     * Method update password when update customer information
-     * @param appUser
-     */
-    void updateUserPassword(AppUser appUser);
 }
 
 

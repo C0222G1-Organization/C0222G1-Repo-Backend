@@ -1,4 +1,3 @@
-
 package internet.com.controller;
 
 import internet.com.dto.user_dto.request.SignInForm;
@@ -63,7 +62,7 @@ public class UserController {
      * @param signInForm
      * @return
      */
-    @PostMapping("/login")
+    @PostMapping(value = "/login")
     public ResponseEntity<?> login(@Valid @RequestBody SignInForm signInForm){
         SignInForm account = userOrEmail.checkUsernameOrEmail(signInForm);
         Authentication authentication = authenticationManager.authenticate(
@@ -102,4 +101,3 @@ public class UserController {
 
 
 }
-
