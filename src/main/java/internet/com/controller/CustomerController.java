@@ -252,7 +252,7 @@ public class CustomerController {
         if (customerEdit == null) {
             return new ResponseEntity<>("Khách hàng không tồn tại.", HttpStatus.NOT_FOUND);
         }
-        if (customerDTO.getPassword().equals("FakePassword@7979")){
+        if (customerDTO.getPassword().equals("zxcxzczxczc!@!@#132")){
             System.out.println(customerDTO.getPassword());
         }else {
             AppUser appUser = new AppUser();
