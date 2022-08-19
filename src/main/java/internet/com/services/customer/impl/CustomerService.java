@@ -4,7 +4,9 @@ package internet.com.services.customer.impl;
 import internet.com.dto.customer_dto.CustomerDTO;
 import internet.com.dto.customer_dto.ICustomerDTO;
 import internet.com.entity.customer.Customer;
+import internet.com.entity.user.AppUser;
 import internet.com.repository.customer_repo.ICustomerRepository;
+import internet.com.repository.user_repo.IUserRepository;
 import internet.com.services.customer.ICustomerService;
 import internet.com.services.user.IRoleService;
 import internet.com.services.user.IUserService;
@@ -27,6 +29,9 @@ public class CustomerService implements ICustomerService {
     private IRoleService roleService;
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private IUserRepository userRepository;
 
     @Override
     public Optional<Customer> findCustomerById(Integer id) {
@@ -117,6 +122,7 @@ public class CustomerService implements ICustomerService {
      */
     @Override
     public void saveCustomer(CustomerDTO customerDTO) {
+
         String encodedPassword = passwordEncoder.encode(customerDTO.getPassword());
         userService.createUser(customerDTO.getUserName().getUserName(), encodedPassword);
         roleService.addNewCustomerUserRole(customerDTO.getUserName().getUserName());
@@ -136,12 +142,19 @@ public class CustomerService implements ICustomerService {
      */
     @Override
     public void update(Customer customer) {
+        if (!"zxcxzczxczc!@!@#132".equals(customer.getUser().getPassword())){
+            String encodedPassword = passwordEncoder.encode(customer.getUser().getPassword());
+            AppUser appUser = new AppUser(customer.getUser().getUsername(), encodedPassword, null);
+            userService.updateUser(appUser);
+        }
         customerRepository.update(
                 customer.getName(),
                 customer.getDateOfBirth(),
                 customer.getEmail(),
                 customer.getPhoneNumber(),
                 customer.getActiveStatus(),
+                customer.getRemainingTime(),
+                customer.getDeleteStatus(),
                 customer.getCommune().getId(),
                 customer.getId()
         );
@@ -172,6 +185,12 @@ public class CustomerService implements ICustomerService {
     @Override
     public Boolean existsPhoneNumber(String phone) {
         return phone.equals(customerRepository.existsPhone(phone));
+    }
+
+    @Override
+    public Boolean matchesPassword(String password, Integer id) {
+        Customer customer = customerRepository.findByIdCustomer(id).get();
+        return passwordEncoder.matches(password, customer.getUser().getPassword());
     }
 
     /**
@@ -211,5 +230,17 @@ public class CustomerService implements ICustomerService {
     @Override
     public Integer getRemainingTime(Integer id) {
         return customerRepository.getRemainingTime(id);
+    }
+
+    /**
+     * Create by HoangHN
+     * Date create: 16/08/2022
+     * method set Remaining Time of customer
+     * @param id
+     * @return
+     */
+    @Override
+    public void setOutOfTime(Integer id, Integer remaining) {
+        customerRepository.setOutOfTime(id, remaining);
     }
 }

@@ -18,7 +18,6 @@ public class AppUser {
     @Id
     @Column(name = "user_name")
     private String username;
-    @JsonIgnore
     @Column(name = "user_password")
     private String password;
     @ManyToMany(fetch = FetchType.EAGER)

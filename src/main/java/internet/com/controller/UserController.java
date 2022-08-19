@@ -25,8 +25,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 
@@ -64,13 +62,13 @@ public class UserController {
      * @param signInForm
      * @return
      */
-    @PostMapping("/login")
+    @PostMapping(value = "/login")
     public ResponseEntity<?> login(@Valid @RequestBody SignInForm signInForm){
         SignInForm account = userOrEmail.checkUsernameOrEmail(signInForm);
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(account.getUsername(), account.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtProvider.createToken(authentication,new JWTResponseCustomer());
+        String token = jwtProvider.createToken(authentication);
         UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
 
         if (userPrinciple.getAuthorities().toString().contains("CUSTOMER")){
@@ -84,7 +82,7 @@ public class UserController {
                 jwtResponseCustomer.setCustomer(customer.get());
                 jwtResponseCustomer.setErrorStatus(false);
                 jwtResponseCustomer.setComputerCode(iComputerService.findById(jwtResponseCustomer.getComputerInUse()).getCode());
-                jwtResponseCustomer.setToken(jwtProvider.createToken(authentication,jwtResponseCustomer));
+                jwtResponseCustomer.setToken(jwtProvider.createToken(authentication));
                 return ResponseEntity.ok(jwtResponseCustomer);
             }else{
                 return new ResponseEntity<>(new JWTResponseCustomer(true,"Hiện không còn máy trống"), HttpStatus.BAD_REQUEST);
@@ -101,12 +99,5 @@ public class UserController {
         }
     }
 
-    @GetMapping(value = "/data/data1")
-    public ResponseEntity<?> findAllTicket() {
-        List<String> list = new ArrayList<>();
-        list.add("data1");
-        list.add("data2");
-        return new ResponseEntity<>(list, HttpStatus.OK);
-    }
 
 }

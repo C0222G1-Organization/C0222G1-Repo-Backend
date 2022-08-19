@@ -1,3 +1,4 @@
+
 package internet.com.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,7 +39,7 @@ public class JwtEntryPoint implements AuthenticationEntryPoint {
         logger.error("Unauthorized error Message {}", authException.getMessage());
 
         if (authException.getMessage().equals("Bad credentials")){
-            message = "Thông tin sai, vui lòng thử lại";
+            message = "Tài khoản hoặc mật khẩu không chính xác";
             code = 400;
         }else{
             message = jwtProvider.getMessValidateToken();
@@ -50,8 +51,10 @@ public class JwtEntryPoint implements AuthenticationEntryPoint {
         responseMap.put("errorStatus", true);
         responseMap.put("message", message);
         response.setHeader("content-type", "application/json");
+        response.setCharacterEncoding("utf-8");
         String responseMsg = mapper.writeValueAsString(responseMap);
         response.getWriter().write(responseMsg);
 
     }
 }
+

@@ -67,6 +67,23 @@ public class GameController {
 
     /**
      * Created by: KhanhTV,
+     * Date created: 16/08/2022
+     * Function: to get top 3 games
+     * @param page
+     * @return
+     */
+    @GetMapping("/top-3")
+    public ResponseEntity<Page<Game>> getTop3Games(@RequestParam(name = "page", defaultValue = "0") int page) {
+        Sort sort = Sort.by("played_times").descending();
+        Page<Game> games = gameService.getPopularGames(PageRequest.of(page, 4, sort));
+        if (games.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(games, HttpStatus.OK);
+    }
+
+    /**
+     * Created by: KhanhTV,
      * Date created: 09/08/2022
      * Function: to get all new games
      * @param page
@@ -232,5 +249,10 @@ public class GameController {
         }
 
         return new ResponseEntity<>(game, HttpStatus.OK);
+    }
+
+    @GetMapping("/checkGameName/{gameName}")
+    public  ResponseEntity<?> checkUserName(@PathVariable("gameName") String gameName){
+        return new ResponseEntity<>(gameService.existsGameName(gameName), HttpStatus.OK);
     }
 }
