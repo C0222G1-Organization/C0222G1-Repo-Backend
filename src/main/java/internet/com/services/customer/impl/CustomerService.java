@@ -130,8 +130,10 @@ public class CustomerService implements ICustomerService {
                 customerDTO.getDateOfBirth(),
                 customerDTO.getEmail().getEmail(),
                 customerDTO.getPhoneNumber().getPhone(),
+                customerDTO.getRemainingTime(),
                 customerDTO.getUserName().getUserName(),
-                customerDTO.getCommune().getId());
+                customerDTO.getCommune().getId()
+                );
     }
 
     /**
