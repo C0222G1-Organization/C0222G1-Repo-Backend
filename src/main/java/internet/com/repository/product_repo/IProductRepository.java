@@ -94,7 +94,7 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
      * Date create: 14/08/2022
      * Query: get list product from DB by product category id
      */
-    @Query(value = "SELECT * FROM product", nativeQuery = true)
+    @Query(value = "SELECT * FROM product WHERE delete_status = 0 AND quantity > 0", nativeQuery = true)
     List<Product> getAllProductForOrdering();
 
     /**

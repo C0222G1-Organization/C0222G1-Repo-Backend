@@ -249,15 +249,8 @@ public class CustomerController {
         if (customerEdit == null) {
             return new ResponseEntity<>("Khách hàng không tồn tại.", HttpStatus.NOT_FOUND);
         }
-        if (customerDTO.getPassword().equals("FakePassword@7979")){
-            System.out.println(customerDTO.getPassword());
-        }else {
-            AppUser appUser = new AppUser();
-            appUser.setUsername(customerDTO.getUserName().getUserName());
-            appUser.setPassword(customerDTO.getPassword());
-            customerService.updateUserPassword(appUser);
-        }
         customerEdit = modelMapper.map(customerDTO, Customer.class);
+        customerEdit.getUser().setPassword(customerDTO.getPassword());
         customerEdit.setCommune(customerDTO.getCommune());
         customerService.update(customerEdit);
         return new ResponseEntity<>(customerDTO, HttpStatus.OK);

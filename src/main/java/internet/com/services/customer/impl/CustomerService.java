@@ -130,10 +130,8 @@ public class CustomerService implements ICustomerService {
                 customerDTO.getDateOfBirth(),
                 customerDTO.getEmail().getEmail(),
                 customerDTO.getPhoneNumber().getPhone(),
-                customerDTO.getRemainingTime(),
                 customerDTO.getUserName().getUserName(),
-                customerDTO.getCommune().getId()
-                );
+                customerDTO.getCommune().getId());
     }
 
     /**
@@ -244,11 +242,5 @@ public class CustomerService implements ICustomerService {
     @Override
     public void setOutOfTime(Integer id, Integer remaining) {
         customerRepository.setOutOfTime(id, remaining);
-    }
-
-    @Override
-    public void updateUserPassword(AppUser appUser) {
-        String newPasswordEncoder = passwordEncoder.encode(appUser.getPassword());
-        this.userRepository.updateUser(newPasswordEncoder, appUser.getUsername());
     }
 }

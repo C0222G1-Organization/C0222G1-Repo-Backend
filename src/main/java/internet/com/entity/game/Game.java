@@ -26,7 +26,7 @@ public class Game {
     private String trailerUrl;
     @Column(name = "image_url")
     private String imageUrl;
-    @Column(name = "content")
+    @Column(name = "content", columnDefinition = "longtext")
     private String content;
     @Column(name = "delete_status")
     private Boolean delete_status;
