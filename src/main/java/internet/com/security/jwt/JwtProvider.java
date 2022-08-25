@@ -1,6 +1,8 @@
+
 package internet.com.security.jwt;
 
 
+import internet.com.dto.user_dto.response.JWTResponseCustomer;
 import internet.com.security.userprincal.UserPrinciple;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
@@ -87,6 +89,8 @@ public class JwtProvider {
 
     public String getUerNameFromToken(String token){
         String userName = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>"+userName);
         return userName;
     }
 }
+

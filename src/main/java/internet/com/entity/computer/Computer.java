@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import internet.com.entity.record.Record;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.util.Set;
 
 
@@ -60,29 +61,6 @@ public class Computer {
         this.records = records;
     }
 
-    public Computer(Integer id,
-                    String code,
-                    Integer status,
-                    String location,
-                    String startUsedDate,
-                    String configuration,
-                    String manufacturer,
-                    Integer deleteStatus,
-                    String warranty,
-                    ComputerType computerType) {
-        this.id = id;
-        this.code = code;
-        this.status = status;
-        this.location = location;
-        this.startUsedDate = startUsedDate;
-        this.configuration = configuration;
-        this.manufacturer = manufacturer;
-        this.deleteStatus = deleteStatus;
-        this.warranty = warranty;
-        this.computerType = computerType;
-    }
-
-
     public Integer getDeleteStatus() {
         return deleteStatus;
     }
@@ -97,9 +75,6 @@ public class Computer {
 
     public void setDeleteStatus(Integer deleteStatus) {
         this.deleteStatus = deleteStatus;
-    }
-
-    public Computer() {
     }
 
     public Integer getId() {

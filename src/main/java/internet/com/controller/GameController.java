@@ -30,7 +30,7 @@ public class GameController {
     private IGameCategoryService gameCategoryService;
 
     /**
-     * Created by: KienNDT,
+     * Created by: KhanhTV,
      * Date created: 09/08/2022
      * Function: to get all games
      * @param page
@@ -38,8 +38,8 @@ public class GameController {
      * @return HttpStatus.NO_CONTENT
      */
     @GetMapping
-    public ResponseEntity<?> getAllGames(@RequestParam(name = "page", defaultValue = "0") int page) {
-        Sort sort = Sort.by("game_name").ascending();
+    public ResponseEntity<Page<Game>> getAllGames(@RequestParam(name = "page", defaultValue = "0") int page) {
+        Sort sort = Sort.by("create_date").descending();
         Page<Game> games = gameService.getAll(PageRequest.of(page, 8, sort));
         if (games.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -56,9 +56,26 @@ public class GameController {
      * @return HttpStatus.NO_CONTENT
      */
     @GetMapping("/popular")
-    public ResponseEntity<?> getPopularGames(@RequestParam(name = "page", defaultValue = "0") int page) {
+    public ResponseEntity<Page<Game>> getPopularGames(@RequestParam(name = "page", defaultValue = "0") int page) {
         Sort sort = Sort.by("played_times").descending();
         Page<Game> games = gameService.getPopularGames(PageRequest.of(page, 8, sort));
+        if (games.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(games, HttpStatus.OK);
+    }
+
+    /**
+     * Created by: KhanhTV,
+     * Date created: 16/08/2022
+     * Function: to get top 3 games
+     * @param page
+     * @return
+     */
+    @GetMapping("/top-3")
+    public ResponseEntity<Page<Game>> getTop3Games(@RequestParam(name = "page", defaultValue = "0") int page) {
+        Sort sort = Sort.by("played_times").descending();
+        Page<Game> games = gameService.getPopularGames(PageRequest.of(page, 4, sort));
         if (games.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -74,7 +91,7 @@ public class GameController {
      * @return HttpStatus.NO_CONTENT
      */
     @GetMapping("/new")
-    public ResponseEntity<?> getNewGames(@RequestParam(name = "page", defaultValue = "0") int page) {
+    public ResponseEntity<Page<Game>> getNewGames(@RequestParam(name = "page", defaultValue = "0") int page) {
         Sort sort = Sort.by("create_date").descending();
         Page<Game> games = gameService.getNewGames(PageRequest.of(page, 8, sort));
         if (games.isEmpty()) {
@@ -92,7 +109,7 @@ public class GameController {
      * @return HttpStatus.NO_CONTENT
      */
     @GetMapping("/hot")
-    public ResponseEntity<?> getHotGames(@RequestParam(name = "page", defaultValue = "0") int page) {
+    public ResponseEntity<Page<Game>> getHotGames(@RequestParam(name = "page", defaultValue = "0") int page) {
         Sort sort = Sort.by("played_times").descending();
         Page<Game> games = gameService.getHotGames(PageRequest.of(page, 8, sort));
         if (games.isEmpty()) {
@@ -109,7 +126,7 @@ public class GameController {
      * @return HttpStatus.NO_CONTENT
      */
     @GetMapping("/game-categories")
-    public ResponseEntity<?> getAllGameCategories() {
+    public ResponseEntity<List<GameCategory>> getAllGameCategories() {
         List<GameCategory> gameCategories = gameCategoryService.getAll();
         if (gameCategories.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -118,7 +135,7 @@ public class GameController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable Integer id){
+    public ResponseEntity<Game> findById(@PathVariable Integer id){
        Game game= gameService.findById(id);
         if (game == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -136,7 +153,7 @@ public class GameController {
      * @return HttpStatus.CREATED
      */
     @PostMapping
-    public ResponseEntity<?> createGame(@Valid @RequestBody GameDTO gameDTO, BindingResult bindingResult) {
+    public ResponseEntity<Object> createGame(@Valid @RequestBody GameDTO gameDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
@@ -157,7 +174,7 @@ public class GameController {
      * @return HttpStatus.BAD_REQUEST
      */
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateGame(@PathVariable Integer id, @Valid @RequestBody GameDTO gameDTO, BindingResult bindingResult) {
+    public ResponseEntity<Object> updateGame(@PathVariable Integer id, @Valid @RequestBody GameDTO gameDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
@@ -180,7 +197,7 @@ public class GameController {
      * @return HttpStatus.OK
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteGame(@PathVariable Integer id) {
+    public ResponseEntity<Game> deleteGame(@PathVariable Integer id) {
         Game game = gameService.findById(id);
         if (game == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -199,7 +216,7 @@ public class GameController {
      * @return HttpStatus.OK
      */
     @GetMapping("/search")
-    public ResponseEntity<?> searchByName(@RequestParam String name, @RequestParam(name = "page", defaultValue = "0") int page) {
+    public ResponseEntity<Page<Game>> searchByName(@RequestParam String name, @RequestParam(name = "page", defaultValue = "0") int page) {
         if (name.equals("null")) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -232,5 +249,10 @@ public class GameController {
         }
 
         return new ResponseEntity<>(game, HttpStatus.OK);
+    }
+
+    @GetMapping("/checkGameName/{gameName}")
+    public  ResponseEntity<?> checkUserName(@PathVariable("gameName") String gameName){
+        return new ResponseEntity<>(gameService.existsGameName(gameName), HttpStatus.OK);
     }
 }

@@ -10,8 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class GameService implements IGameService {
     @Autowired
@@ -118,5 +116,10 @@ public class GameService implements IGameService {
     @Override
     public Page<Game> searchByName(String gameName, Pageable pageble) {
         return gameRepository.searchByName("%" + gameName + "%", pageble);
+    }
+
+    @Override
+    public Boolean existsGameName(String name) {
+        return name.equals(gameRepository.existsGameName(name));
     }
 }

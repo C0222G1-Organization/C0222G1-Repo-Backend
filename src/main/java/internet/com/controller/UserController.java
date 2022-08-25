@@ -1,12 +1,14 @@
 package internet.com.controller;
 
 import internet.com.dto.user_dto.request.SignInForm;
-import internet.com.dto.user_dto.response.JwtResponse;
-import internet.com.entity.computer.Computer;
+import internet.com.dto.user_dto.response.JWTResponseCustomer;
+import internet.com.dto.user_dto.response.JWTResponseEmployee;
 import internet.com.entity.customer.Customer;
+import internet.com.entity.employee.Employee;
 import internet.com.security.userprincal.UserOrEmail;
 import internet.com.services.computer.IComputerService;
 import internet.com.services.customer.ICustomerService;
+import internet.com.services.employee.IEmployeeService;
 import internet.com.services.record.IRecordService;
 import internet.com.services.user.impl.RoleServiceImpl;
 import internet.com.services.user.impl.UserServiceImpl;
@@ -23,8 +25,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 
@@ -51,6 +51,9 @@ public class UserController {
     @Autowired
     IComputerService iComputerService;
 
+    @Autowired
+    IEmployeeService iEmployeeService;
+
 
     /**
      * Create by HoangHN
@@ -59,7 +62,7 @@ public class UserController {
      * @param signInForm
      * @return
      */
-    @PostMapping("/login")
+    @PostMapping(value = "/login")
     public ResponseEntity<?> login(@Valid @RequestBody SignInForm signInForm){
         SignInForm account = userOrEmail.checkUsernameOrEmail(signInForm);
         Authentication authentication = authenticationManager.authenticate(
@@ -70,24 +73,31 @@ public class UserController {
 
         if (userPrinciple.getAuthorities().toString().contains("CUSTOMER")){
             if (iCustomerService.getRemainingTime(iCustomerService.findCustomerByUserName(account.getUsername()).get().getId()) < 1){
-                return new ResponseEntity<>(new JwtResponse(true,"Tài khoản đã hết giờ, vui lòng nạp thêm"), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new JWTResponseCustomer(true,"Tài khoản đã hết giờ, vui lòng nạp thêm"), HttpStatus.BAD_REQUEST);
             }
             if (!iComputerService.findUnusedComputer().isEmpty()){
-                iRecordService.createRecord(iCustomerService.findCustomerByUserName(account.getUsername()).get().getId());
+                JWTResponseCustomer jwtResponseCustomer =  iRecordService.createRecord(iCustomerService.findCustomerByUserName(account.getUsername()).get().getId());
+                jwtResponseCustomer.setRoles(userPrinciple.getAuthorities());
+                Optional<Customer> customer = iCustomerService.findCustomerByUserName(account.getUsername());
+                jwtResponseCustomer.setCustomer(customer.get());
+                jwtResponseCustomer.setErrorStatus(false);
+                jwtResponseCustomer.setComputerCode(iComputerService.findById(jwtResponseCustomer.getComputerInUse()).getCode());
+                jwtResponseCustomer.setToken(jwtProvider.createToken(authentication));
+                return ResponseEntity.ok(jwtResponseCustomer);
             }else{
-                return new ResponseEntity<>(new JwtResponse(true,"Hiện không còn máy trống"), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new JWTResponseCustomer(true,"Hiện không còn máy trống"), HttpStatus.BAD_REQUEST);
             }
+        } else {
+            JWTResponseEmployee jwtResponseEmployee = new JWTResponseEmployee();
+            jwtResponseEmployee.setMessage("Đăng nhập thành công");
+            jwtResponseEmployee.setRoles(userPrinciple.getAuthorities());
+            jwtResponseEmployee.setToken(token);
+            Optional<Employee> employee = iEmployeeService.findEmployeeByUserName(account.getUsername());
+            jwtResponseEmployee.setEmployee(employee.get());
+            jwtResponseEmployee.setErrorStatus(false);
+            return ResponseEntity.ok(jwtResponseEmployee);
         }
-        return ResponseEntity.ok(new JwtResponse(false,"Đăng nhập thành công",
-                userOrEmail.getEntity(account.getUsername()),token, userPrinciple.getAuthorities()));
     }
 
-    @GetMapping(value = "/data/data1")
-    public ResponseEntity<?> findAllTicket() {
-        List<String> list = new ArrayList<>();
-        list.add("data1");
-        list.add("data2");
-        return new ResponseEntity<>(list, HttpStatus.OK);
-    }
 
 }
