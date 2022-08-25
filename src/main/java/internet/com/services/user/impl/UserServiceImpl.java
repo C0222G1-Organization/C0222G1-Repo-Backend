@@ -5,6 +5,7 @@ import internet.com.entity.user.AppUser;
 import internet.com.repository.user_repo.IUserRepository;
 import internet.com.services.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -13,6 +14,8 @@ import java.util.Optional;
 public class UserServiceImpl implements IUserService {
     @Autowired
     IUserRepository userRepository;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     /**
      * Create by HoangHN
@@ -35,10 +38,12 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     public Boolean existsByUsername(String username) {
-        if (username.equals(userRepository.existsByUsername(username))){
-            return true;
-        }
-        return false;
+        return username.equals(userRepository.existsByUsername(username));
+    }
+
+    @Override
+    public Boolean existsByUsernameInEdit(String username, Integer id) {
+        return username.equals(userRepository.existsByUsernameInEdit(username, id));
     }
 
     /**
@@ -60,7 +65,6 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     public void updateUser(AppUser appUser) {
-        userRepository.updateUser(
-                appUser.getPassword(),appUser.getUsername());
+        userRepository.updateUser(appUser.getPassword(),appUser.getUsername());
     }
 }

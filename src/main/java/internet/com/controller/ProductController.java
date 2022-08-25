@@ -1,10 +1,13 @@
 package internet.com.controller;
+import internet.com.entity.payment.Payment;
 import internet.com.entity.product.Product;
 import internet.com.entity.product.ProductCategory;
 import internet.com.entity.product.product_dto.IProductDTO;
 import internet.com.entity.product.product_dto.ProductDTO;
+import internet.com.services.payment.IPaymentService;
 import internet.com.services.product.IProductCategoryService;
 import internet.com.services.product.IProductService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/product")
@@ -26,18 +30,21 @@ public class ProductController {
     @Autowired
     private IProductCategoryService productCategoryService;
 
+    @Autowired
+    private IPaymentService paymentService;
+
     /**
      * Create by: TruongTX
      * Date create: 10/08/2022
      * function: findAll and Search product
      */
     @GetMapping("/list")
-    private ResponseEntity<Page<IProductDTO>> showListProduct(
+    public ResponseEntity<Page<IProductDTO>> showListProduct(
             @RequestParam(name = "name") String name, @RequestParam(defaultValue = "0") int page
     ) {
         Sort sort = Sort.by("quantity").ascending();
 
-        Page<IProductDTO> productList = productService.findAll(name, PageRequest.of(page, 4, sort));
+        Page<IProductDTO> productList = productService.findAll(name, PageRequest.of(page, 8, sort));
         if (productList.isEmpty()) {
             return new ResponseEntity<>(productList, HttpStatus.NO_CONTENT);
         }
@@ -51,7 +58,7 @@ public class ProductController {
      */
 
     @GetMapping("/listCategory")
-    private ResponseEntity<List<ProductCategory>> showListProductCategory() {
+    public ResponseEntity<List<ProductCategory>> showListProductCategory() {
         List<ProductCategory> productCategoryList = productCategoryService.findAll();
         if (productCategoryList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -67,7 +74,7 @@ public class ProductController {
      */
 
     @DeleteMapping("/list/delete/{id}")
-    private ResponseEntity<?> deleteByIdProduct(@PathVariable Integer id) {
+    public ResponseEntity<?> deleteByIdProduct(@PathVariable Integer id) {
 
         if (id == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -82,13 +89,13 @@ public class ProductController {
      * function: create product
      */
     @PostMapping("/list/create")
-    private ResponseEntity<?> createProduct(@RequestBody ProductDTO productDTO){
+    public ResponseEntity<?> createProduct(@RequestBody ProductDTO productDTO){
         productService.create(productDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 //    @GetMapping("{id}")
-//    private ResponseEntity<?> findId (@PathVariable Integer id){
+//    public ResponseEntity<Product> findId (@PathVariable Integer id){
 //        Product product = productService.findByIdProduct(id);
 //        return new ResponseEntity<>(product,HttpStatus.OK);
 //    }
@@ -103,20 +110,13 @@ public class ProductController {
      * function: update product
      */
     @PatchMapping("/list/update/{id}")
-    private ResponseEntity<?> updateProduct (@PathVariable Integer id,@RequestBody Product product){
-//        Product product = productService.findByIdProduct(id);
+    public ResponseEntity<?> updateProduct (@PathVariable Integer id,@RequestBody Product product){
         if(product == null){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        ProductDTO productDTO = new ProductDTO( product.getId(),
-                                                product.getCode(),
-                                                product.getNameProduct(),
-                                                product.getQuantity(),
-                                                product.getUnit(),
-                                                product.getPrices(),
-                                                product.getImageUrl(),
-                                                product.getDeleteStatus(),
-                                                product.getProductCategory().getId());
+
+        ProductDTO productDTO = new ProductDTO();
+        BeanUtils.copyProperties(product, productDTO);
 
         productService.updateProduct(productDTO.getCode(),
                                     productDTO.getNameProduct(),
@@ -135,7 +135,7 @@ public class ProductController {
      * function: get list product from category option for ordering
      */
     @GetMapping("/order")
-    private ResponseEntity<List<Product>> listProductForOrder() {
+    public ResponseEntity<List<Product>> listProductForOrder() {
         List<Product> productList = productService.getListProductForOrdering();
         if (productList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -149,7 +149,7 @@ public class ProductController {
      * function: get list product from category option for ordering
      */
     @GetMapping("/order/{id}")
-    private ResponseEntity<List<Product>> showListProductByCategoryId(@PathVariable Integer id) {
+    public ResponseEntity<List<Product>> showListProductByCategoryId(@PathVariable Integer id) {
         List<Product> productList = productService.findProductByCategoryId(id);
         if (productList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -163,11 +163,25 @@ public class ProductController {
      * function: get product from DB by id
      */
     @GetMapping("/{id}")
-    private ResponseEntity<Product> loadProductInfoById(@PathVariable Integer id) {
+    public ResponseEntity<Product> loadProductInfoById(@PathVariable Integer id) {
         Product product = productService.findByIdProduct(id);
         if (product == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(product, HttpStatus.OK);
+    }
+
+    /**
+     * Created: LuanND
+     * Date: 17/08/2022
+     * @param id is ID of payment Object
+     * @return response about execute set data from list service of customer
+     */
+    @GetMapping("/data/{id}")
+    public ResponseEntity<String> setDataProductOrder(@PathVariable Integer id) {
+        Optional<Payment> payment = this.paymentService.getPaymentById(id);
+        if (!payment.isPresent()) return new ResponseEntity<>("Không thành công" ,HttpStatus.NOT_FOUND);
+        this.productService.setDataProductOrder(payment.get());
+        return new ResponseEntity<>("Thành công" ,HttpStatus.NOT_FOUND);
     }
 }

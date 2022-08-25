@@ -19,6 +19,7 @@ public class Customer {
     private String dateOfBirth;
     private String email;
     private Integer activeStatus;
+    @Column(name = "delete_status")
     private Integer deleteStatus;
     private Integer remainingTime;
     @OneToOne(cascade = CascadeType.ALL)
