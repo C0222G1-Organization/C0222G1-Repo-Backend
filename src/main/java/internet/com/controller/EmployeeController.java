@@ -43,7 +43,7 @@ public class EmployeeController {
      * Date created: 09/08/2022
      * function: Add employee
      */
-    @PostMapping("/add")
+    @PostMapping("/create")
     public ResponseEntity<?> createEmployee(@Valid @RequestBody EmployeeDTO employeeDTO, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
@@ -87,7 +87,6 @@ public class EmployeeController {
             return new ResponseEntity<>(HttpStatus.OK);
         }
     }
-
     /**
      * Create by LongNB
      * Date create: 09/08/2022

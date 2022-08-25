@@ -136,7 +136,7 @@ public interface ICustomerRepository extends PagingAndSortingRepository<Customer
      */
     @Modifying
     @Query(value = "INSERT INTO customer(customer_name, active_status, date_of_birth, delete_status, email, phone_number, remaining_time, user_name, address_id) VALUE \n" +
-            "            (:name,1,:dateOfBirth,0,:email, :phone, 0, :userName, :address );", nativeQuery = true)
+            "            (:name,1,:dateOfBirth,0,:email, :phone, 300, :userName, :address );", nativeQuery = true)
     void saveCustomer(@Param("name") String name,
                       @Param("dateOfBirth") String dateOfBirth,
                       @Param("email") String email,
@@ -234,6 +234,5 @@ public interface ICustomerRepository extends PagingAndSortingRepository<Customer
     @Modifying
     @Query(value = "UPDATE customer SET remaining_time = :remaining WHERE id=:id", nativeQuery = true)
     void setOutOfTime(@Param("id") Integer id, @Param("remaining") Integer remaining);
-
 }
 
