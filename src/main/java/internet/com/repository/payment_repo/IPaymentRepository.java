@@ -36,4 +36,7 @@ public interface IPaymentRepository extends JpaRepository<Payment, Integer> {
 
     @Query(value = "SELECT * FROM payment WHERE payment_code = :code", nativeQuery = true)
     Optional<Payment> getByPaymentCode (@Param("code") String paymentCode);
+
+    @Query(value = "SELECT * FROM payment WHERE payment_code LIKE %:code%", nativeQuery = true)
+    Page<Payment> findListPaymentByCode (@Param("code") String paymentCode, Pageable pageable);
 }
