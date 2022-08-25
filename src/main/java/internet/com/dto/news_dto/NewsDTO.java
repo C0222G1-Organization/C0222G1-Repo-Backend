@@ -7,15 +7,18 @@ import javax.validation.constraints.Pattern;
 
 public class NewsDTO {
     private Integer id;
-    @NotBlank(message = "tiêu đề không được rỗng")
+    @Length(min = 20, max = 150)
+    @NotBlank
     private String title;
     @NotBlank
     private String imageUrl;
     @NotBlank
+    @Length(min = 200)
     private String content;
     private String createDate;
     private String views;
     @NotBlank
+    @Length(min = 2, max = 50)
     @Pattern(regexp = "^[A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*(?:[ ][A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*)*$", message = "tên sai định dạng")
     private String author;
     private GameCategory gameCategory;
