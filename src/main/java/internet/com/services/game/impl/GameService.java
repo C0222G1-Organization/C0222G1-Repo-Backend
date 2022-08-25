@@ -120,6 +120,6 @@ public class GameService implements IGameService {
 
     @Override
     public Boolean existsGameName(String name) {
-        return name.equals(gameRepository.existsGameName(name));
+        return name.toLowerCase().equals(gameRepository.existsGameName(name).toLowerCase());
     }
 }
