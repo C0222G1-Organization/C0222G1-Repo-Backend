@@ -1,8 +1,11 @@
 package internet.com.controller;
+
+import internet.com.entity.payment.Payment;
 import internet.com.entity.product.Product;
 import internet.com.entity.product.ProductCategory;
 import internet.com.entity.product.product_dto.IProductDTO;
 import internet.com.entity.product.product_dto.ProductDTO;
+import internet.com.services.payment.IPaymentService;
 import internet.com.services.product.IProductCategoryService;
 import internet.com.services.product.IProductService;
 import org.springframework.beans.BeanUtils;
@@ -15,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/product")
@@ -26,6 +30,9 @@ public class ProductController {
 
     @Autowired
     private IProductCategoryService productCategoryService;
+
+    @Autowired
+    private IPaymentService paymentService;
 
     /**
      * Create by: TruongTX
@@ -83,7 +90,7 @@ public class ProductController {
      * function: create product
      */
     @PostMapping("/list/create")
-    public ResponseEntity<?> createProduct(@RequestBody ProductDTO productDTO){
+    public ResponseEntity<?> createProduct(@RequestBody ProductDTO productDTO) {
         productService.create(productDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -104,8 +111,8 @@ public class ProductController {
      * function: update product
      */
     @PatchMapping("/list/update/{id}")
-    public ResponseEntity<?> updateProduct (@PathVariable Integer id,@RequestBody Product product){
-        if(product == null){
+    public ResponseEntity<?> updateProduct(@PathVariable Integer id, @RequestBody Product product) {
+        if (product == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -113,13 +120,13 @@ public class ProductController {
         BeanUtils.copyProperties(product, productDTO);
 
         productService.updateProduct(productDTO.getCode(),
-                                    productDTO.getNameProduct(),
-                                    productDTO.getQuantity(),
-                                    productDTO.getUnit(),
-                                    productDTO.getPrices(),
-                                    productDTO.getImageUrl(),
-                                    productDTO.getIdProductCategory(),
-                                    productDTO.getId());
+                productDTO.getNameProduct(),
+                productDTO.getQuantity(),
+                productDTO.getUnit(),
+                productDTO.getPrices(),
+                productDTO.getImageUrl(),
+                productDTO.getIdProductCategory(),
+                productDTO.getId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -173,6 +180,39 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
+        return new ResponseEntity<>(productList, HttpStatus.OK);
+    }
+
+    /**
+     * Created: LuanND
+     * Date: 17/08/2022
+     *
+     * @param id is ID of payment Object
+     * @return response about execute set data from list service of customer
+     */
+    @GetMapping("/data/{id}")
+    public ResponseEntity<String> setDataProductOrder(@PathVariable Integer id) {
+        Optional<Payment> payment = this.paymentService.getPaymentById(id);
+        if (!payment.isPresent()) return new ResponseEntity<>("Không thành công", HttpStatus.NOT_FOUND);
+        this.productService.setDataProductOrder(payment.get());
+        return new ResponseEntity<>("Thành công", HttpStatus.NOT_FOUND);
+    }
+
+    /**
+     * Create by: TruongTX
+     * Date create: 20/08/2022
+     * function: show list best seller
+     */
+    @GetMapping("/list-best-seller")
+    public ResponseEntity<Page<IProductDTO>> showListBestSeller(
+            @RequestParam(name = "name") String name, @RequestParam(defaultValue = "0") int page
+    ) {
+        Sort sort = Sort.by("quantity").descending();
+
+        Page<IProductDTO> productList = productService.listBestSeller(name, PageRequest.of(page, 8, sort));
+        if (productList.isEmpty()) {
+            return new ResponseEntity<>(productList, HttpStatus.NO_CONTENT);
+        }
         return new ResponseEntity<>(productList, HttpStatus.OK);
     }
 }

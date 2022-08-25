@@ -117,4 +117,9 @@ public class GameService implements IGameService {
     public Page<Game> searchByName(String gameName, Pageable pageble) {
         return gameRepository.searchByName("%" + gameName + "%", pageble);
     }
+
+    @Override
+    public Boolean existsGameName(String name) {
+        return name.equals(gameRepository.existsGameName(name));
+    }
 }

@@ -64,8 +64,9 @@ public interface IGameRepository extends PagingAndSortingRepository<Game, Intege
      * @param content
      */
     @Modifying
-    @Query(value = "insert into game(game_name, game_category_id, create_date, played_times, trailer_url, image_url, content) " +
-            "values(:game_name, :game_category_id, :create_date, :played_times, :trailer_url, :image_url, :content) ", nativeQuery = true)
+    @Query(value = "insert into game(game_name, game_category_id, create_date, played_times, trailer_url, image_url, content,delete_status) " +
+            "values(:game_name, :game_category_id, :create_date, :played_times, " +
+            ":trailer_url, :image_url, :content , 0) ", nativeQuery = true)
     void saveGame(@Param("game_name") String name,
                   @Param("game_category_id") Integer gameCategoryId,
                   @Param("create_date") String createDate,
@@ -129,4 +130,7 @@ public interface IGameRepository extends PagingAndSortingRepository<Game, Intege
      */
     @Query(value = "SELECT * FROM game WHERE game_name LIKE :game_name AND delete_status = 0", nativeQuery = true)
     Page<Game> searchByName(@Param("game_name") String name, Pageable pageable);
+
+    @Query(value = "SELECT game_name FROM game where game_name = :name", nativeQuery = true)
+    String existsGameName(@Param("name") String name);
 }

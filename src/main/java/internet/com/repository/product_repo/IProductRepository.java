@@ -28,6 +28,11 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
    @Query(value = "select * from product where delete_status = 0", nativeQuery = true)
     List<IProductDTO> findAllList();
 
+ @Query(value = "select p.id as id, product_code as code, product_name as nameProduct, quantity as quantity , " +
+         "unit as unit, prices as prices, image_url as imageUrl, delete_status as deleteStatus, p.id_product_category as idProductCategory, pc.product_category_name as productCategoryName" +
+         " from product p right join product_category as pc on pc.id = p.id_product_category  where delete_status = 0 and quantity >= 50 and product_name like %:name%"
+         , nativeQuery = true, countQuery = "select count(*) from product p  join product_category pc on pc.id = p.id_product_category where delete_status = 0 and quantity >= 50 and product_name like %:name%")
+ Page<IProductDTO> listBestSeller(@Param("name") String name, Pageable pageable);
     /**
      * Create by: TruongTX
      * Date create: 10/08/2022
@@ -90,7 +95,7 @@ public interface IProductRepository extends JpaRepository<Product, Integer> {
      * Date create: 14/08/2022
      * Query: get list product from DB by product category id
      */
-    @Query(value = "SELECT * FROM product", nativeQuery = true)
+    @Query(value = "SELECT * FROM product WHERE delete_status = 0 AND quantity > 0", nativeQuery = true)
     List<Product> getAllProductForOrdering();
 
     /**
