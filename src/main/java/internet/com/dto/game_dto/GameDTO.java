@@ -23,7 +23,7 @@ public class GameDTO {
     private String playedTimes;
 
     @NotEmpty(message = "trailer url is not empty")
-    @Pattern(regexp = "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&\\/{2}=]*)",
+    @Pattern(regexp = "^https:\\/\\/www\\.youtube\\.com\\/embed\\/\\S*$",
             message = "Invalid url")
     private String trailerUrl;
 
