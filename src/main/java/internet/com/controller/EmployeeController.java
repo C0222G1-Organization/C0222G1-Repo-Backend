@@ -87,7 +87,6 @@ public class EmployeeController {
             return new ResponseEntity<>(HttpStatus.OK);
         }
     }
-
     /**
      * Create by LongNB
      * Date create: 09/08/2022
@@ -108,7 +107,6 @@ public class EmployeeController {
         Page<IEmployeeDTO> findAllByCommune = employeeService.getAll(code, name, workf, workt, dobfrom, dobend, pid, address, PageRequest.of(page, 5));
         Page<IEmployeeDTO> findAllByDistrict = employeeService.getAllByDistrict(code, name, workf, workt, dobfrom, dobend, pid, address, PageRequest.of(page, 5));
         Page<IEmployeeDTO> findAllByProvince = employeeService.getAllByProvince(code, name, workf, workt, dobfrom, dobend, pid, address, PageRequest.of(page, 5));
-
         if (findAllByCommune.getTotalElements() != 0) {
             return new ResponseEntity<>(findAllByCommune, HttpStatus.OK);
         }
