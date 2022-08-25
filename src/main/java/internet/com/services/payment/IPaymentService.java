@@ -19,4 +19,6 @@ public interface IPaymentService {
     void editPayment (Payment payment);
 
     Payment findByCode(String code);
+
+    Page<Payment> findListPaymentByCode(String code, Pageable pageable);
 }

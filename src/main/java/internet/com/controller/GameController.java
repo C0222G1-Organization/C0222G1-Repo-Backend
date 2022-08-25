@@ -39,7 +39,7 @@ public class GameController {
      */
     @GetMapping
     public ResponseEntity<Page<Game>> getAllGames(@RequestParam(name = "page", defaultValue = "0") int page) {
-        Sort sort = Sort.by("game_name").ascending();
+        Sort sort = Sort.by("create_date").descending();
         Page<Game> games = gameService.getAll(PageRequest.of(page, 8, sort));
         if (games.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -75,7 +75,7 @@ public class GameController {
     @GetMapping("/top-3")
     public ResponseEntity<Page<Game>> getTop3Games(@RequestParam(name = "page", defaultValue = "0") int page) {
         Sort sort = Sort.by("played_times").descending();
-        Page<Game> games = gameService.getPopularGames(PageRequest.of(page, 3, sort));
+        Page<Game> games = gameService.getPopularGames(PageRequest.of(page, 4, sort));
         if (games.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -249,5 +249,10 @@ public class GameController {
         }
 
         return new ResponseEntity<>(game, HttpStatus.OK);
+    }
+
+    @GetMapping("/checkGameName/{gameName}")
+    public  ResponseEntity<?> checkUserName(@PathVariable("gameName") String gameName){
+        return new ResponseEntity<>(gameService.existsGameName(gameName), HttpStatus.OK);
     }
 }

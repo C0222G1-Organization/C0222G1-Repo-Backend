@@ -48,5 +48,8 @@ public class PaymentService implements IPaymentService {
         return this.paymentRepository.getByPaymentCode(code).get();
     }
 
-
+    @Override
+    public Page<Payment> findListPaymentByCode (String code, Pageable pageable) {
+        return paymentRepository.findListPaymentByCode(code, pageable);
+    }
 }
