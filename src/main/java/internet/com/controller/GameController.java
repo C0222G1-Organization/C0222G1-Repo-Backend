@@ -39,7 +39,7 @@ public class GameController {
      */
     @GetMapping
     public ResponseEntity<Page<Game>> getAllGames(@RequestParam(name = "page", defaultValue = "0") int page) {
-        Sort sort = Sort.by("game_name").ascending();
+        Sort sort = Sort.by("create_date").descending();
         Page<Game> games = gameService.getAll(PageRequest.of(page, 8, sort));
         if (games.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
