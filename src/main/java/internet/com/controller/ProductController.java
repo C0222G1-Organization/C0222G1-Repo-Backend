@@ -213,6 +213,6 @@ public class ProductController {
         if (productList.isEmpty()) {
             return new ResponseEntity<>(productList, HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(productList, HttpStatus.OK);
+        return new ResponseEntity<>(productList, HttpStatus.OK);  
     }
 }
