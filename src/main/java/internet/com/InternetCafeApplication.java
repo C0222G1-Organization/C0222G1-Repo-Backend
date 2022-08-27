@@ -7,14 +7,14 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class InternetApplication extends SpringBootServletInitializer {
+public class InternetCafeApplication extends SpringBootServletInitializer {
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(InternetApplication.class, args);
+        SpringApplication.run(InternetCafeApplication.class, args);
     }
 }
 
