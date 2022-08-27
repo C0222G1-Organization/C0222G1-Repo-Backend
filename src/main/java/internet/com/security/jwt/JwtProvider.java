@@ -7,6 +7,7 @@ import internet.com.security.userprincal.UserPrinciple;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,8 @@ import java.util.Date;
 public class JwtProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
-    private String jwtSecret = "c0222g1";
+    @Value("${jwt.secret}")
+    private String jwtSecret;
     private int jwtExpiration = 86400;  //1 day
     private String token_temp = "";
     public String createToken(Authentication authentication){
