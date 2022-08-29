@@ -28,9 +28,14 @@ public interface IProductService {
 
     void save(Product product);
 
+    Page<IProductDTO> listBestSeller(String name, Pageable pageable);
+
     List<Product> getListProductForOrdering();
 
     List<Product> findProductByCategoryId(Integer id);
 
+    List<IProductDTO> findAllList();
+
     void setDataProductOrder(Payment payment);
+
 }

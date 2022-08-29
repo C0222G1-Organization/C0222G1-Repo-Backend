@@ -26,8 +26,8 @@ public class ProductService implements IProductService {
      * function: findAll and Search product
      */
     @Override
-    public Page<IProductDTO> findAll (String name , Pageable pageable) {
-        return iProductRepository.findAll(name , pageable);
+    public Page<IProductDTO> findAll(String name, Pageable pageable) {
+        return iProductRepository.findAll(name, pageable);
     }
 
     /**
@@ -37,7 +37,7 @@ public class ProductService implements IProductService {
      */
 
     @Override
-    public void delete (Integer id) {
+    public void delete(Integer id) {
         iProductRepository.delete(id);
     }
 
@@ -47,13 +47,13 @@ public class ProductService implements IProductService {
      * function: create product
      */
     @Override
-    public void create (ProductDTO productDTO) {
-        iProductRepository.createProduct(productDTO.getCode() ,
-                productDTO.getNameProduct() ,
-                productDTO.getQuantity() ,
-                productDTO.getUnit() ,
-                productDTO.getPrices() ,
-                productDTO.getImageUrl() ,
+    public void create(ProductDTO productDTO) {
+        iProductRepository.createProduct(productDTO.getCode(),
+                productDTO.getNameProduct(),
+                productDTO.getQuantity(),
+                productDTO.getUnit(),
+                productDTO.getPrices(),
+                productDTO.getImageUrl(),
                 productDTO.getIdProductCategory());
     }
 
@@ -63,7 +63,7 @@ public class ProductService implements IProductService {
      * function: findById product
      */
     @Override
-    public Product findByIdProduct (Integer id) {
+    public Product findByIdProduct(Integer id) {
         return iProductRepository.findByIdProduct(id);
     }
 
@@ -73,13 +73,18 @@ public class ProductService implements IProductService {
      * function: update product
      */
     @Override
-    public void updateProduct (String code , String name , Integer quantity , String unit , Integer prices , String imageUrl , Integer idProductCategory , Integer id) {
-        iProductRepository.updateProduct(code , name , quantity , unit , prices , imageUrl , idProductCategory , id);
+    public void updateProduct(String code, String name, Integer quantity, String unit, Integer prices, String imageUrl, Integer idProductCategory, Integer id) {
+        iProductRepository.updateProduct(code, name, quantity, unit, prices, imageUrl, idProductCategory, id);
     }
 
     @Override
-    public void save (Product product) {
+    public void save(Product product) {
         iProductRepository.save(product);
+    }
+
+    @Override
+    public Page<IProductDTO> listBestSeller(String name, Pageable pageable) {
+        return iProductRepository.listBestSeller(name, pageable);
     }
 
     /**
@@ -88,7 +93,7 @@ public class ProductService implements IProductService {
      * function: get all product for ordering
      */
     @Override
-    public List<Product> getListProductForOrdering () {
+    public List<Product> getListProductForOrdering() {
         return this.iProductRepository.getAllProductForOrdering();
     }
 
@@ -98,18 +103,24 @@ public class ProductService implements IProductService {
      * function: get list product from category option for ordering
      */
     @Override
-    public List<Product> findProductByCategoryId (Integer id) {
+    public List<Product> findProductByCategoryId(Integer id) {
         return this.iProductRepository.getListByCategoryId(id);
     }
 
-    /**
-     * Created: LuanND
-     * Date: 17/08/2022
-     * Description: Execute decrease quantity of product when customer order success
-     * @param payment is bill to process
-     */
     @Override
-    public void setDataProductOrder (Payment payment) {
+    public List<IProductDTO> findAllList() {
+        return iProductRepository.findAllList();
+
+        /**
+         * Created: LuanND
+         * Date: 17/08/2022
+         * Description: Execute decrease quantity of product when customer order success
+         * @param payment is bill to process
+         */
+    }
+
+    @Override
+    public void setDataProductOrder(Payment payment) {
         Product product;
         List<PaymentDetail> listPaymentDetail = payment.getPaymentDetailList();
         List<Product> listProduct = iProductRepository.getAllProductForOrdering();
@@ -118,18 +129,17 @@ public class ProductService implements IProductService {
                 if (paymentDetail.getProduct().getId() == value.getId()) {
                     product = paymentDetail.getProduct();
                     product.setQuantity(product.getQuantity() - paymentDetail.getAmount());
-                    iProductRepository.updateProduct(product.getCode() ,
-                            product.getNameProduct() ,
-                            product.getQuantity() ,
-                            product.getUnit() ,
-                            product.getPrices() ,
-                            product.getImageUrl() ,
-                            product.getProductCategory().getId() ,
+                    iProductRepository.updateProduct(product.getCode(),
+                            product.getNameProduct(),
+                            product.getQuantity(),
+                            product.getUnit(),
+                            product.getPrices(),
+                            product.getImageUrl(),
+                            product.getProductCategory().getId(),
                             product.getId());
                 }
             }
         }
+
     }
-
-
 }
