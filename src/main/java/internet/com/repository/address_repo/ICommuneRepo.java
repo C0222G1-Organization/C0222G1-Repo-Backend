@@ -18,6 +18,6 @@ public interface ICommuneRepo extends CrudRepository<Commune, Integer> {
      * @return
      * @param districtId
      */
-   @Query(value="select id, commune_name, district_id from commune where district_id = :districtId", nativeQuery = true)
+    @Query(value="select id, commune_name, district_id from commune where district_id = :districtId", nativeQuery = true)
     List<Commune> findAllCommune(@Param("districtId") Integer districtId);
 }

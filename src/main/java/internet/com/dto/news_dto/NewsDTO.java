@@ -2,25 +2,24 @@ package internet.com.dto.news_dto;
 
 import internet.com.entity.game.GameCategory;
 import org.hibernate.validator.constraints.Length;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 public class NewsDTO {
     private Integer id;
-    @NotBlank(message = "tiêu đề không được rỗng")
-    @Length(max =150 ,min = 20, message = "tiêu đề dài hoặc quá ngắn")
-    @Pattern(regexp = "^[A-Za-z0-9ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ-:., ]+$", message = "tiêu đề sai định dạng")
+    @Length(min = 20, max = 150)
+    @NotBlank
     private String title;
     @NotBlank
     private String imageUrl;
     @NotBlank
+    @Length(min = 200)
     private String content;
     private String createDate;
     private String views;
     @NotBlank
-    @Length(max = 50, message = "tên quá dài")
-    @Pattern(regexp = "^[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ ]+$", message = "tên sai định dạng")
+    @Length(min = 2, max = 50)
+    @Pattern(regexp = "^[A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*(?:[ ][A-ZÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴÈÉẸẺẼÊỀẾỆỂỄÌÍỊỈĨÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠÙÚỤỦŨƯỪỨỰỬỮỲÝỴỶỸĐ][a-zàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]*)*$", message = "tên sai định dạng")
     private String author;
     private GameCategory gameCategory;
 
