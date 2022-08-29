@@ -50,10 +50,10 @@ public class PaymentController {
      * function getAllPaymentList select item on database return List
      */
     @GetMapping("/list")
-    public ResponseEntity<List<Payment>> getAllPaymentList() {
+    public ResponseEntity<List<Payment>> getAllPaymentList () {
         List<Payment> listPayment = paymentService.getAllPaymentList();
         if (listPayment.isEmpty()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(listPayment, HttpStatus.OK);
+        return new ResponseEntity<>(listPayment , HttpStatus.OK);
     }
 
     /**
@@ -63,12 +63,11 @@ public class PaymentController {
      * param: id filter item same with id
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Payment> getPaymentById(@PathVariable("id") Integer id) {
+    public ResponseEntity<Payment> getPaymentById (@PathVariable("id") Integer id) {
         Optional<Payment> payment = paymentService.getPaymentById(id);
-        if (!payment.isPresent()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(payment.get(), HttpStatus.OK);
+        if (! payment.isPresent()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(payment.get() , HttpStatus.OK);
     }
-
 
     /**
      * Create: LuanND
@@ -78,14 +77,14 @@ public class PaymentController {
      * @param recordDTO is data to save on database
      */
     @PostMapping("/create")
-    public ResponseEntity<Payment> savePayment(@RequestBody @Valid RecordDTO recordDTO) {
+    public ResponseEntity<Payment> savePayment (@RequestBody @Valid RecordDTO recordDTO) {
         Record record = this.recordService.findById(recordDTO.getId());
         Payment payment = new Payment();
         payment.setRecord(record);
         payment.setPaymentCode("ORD" + System.currentTimeMillis());
         paymentService.savePayment(payment);
         Payment newPayment = this.paymentService.findByCode(payment.getPaymentCode());
-        return new ResponseEntity<>(newPayment, HttpStatus.CREATED);
+        return new ResponseEntity<>(newPayment , HttpStatus.CREATED);
     }
 
     /**
@@ -96,8 +95,16 @@ public class PaymentController {
      * @param id is data to set state payment on database
      */
     @GetMapping("/changes/{id}")
-    public ResponseEntity<?> setStatePayment(@PathVariable("id") Integer id) {
+    public ResponseEntity<?> setStatePayment (@PathVariable("id") Integer id) {
         paymentService.editPayment(paymentService.getPaymentById(id).get());
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<Payment>> searchByCodePayment (@RequestParam(name = "code", defaultValue = "") String code,
+                                                              @RequestParam(name = "page", defaultValue = "0") int page) {
+        Page<Payment> listPayment = paymentService.findListPaymentByCode(code, PageRequest.of(page , 5));
+        if (listPayment.isEmpty()) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(listPayment , HttpStatus.OK);
     }
 }
