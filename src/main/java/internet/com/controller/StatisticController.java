@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("statistic")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class StatisticController {
     @Autowired
     private ModelMapper modelMapper;
